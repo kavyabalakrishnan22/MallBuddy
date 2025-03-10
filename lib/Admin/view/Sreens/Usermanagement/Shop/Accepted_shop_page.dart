@@ -59,7 +59,7 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                   )),
                   DataCell(Text(shop.Shop_Name)),
                   DataCell(Text(shop.Floor)),
-                  DataCell(Container(height:60,width: 40,decoration: BoxDecoration(border: Border.all(color: Colors.green,width: 1)),)),
+                  DataCell(Container(height:40,width: 120,decoration: BoxDecoration(border: Border.all(color: Colors.green,width: 1)),)),
                   // DataCell(Text(shop.Phone_Number)),
                   // DataCell(Text(shop.Email_ID)),
                   // DataCell(
