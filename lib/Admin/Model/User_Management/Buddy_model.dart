@@ -15,7 +15,7 @@ class Buddy {
   });
 }
 
-List<Buddy> shops = [
+List<Buddy> Buddys = [
   Buddy(
     Customer_Name: "Zara",
     Rider_ID: "Kavya",
