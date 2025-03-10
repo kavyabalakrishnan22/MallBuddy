@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -19,10 +17,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         title: const Text(
           "Back",
           style: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.w500
-          ),
+              color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500),
         ),
         actions: [
           IconButton(
@@ -59,7 +54,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   borderSide: const BorderSide(color: Colors.grey),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
               ),
             ),
             const SizedBox(height: 20),
@@ -76,7 +72,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text("Send", style: TextStyle(fontSize: 16, color: Colors.white)),
+                child: const Text("Send",
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
             ),
           ],

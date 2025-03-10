@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "853245591672",
+    "project_id": "mallbuddy-51690",
+    "storage_bucket": "mallbuddy-51690.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:853245591672:android:b5a33f0adf77bb19612d8d",
+        "android_client_info": {
+          "package_name": "com.example.mall_bud"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU71nDFWIkmi1TdFXpBV0u9WzjUZm71ms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
