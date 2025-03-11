@@ -9,108 +9,64 @@ class AdminBuddy extends StatefulWidget {
   State<AdminBuddy> createState() => _AdminBuddyState();
 }
 
-class _AdminBuddyState extends State<AdminBuddy>
-    with SingleTickerProviderStateMixin {
+class _AdminBuddyState extends State<AdminBuddy> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  Map<int, bool> selectedEdit = {}; // Track Edit button state
-  Map<int, bool> selectedDelete = {}; // Track Delete button state
+  int selectedFloor = 0;
+  Map<int, bool> selectedEdit = {};
+  Map<int, bool> selectedDelete = {};
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 1, vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 1,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(),
-              const SizedBox(height: 20),
-              _buildTabBar(),
-              const SizedBox(height: 20),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    _buildShopTable("All Buddy"),
-                  ],
-                ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeader(),
+            const SizedBox(height: 20),
+            _buildTabBar(),
+            const SizedBox(height: 20),
+            _buildFloorSelection(),
+            const SizedBox(height: 20),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildShopTable("All Buddy"),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildHeader() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text("Hello,", style: TextStyle(fontSize: 22)),
-              Text("Good Morning Team!",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-              SizedBox(height: 5),
-              Text(
-                "Unlock insights, track growth, and manage performance effortlessly.",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-            ],
-          ),
-          const SizedBox(width: 300),
-          Row(
-            children: [
-              Container(
-                width: 200,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 0.5, color: Colors.grey)),
-                child: const TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    prefixIcon: Icon(Icons.search, color: Colors.black),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 20),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 0.5, color: Colors.grey)),
-                child: Row(
-                  children: const [
-                    CircleAvatar(
-                      backgroundImage: AssetImage('assets/profile/girl.png'),
-                    ),
-                    SizedBox(width: 10),
-                    Text("Admin",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text("Hello,", style: TextStyle(fontSize: 22)),
+            Text("Good Morning Team!", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            SizedBox(height: 5),
+            Text(
+              "Unlock insights, track growth, and manage performance effortlessly.",
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -130,12 +86,42 @@ class _AdminBuddyState extends State<AdminBuddy>
     );
   }
 
+  Widget _buildFloorSelection() {
+    List<String> floors = ["Ground Floor", "First Floor", "Second Floor", "Third Floor"];
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(floors.length, (index) {
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              selectedFloor = index;
+            });
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            decoration: BoxDecoration(
+              color: selectedFloor == index ? Colors.blue : Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.black),
+            ),
+            child: Text(
+              floors[index],
+              style: TextStyle(
+                color: selectedFloor == index ? Colors.white : Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
   Widget _buildShopTable(String title) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: ConstrainedBox(
-        constraints:
-            BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+        constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
         child: DataTable(
           dataRowMaxHeight: 80,
           decoration: const BoxDecoration(color: Colors.white),
@@ -148,37 +134,24 @@ class _AdminBuddyState extends State<AdminBuddy>
           ],
           rows: List.generate(
             Buddys.length,
-            (index) {
+                (index) {
               final Buddy = Buddys[index];
               return DataRow(
                 cells: [
-                  DataCell(Text((index + 1).toString(),
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(
-                    Text(Buddy.Rider_ID, overflow: TextOverflow.ellipsis),
-                  ),
+                  DataCell(Text((index + 1).toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
+                  DataCell(Text(Buddy.Rider_ID, overflow: TextOverflow.ellipsis)),
                   DataCell(
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          Buddy.Rider_Name,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          Buddy.Gender,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(Buddy.Phone_Number,
-                            overflow: TextOverflow.ellipsis),
+                        Text(Buddy.Rider_Name, style: const TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis),
+                        Text(Buddy.Gender, style: const TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis),
+                        Text(Buddy.Phone_Number, overflow: TextOverflow.ellipsis),
                         Text(Buddy.Email, overflow: TextOverflow.ellipsis),
                       ],
                     ),
                   ),
-
                   DataCell(_buildToggleButton("Edit", index, true)),
                   DataCell(_buildToggleButton("Delete", index, false)),
                 ],
@@ -194,46 +167,20 @@ class _AdminBuddyState extends State<AdminBuddy>
     return DataColumn(
       label: Text(
         title,
-        style: TextStyle(
-            color: Colors.grey.shade900,
-            fontWeight: FontWeight.bold,
-            fontSize: 16),
+        style: TextStyle(color: Colors.grey.shade900, fontWeight: FontWeight.bold, fontSize: 16),
       ),
     );
   }
 
-  // Widget _buildToggleButton(String text, int index, bool isEdit) {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(8.0),
-  //     child: ElevatedButton(
-  //       onPressed: () {
-  //         if (isEdit) {
-  //           setState(() {
-  //             selectedEdit[index] = !(selectedEdit[index] ?? false);
-  //           });
-  //         } else {
-  //           _showDeleteDialog(index);
-  //         }
-  //       },
-  //       child: SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
-  //     ),
-  //   );
-  // }
   Widget _buildToggleButton(String text, int index, bool isEdit) {
-    bool isSelected = isEdit
-        ? (selectedEdit[index] ?? false)
-        : (selectedDelete[index] ?? false);
+    bool isSelected = isEdit ? (selectedEdit[index] ?? false) : (selectedDelete[index] ?? false);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(
-              isSelected ? Colors.blue : Colors.white),
-          foregroundColor: MaterialStateProperty.all(
-              isSelected ? Colors.white : Colors.black),
-          padding: MaterialStateProperty.all(
-              const EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
+          backgroundColor: MaterialStateProperty.all(isSelected ? Colors.blue : Colors.white),
+          foregroundColor: MaterialStateProperty.all(isSelected ? Colors.white : Colors.black),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
@@ -251,29 +198,31 @@ class _AdminBuddyState extends State<AdminBuddy>
             }
           });
         },
-        child:
-            SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
+        child: SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
       ),
     );
   }
-
   void _showDeleteDialog(int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Confirm Delete"),
-          content: const Text("Are you sure you want to delete this customer?"),
+          title: const Text("Confirm Deletion"),
+          content: const Text("Are you sure you want to delete this buddy?"),
           actions: [
             TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text("Cancel")),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text("Cancel"),
+            ),
             TextButton(
               onPressed: () {
                 setState(() {
-                  customers.removeAt(index);
+                  Buddys.removeAt(index); // Remove buddy from the list
+                  selectedDelete.remove(index); // Remove selection state
                 });
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Close the dialog
               },
               child: const Text("Delete", style: TextStyle(color: Colors.red)),
             ),
@@ -282,4 +231,5 @@ class _AdminBuddyState extends State<AdminBuddy>
       },
     );
   }
+
 }
