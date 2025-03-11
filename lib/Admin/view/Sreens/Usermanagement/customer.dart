@@ -23,7 +23,7 @@ class _AdminCustomerState extends State<AdminCustomer>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 1,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
