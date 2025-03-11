@@ -1,14 +1,16 @@
 class Buddy {
-  final String Customer_Name;
   final String Rider_ID;
+  final String Rider_Name;
+  final String Gender;
   final String Phone_Number;
   final String Email;
 
 
 
   Buddy({
-    required this.Customer_Name,
     required this.Rider_ID,
+    required this.Rider_Name,
+    required this.Gender,
     required this.Phone_Number,
     required this.Email,
 
@@ -17,8 +19,9 @@ class Buddy {
 
 List<Buddy> Buddys = [
   Buddy(
-    Customer_Name: "Zara",
-    Rider_ID: "Kavya",
+    Rider_ID: "as12",
+    Rider_Name: "Kavya",
+    Gender: "female",
     Phone_Number:"8921669037",
     Email: "kavya@gmail.com",
 

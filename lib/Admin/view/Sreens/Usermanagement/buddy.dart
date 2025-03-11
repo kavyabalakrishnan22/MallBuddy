@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import '../../../Model/User_Management/Buddy_model.dart';
 import '../../../Model/User_Management/Customer_model.dart';
 
-class AdminCustomer extends StatefulWidget {
-  const AdminCustomer({super.key});
+class AdminBuddy extends StatefulWidget {
+  const AdminBuddy({super.key});
 
   @override
-  State<AdminCustomer> createState() => _AdminCustomerState();
+  State<AdminBuddy> createState() => _AdminBuddyState();
 }
 
-class _AdminCustomerState extends State<AdminCustomer>
+class _AdminBuddyState extends State<AdminBuddy>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   Map<int, bool> selectedEdit = {}; // Track Edit button state
@@ -40,7 +40,7 @@ class _AdminCustomerState extends State<AdminCustomer>
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    _buildShopTable("All Customer"),
+                    _buildShopTable("All Buddy"),
                   ],
                 ),
               ),
@@ -89,7 +89,8 @@ class _AdminCustomerState extends State<AdminCustomer>
               ),
               const SizedBox(width: 20),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -123,7 +124,7 @@ class _AdminCustomerState extends State<AdminCustomer>
         indicatorColor: Colors.blue,
         isScrollable: true,
         tabs: const [
-          Tab(text: "All Customers"),
+          Tab(text: "All Buddys"),
         ],
       ),
     );
@@ -133,41 +134,51 @@ class _AdminCustomerState extends State<AdminCustomer>
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: ConstrainedBox(
-        constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+        constraints:
+            BoxConstraints(minWidth: MediaQuery.of(context).size.width),
         child: DataTable(
           dataRowMaxHeight: 80,
           decoration: const BoxDecoration(color: Colors.white),
           columns: [
             _buildColumn('SL NO'),
-            _buildColumn('Customer Details'),
-            _buildColumn('Invoice ID'),
+            _buildColumn('Buddy ID'),
+            _buildColumn('Buddy Details'),
             _buildColumn('Edit'),
             _buildColumn('Delete'),
           ],
           rows: List.generate(
             Buddys.length,
-                (index) {
+            (index) {
               final Buddy = Buddys[index];
               return DataRow(
                 cells: [
                   DataCell(Text((index + 1).toString(),
                       style: const TextStyle(fontWeight: FontWeight.bold))),
                   DataCell(
+                    Text(Buddy.Rider_ID, overflow: TextOverflow.ellipsis),
+                  ),
+                  DataCell(
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          Buddy.Customer_Name,
+                          Buddy.Rider_Name,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Text(Buddy.Phone_Number, overflow: TextOverflow.ellipsis),
+                        Text(
+                          Buddy.Gender,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(Buddy.Phone_Number,
+                            overflow: TextOverflow.ellipsis),
                         Text(Buddy.Email, overflow: TextOverflow.ellipsis),
                       ],
                     ),
                   ),
-                  DataCell(Text(customer.Invoice_ID)),
+
                   DataCell(_buildToggleButton("Edit", index, true)),
                   DataCell(_buildToggleButton("Delete", index, false)),
                 ],
@@ -240,11 +251,11 @@ class _AdminCustomerState extends State<AdminCustomer>
             }
           });
         },
-        child: SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
+        child:
+            SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
       ),
     );
   }
-
 
   void _showDeleteDialog(int index) {
     showDialog(
@@ -254,10 +265,14 @@ class _AdminCustomerState extends State<AdminCustomer>
           title: const Text("Confirm Delete"),
           content: const Text("Are you sure you want to delete this customer?"),
           actions: [
-            TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text("Cancel")),
+            TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text("Cancel")),
             TextButton(
               onPressed: () {
-                setState(() { customers.removeAt(index); });
+                setState(() {
+                  customers.removeAt(index);
+                });
                 Navigator.of(context).pop();
               },
               child: const Text("Delete", style: TextStyle(color: Colors.red)),
