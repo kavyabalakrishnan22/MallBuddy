@@ -112,7 +112,7 @@ class _AdminPageState extends State<AdminPage> {
                   title: 'User Management',
                   icon: Icons.perm_identity_sharp,
                   children: [
-                    SubListTile("Customer", Customer()),
+                    SubListTile("Customer", AdminCustomer()),
                     SubListTile("Buddy", Buddy()),
                     SubListTile("Shop", AdminShop()),
                   ],

@@ -15,6 +15,8 @@ class AdminShop extends StatefulWidget {
 class _AdminShopState extends State<AdminShop>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  Map<int, bool> selectedEdit = {}; // Track Edit button state
+  Map<int, bool> selectedDelete = {};
 
   @override
   void initState() {
@@ -111,9 +113,9 @@ class _AdminShopState extends State<AdminShop>
                 labelColor: Colors.black,
                 unselectedLabelColor: Colors.grey,
                 tabs: const [
-                  Tab(text: "All Shop"),
-                  Tab(text: "Registered Shop"),
-                  Tab(text: "Accepted Shop"),
+                  Tab(text: "All Shop"),SizedBox(width: 100,),
+                  Tab(text: "Registered Shop"),SizedBox(width: 100,),
+                  Tab(text: "Accepted Shop"),SizedBox(width: 100,),
                   Tab(text: "Rejected Shop"),
                 ],
               ),
@@ -194,8 +196,8 @@ class _AdminShopState extends State<AdminShop>
                   DataCell(Text(shop.Floor)),
                   // DataCell(Text(shop.Phone_Number)),
                   DataCell(Text(shop.Email_ID)),
-                  DataCell(_buildButton("Edit", const Color(0xff0A71CB), () {}),),
-                  DataCell(_buildButton("Delete", Colors.red, () => print("Button pressed!")),)
+                  DataCell(_buildToggleButton("Edit", index, true)),
+                  DataCell(_buildToggleButton("Delete", index, false)),
                 ],
               );
             },
@@ -217,21 +219,63 @@ class _AdminShopState extends State<AdminShop>
     );
   }
 
-  Widget _buildButton(String text, Color color, VoidCallback onPressed) {
+  Widget _buildToggleButton(String text, int index, bool isEdit) {
+    bool isSelected = isEdit
+        ? (selectedEdit[index] ?? false)
+        : (selectedDelete[index] ?? false);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(color),
-          foregroundColor: MaterialStateProperty.all(Colors.white),
+          backgroundColor: MaterialStateProperty.all(
+              isSelected ? Colors.blue : Colors.white),
+          foregroundColor: MaterialStateProperty.all(
+              isSelected ? Colors.white : Colors.black),
           padding: MaterialStateProperty.all(
-              const EdgeInsets.symmetric(horizontal: 14, vertical: 10)),
+              const EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
           shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: BorderSide(color: isSelected ? Colors.blue : Colors.black),
+            ),
+          ),
         ),
-        onPressed: onPressed,
-        child: SizedBox(width: 70, child: Center(child: Text(text))),
+        onPressed: () {
+          setState(() {
+            if (isEdit) {
+              selectedEdit[index] = !(selectedEdit[index] ?? false);
+            } else {
+              selectedDelete[index] = !(selectedDelete[index] ?? false);
+              _showDeleteDialog(index);
+            }
+          });
+        },
+        child: SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
       ),
+    );
+  }
+
+
+  void _showDeleteDialog(int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirm Delete"),
+          content: const Text("Are you sure you want to delete this customer?"),
+          actions: [
+            TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text("Cancel")),
+            TextButton(
+              onPressed: () {
+                setState(() { shops.removeAt(index); });
+                Navigator.of(context).pop();
+              },
+              child: const Text("Delete", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
     );
   }
 }
