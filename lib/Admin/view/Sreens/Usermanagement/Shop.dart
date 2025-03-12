@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../Model/User_Management/shop_model.dart';
 import 'Shop/Accepted_shop_page.dart';
 import 'Shop/Admin_Rejected_shop.dart';
@@ -15,128 +14,117 @@ class AdminShop extends StatefulWidget {
 class _AdminShopState extends State<AdminShop>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  Map<int, bool> selectedEdit = {}; // Track Edit button state
+  Map<int, bool> selectedEdit = {};
   Map<int, bool> selectedDelete = {};
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 4, vsync: this); // FIXED: length = 4
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 5,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header and Search Bar
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text("Hello,", style: TextStyle(fontSize: 22)),
-                        Text("Good Morning Team!",
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold)),
-                        SizedBox(height: 5),
-                        Text(
-                          "Unlock insights, track growth, and manage performance effortlessly.",
-                          style: TextStyle(fontSize: 16, color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 300),
-                    Row(
-                      children: [
-                        Container(
-                          width: 200,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              border:
-                                  Border.all(width: 0.5, color: Colors.grey)),
-                          child: const TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Search',
-                              prefixIcon:
-                                  Icon(Icons.search, color: Colors.black),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 6),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              border:
-                                  Border.all(width: 0.5, color: Colors.grey)),
-                          child: Row(
-                            children: const [
-                              CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/profile/girl.png'),
-                              ),
-                              SizedBox(width: 10),
-                              Text("Admin",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                      ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text("Hello,", style: TextStyle(fontSize: 22)),
+                    Text("Good Morning Team!",
+                        style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 5),
+                    Text(
+                      "Unlock insights, track growth, and manage performance effortlessly.",
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(width: 0.5, color: Colors.grey)),
+                      child: const TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search',
+                          prefixIcon: Icon(Icons.search, color: Colors.black),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 6),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(width: 0.5, color: Colors.grey)),
+                      child: Row(
+                        children: const [
+                          CircleAvatar(
+                            backgroundImage:
+                            AssetImage('assets/profile/girl.png'),
+                          ),
+                          SizedBox(width: 10),
+                          Text("Admin",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
 
-              // TabBar
-              TabBar(
+            // TabBar
+            TabBar(
+              controller: _tabController, // FIXED: Using only one TabController
+              isScrollable: true,
+              indicatorColor: Colors.blue,
+              indicatorWeight: 3,
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.grey,
+              tabs: const [
+                Tab(text: "All Shop"),
+                Tab(text: "Registered Shop"),
+                Tab(text: "Accepted Shop"),
+                Tab(text: "Rejected Shop"),
+              ],
+            ),
+
+            const SizedBox(height: 10),
+
+            // TabBarView
+            Expanded(
+              child: TabBarView(
                 controller: _tabController,
-                isScrollable: true,
-                indicatorColor: Colors.blue,
-                indicatorWeight: 3,
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.grey,
-                tabs: const [
-                  Tab(text: "All Shop"),SizedBox(width: 100,),
-                  Tab(text: "Registered Shop"),SizedBox(width: 100,),
-                  Tab(text: "Accepted Shop"),SizedBox(width: 100,),
-                  Tab(text: "Rejected Shop"),
+                physics: const BouncingScrollPhysics(), // FIXED: Ensures smooth scrolling
+                children: [
+                  _buildShopTable("All Shops"),
+                  RegisteredShop(),
+                  AdminAcceptedShop(),
+                  AdminRejectedShop(),
                 ],
               ),
-
-              const SizedBox(height: 10),
-
-              // TabBarView (Displays content based on selected tab)
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    _buildShopTable("All Shops"),
-                    RegisteredShop(), // Include the Registered Shop Page directly
-                    AdminAcceptedShop(),
-                    AdminRejectedShop(),
-                    // _buildShopTable("Add Shop"),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -147,24 +135,21 @@ class _AdminShopState extends State<AdminShop>
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: ConstrainedBox(
-        constraints:
-            BoxConstraints(minWidth: MediaQuery.of(context).size.width),
-        child: DataTable(dataRowMaxHeight: 100,
+        constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+        child: DataTable(
+          dataRowMaxHeight: 100,
           decoration: const BoxDecoration(color: Colors.white),
           columns: [
             _buildColumn('SL NO'),
             _buildColumn('Owner Details'),
             _buildColumn('Shop Name'),
             _buildColumn('Floor'),
-            // _buildColumn('Phone Number'),
-            // _buildColumn('Email'),
-            _buildColumn('Edit'),
             _buildColumn('Edit'),
             _buildColumn('Delete'),
           ],
           rows: List.generate(
             shops.length,
-            (index) {
+                (index) {
               final shop = shops[index];
               return DataRow(
                 cells: [
@@ -178,24 +163,15 @@ class _AdminShopState extends State<AdminShop>
                         Text(
                           shop.Owner_Name,
                           style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis, // Handles long text
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        Text(
-                          shop.Phone_Number,
-                          overflow: TextOverflow.ellipsis, // Handles long text
-                        ),
-                        Text(
-                          shop.Email_ID,
-                          overflow: TextOverflow.ellipsis, // Handles long text
-                        ),Text("data")
+                        Text(shop.Phone_Number, overflow: TextOverflow.ellipsis),
+                        Text(shop.Email_ID, overflow: TextOverflow.ellipsis),
                       ],
                     ),
                   ),
-
                   DataCell(Text(shop.Shop_Name)),
                   DataCell(Text(shop.Floor)),
-                  // DataCell(Text(shop.Phone_Number)),
-                  DataCell(Text(shop.Email_ID)),
                   DataCell(_buildToggleButton("Edit", index, true)),
                   DataCell(_buildToggleButton("Delete", index, false)),
                 ],
@@ -227,48 +203,50 @@ class _AdminShopState extends State<AdminShop>
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(
-              isSelected ? Colors.blue : Colors.white),
-          foregroundColor: MaterialStateProperty.all(
-              isSelected ? Colors.white : Colors.black),
-          padding: MaterialStateProperty.all(
-              const EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-              side: BorderSide(color: isSelected ? Colors.blue : Colors.black),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(
+                isSelected ? Colors.blue : Colors.white),
+            foregroundColor: MaterialStateProperty.all(
+                isSelected ? Colors.white : Colors.black),
+            padding: MaterialStateProperty.all(
+                const EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+                side: BorderSide(color: isSelected ? Colors.blue : Colors.black),
+              ),
             ),
           ),
-        ),
-        onPressed: () {
-          setState(() {
-            if (isEdit) {
-              selectedEdit[index] = !(selectedEdit[index] ?? false);
-            } else {
-              selectedDelete[index] = !(selectedDelete[index] ?? false);
-              _showDeleteDialog(index);
-            }
-          });
-        },
-        child: SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
-      ),
+          onPressed: () {
+            setState(() {
+              if (isEdit) {
+                selectedEdit[index] = !(selectedEdit[index] ?? false);
+              } else {
+                selectedDelete[index] = !(selectedDelete[index] ?? false);
+                _showDeleteDialog(index);
+              }
+            });
+          },
+          child: SizedBox(width: 90, height: 50, child: Center(child: Text(text)))),
     );
   }
-
-
   void _showDeleteDialog(int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Confirm Delete"),
-          content: const Text("Are you sure you want to delete this customer?"),
+          content: const Text("Are you sure you want to delete this shop?"),
           actions: [
-            TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text("Cancel")),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Cancel"),
+            ),
             TextButton(
               onPressed: () {
-                setState(() { shops.removeAt(index); });
+                setState(() {
+                  shops.removeAt(index);
+                });
                 Navigator.of(context).pop();
               },
               child: const Text("Delete", style: TextStyle(color: Colors.red)),
@@ -278,4 +256,5 @@ class _AdminShopState extends State<AdminShop>
       },
     );
   }
+
 }

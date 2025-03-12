@@ -59,7 +59,33 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                   )),
                   DataCell(Text(shop.Shop_Name)),
                   DataCell(Text(shop.Floor)),
-                  DataCell(Container(height:40,width: 120,decoration: BoxDecoration(border: Border.all(color: Colors.green,width: 1)),)),
+                  DataCell(
+                    Container(
+                      height: 40,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.green, width: 1),
+                        borderRadius: BorderRadius.circular(20), // Rounded corners
+                        color: Colors.white, // Background color
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/admin/Accepted.png', // Replace with your actual asset path
+                            height: 10,
+                            width: 10,
+                          ),
+                          SizedBox(width: 5), // Spacing
+                          Text(
+                            "Accepted",
+                            style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
                   // DataCell(Text(shop.Phone_Number)),
                   // DataCell(Text(shop.Email_ID)),
                   // DataCell(

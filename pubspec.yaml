@@ -71,6 +71,7 @@ flutter:
     - assets/Bottomnav/
     - assets/scanner/
     - assets/profile/
+    - assets/admin/
 
 
   #   - images/a_dot_ham.jpeg

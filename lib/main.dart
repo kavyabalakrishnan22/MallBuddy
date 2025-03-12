@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'Admin/view/Auth/Admin_Login.dart';
 import 'Buddy/View/Screen/Home/BuddyActiveDeliveryPage.dart';
 import 'Buddy/View/Screen/Home/Buddy_completedelivery.dart';
 import 'Buddy/View/Screen/Home/Buddy_completedeliveryfirstpage.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: BuddyActiveDeliveryPage(),
+      home: AdminLoginPage(),
     );
   }
 }

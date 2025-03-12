@@ -37,7 +37,7 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
             _buildColumn('Floor'),
             // _buildColumn('Phone Number'),
             // _buildColumn('Email'),
-            _buildColumn('Accept/Reject'),
+            _buildColumn('Status'),
           ],
           rows: List.generate(
             shops.length,
@@ -59,19 +59,12 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
                   )),
                   DataCell(Text(shop.Shop_Name)),
                   DataCell(Text(shop.Floor)),
+                  DataCell(Container(height:40,width: 120,decoration: BoxDecoration(border: Border.all(color: Colors.green,width: 1)),)),
                   // DataCell(Text(shop.Phone_Number)),
                   // DataCell(Text(shop.Email_ID)),
-                  DataCell(Row(
-                    children: [
-                      _buildOutlinedButton("Accept", Colors.green, Colors.green, () {
-                        print("Accept button pressed!");
-                      }),
-                      const SizedBox(width: 10),
-                      _buildOutlinedButton("Reject", Colors.red, Colors.red, () {
-                        print("Reject button pressed!");
-                      }),
-                    ],
-                  )),
+                  // DataCell(
+                  //     // _buildOutlinedButton("Accepted", Colors.green, Colors.green, () {})
+                  // ),
 
                 ],
               );
@@ -95,23 +88,23 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
     );
   }
 
-  Widget _buildOutlinedButton(String text, Color textColor, Color borderColor, VoidCallback onPressed) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: textColor, // Text color
-          side: BorderSide(color: borderColor), // Border color
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12), // Button padding
-        ),
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
+// Widget _buildOutlinedButton(String text, Color textColor, Color borderColor, VoidCallback onPressed) {
+//   return Padding(
+//     padding: const EdgeInsets.all(4.0),
+//     child: OutlinedButton(
+//       style: OutlinedButton.styleFrom(
+//         foregroundColor: textColor, // Text color
+//         side: BorderSide(color: borderColor), // Border color
+//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+//         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12), // Button padding
+//       ),
+//       onPressed: onPressed,
+//       child: Text(
+//         text,
+//         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+//       ),
+//     ),
+//   );
+// }
 
 }

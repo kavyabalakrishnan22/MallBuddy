@@ -60,24 +60,38 @@ class _AdminPageState extends State<AdminPage> {
         children: [
           // Left side: Management options
           Container(
-            color: Colors.white,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(45),
+                  bottomRight: Radius.circular(45)),boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5), // Shadow color with transparency
+                spreadRadius: 2, // How much the shadow spreads
+                blurRadius: 10, // Softness of the shadow
+                offset: Offset(4, 4), // Changes position of shadow (x, y)
+              ),
+            ],
+            ),
             width: 300,
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(6.0),
             child: ListView(
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(45),
+                        bottomRight: Radius.circular(45)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Image.asset(
                         "assets/logo.png",
-                        width: 60,
-                        height: 80,
+                        width: 200,
+                        height: 200,
                       ),
                       //SizedBox(width: 8,),
                       // Column(

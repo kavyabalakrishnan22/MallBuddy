@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../Model/User_Management/Buddy_model.dart';
 import '../../../Model/User_Management/Customer_model.dart';
+import 'Buudy/BuddyAdd_rider.dart';
 
 class AdminBuddy extends StatefulWidget {
   const AdminBuddy({super.key});
@@ -50,6 +51,7 @@ class _AdminBuddyState extends State<AdminBuddy> with SingleTickerProviderStateM
     );
   }
 
+
   Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,9 +68,31 @@ class _AdminBuddyState extends State<AdminBuddy> with SingleTickerProviderStateM
             ),
           ],
         ),
+        // ElevatedButton.icon(
+        //   onPressed: _onAddPressed, // Function to handle Add button press
+        //   style: ElevatedButton.styleFrom(
+        //     backgroundColor: Colors.blue,
+        //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        //   ),
+        //   icon: const Icon(Icons.add, color: Colors.white),
+        //   label: const Text("Add", style: TextStyle(fontSize: 16, color: Colors.white)),
+        // ),
       ],
     );
   }
+
+// Function to handle the Add button press
+
+
+
+
+// Function to handle the Add button press
+//   void _onAddPressed() {
+//     // Navigate to an Add Buddy Page OR show a modal
+//     print("Add button clicked!");
+//   }
+
+
 
   Widget _buildTabBar() {
     return Align(
@@ -81,41 +105,70 @@ class _AdminBuddyState extends State<AdminBuddy> with SingleTickerProviderStateM
         isScrollable: true,
         tabs: const [
           Tab(text: "All Buddys"),
+
         ],
       ),
     );
   }
 
   Widget _buildFloorSelection() {
-    List<String> floors = ["Ground Floor", "First Floor", "Second Floor", "Third Floor"];
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(floors.length, (index) {
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              selectedFloor = index;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            decoration: BoxDecoration(
-              color: selectedFloor == index ? Colors.blue : Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.black),
-            ),
-            child: Text(
-              floors[index],
-              style: TextStyle(
-                color: selectedFloor == index ? Colors.white : Colors.black,
-                fontWeight: FontWeight.bold,
+    List<String> floors = ["Ground Floor", "First Floor", "Second Floor", "Third Floor", "Fourth Floor"];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround, // Evenly spaced floor options
+          children: List.generate(floors.length, (index) {
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedFloor = index;
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: selectedFloor == index ? Colors.blue : Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.black),
+                ),
+                child: Text(
+                  floors[index],
+                  style: TextStyle(
+                    color: selectedFloor == index ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
+            );
+          }),
+        ),
+        const SizedBox(height: 16), // Space between floors and button
+        Align(
+          alignment: Alignment.centerRight, // Aligns button to the right
+          child: ElevatedButton.icon(
+            onPressed: _onAddPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             ),
+            icon: const Icon(Icons.add, color: Colors.white),
+            label: const Text("Add", style: TextStyle(fontSize: 16, color: Colors.white)),
           ),
-        );
-      }),
+        ),
+      ],
     );
   }
+  void _onAddPressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AdminAddRiderPage()), //  Navigation
+    );
+    print("Add button clicked!");
+  }
+
+
 
   Widget _buildShopTable(String title) {
     return SingleChildScrollView(
