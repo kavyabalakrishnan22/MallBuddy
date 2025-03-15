@@ -1,17 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
-
-
 class InvoiceFormPage extends StatefulWidget {
+  final String name;
+  final String email;
+  final String contact;
+
+  const InvoiceFormPage({
+    super.key,
+    required this.name,
+    required this.email,
+    required this.contact,
+  });
+
   @override
-  _InvoiceFormPageState createState() => _InvoiceFormPageState();
+  State<InvoiceFormPage> createState() => _InvoiceFormPageState();
 }
 
 class _InvoiceFormPageState extends State<InvoiceFormPage> {
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController contactController;
   String? selectedPillar;
   String selectedFloor = "Ground";
   TimeOfDay? selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(text: widget.name);
+    emailController = TextEditingController(text: widget.email);
+    contactController = TextEditingController(text: widget.contact);
+  }
 
   void _pickTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -40,8 +60,9 @@ class _InvoiceFormPageState extends State<InvoiceFormPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             buildRow("Invoice ID", buildTextField("Enter invoice id")),
-            Divider(),SizedBox(height: 10,),
-            buildRow("Select the floor", buildFloorSelection()),
+            Divider(),
+            const SizedBox(height: 10),
+            buildRow("Select The Parking Floor", buildFloorSelection()),
             const SizedBox(height: 16),
             const Text("Fill the details", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
@@ -64,8 +85,8 @@ class _InvoiceFormPageState extends State<InvoiceFormPage> {
                 },
               ),
             ),
-            buildRow("Owner Name", buildTextField("Enter owner name")),
-            buildRow("Mobile Number", buildTextField("Enter phone number", TextInputType.phone)),
+            buildRow("Customer Name", buildTextField("Enter Customer name", nameController)),
+            buildRow("Mobile Number", buildTextField("Enter phone number", contactController, TextInputType.phone)),
             buildRow("Vehicle Name", buildTextField("Enter vehicle name")),
             buildRow("Vehicle Color", buildTextField("Enter vehicle color")),
             buildRow("Vehicle Number", buildTextField("Enter vehicle number")),
@@ -104,7 +125,6 @@ class _InvoiceFormPageState extends State<InvoiceFormPage> {
     );
   }
 
-  /// **Scrollable Floor Selection Chips**
   Widget buildFloorSelection() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -129,7 +149,6 @@ class _InvoiceFormPageState extends State<InvoiceFormPage> {
     );
   }
 
-  /// **Reusable Row for Label & Input Field**
   Widget buildRow(String label, Widget child) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -138,7 +157,7 @@ class _InvoiceFormPageState extends State<InvoiceFormPage> {
         children: [
           Expanded(
             flex: 3,
-            child: Text(label, style: const TextStyle(fontSize: 16,)),
+            child: Text(label, style: const TextStyle(fontSize: 16)),
           ),
           Expanded(
             flex: 5,
@@ -149,15 +168,14 @@ class _InvoiceFormPageState extends State<InvoiceFormPage> {
     );
   }
 
-  /// **Reusable TextField Builder**
-  Widget buildTextField(String hint, [TextInputType keyboardType = TextInputType.text]) {
+  Widget buildTextField(String hint, [TextEditingController? controller, TextInputType keyboardType = TextInputType.text]) {
     return TextField(
+      controller: controller,
       keyboardType: keyboardType,
       decoration: inputDecoration.copyWith(hintText: hint),
     );
   }
 
-  /// **Common Input Field Decoration**
   final InputDecoration inputDecoration = InputDecoration(
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
     filled: true,

@@ -78,10 +78,6 @@ class _SignupPageState extends State<SignupPage> {
                       const SizedBox(
                         height: 15,
                       ),
-                      CustomTextForm(hintText: "Vehicle number"),
-                      const SizedBox(
-                        height: 15,
-                      ),
                       CustomTextForm(hintText: "Password"), const SizedBox(
                         height: 15,
                       ),

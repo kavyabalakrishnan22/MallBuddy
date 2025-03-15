@@ -18,7 +18,7 @@ class _ShopBottomNavBarExampleState extends State<ShopBottomNavBarExample> {
 
   final List<Widget> _screens = [
     ShopHomeScreen(),
-    InvoiceFormPage(),
+    InvoiceFormPage(name: '', email: '', contact: '',),
     ActiveDeliveryPage(),
     CompleteDeliveryPage(),
     ShopOrderhistory(),

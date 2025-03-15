@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../../../Model/User_Management/Buddy_model.dart';
 import '../../../../Model/User_Management/shop_model.dart';
 
-class AdminRejectedShop extends StatefulWidget {
-  const AdminRejectedShop({super.key});
+class AdminRejectedBuddy extends StatefulWidget {
+  const AdminRejectedBuddy({super.key});
 
   @override
-  State<AdminRejectedShop> createState() => _AdminRejectedShopState();
+  State<AdminRejectedBuddy> createState() => _AdminRejectedBuddyState();
 }
 
-class _AdminRejectedShopState extends State<AdminRejectedShop> {
+class _AdminRejectedBuddyState extends State<AdminRejectedBuddy> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,33 +33,33 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
           decoration: const BoxDecoration(color: Colors.white),
           columns: [
             _buildColumn('SL NO'),
-            _buildColumn('Owner Details'),
-            _buildColumn('Shop Name'),
-            _buildColumn('Floor'),
+            _buildColumn('Rider ID '),
+            _buildColumn('Rider Details'),
+            _buildColumn('Gender'),
             // _buildColumn('Phone Number'),
             // _buildColumn('Email'),
-            _buildColumn('Status'),
+            _buildColumn('Accept/Reject'),
           ],
           rows: List.generate(
-            shops.length,
+            Buddys.length,
                 (index) {
-              final shop = shops[index];
+              final Buddy = Buddys[index];
               return DataRow(
                 cells: [
                   DataCell(Text(
                     (index + 1).toString(),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   )),
+                  DataCell(Text(Buddy.Rider_ID)),
                   DataCell(Column(
                     children: [
                       Text(
-                        shop.Owner_Name,
+                        Buddy.Rider_Name,
                         style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),Text(shop.Phone_Number),Text(shop.Email_ID)
+                      ),Text(Buddy.Phone_Number),Text(Buddy.Email)
                     ],
                   )),
-                  DataCell(Text(shop.Shop_Name)),
-                  DataCell(Text(shop.Floor)),
+                  DataCell(Text(Buddy.Gender)),
                   DataCell(
                     Container(
                       height: 40,

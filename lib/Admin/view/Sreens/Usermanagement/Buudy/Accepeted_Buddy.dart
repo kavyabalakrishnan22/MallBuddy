@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import '../../../../Model/User_Management/Buddy_model.dart';
 import '../../../../Model/User_Management/shop_model.dart';
 
-class AdminRejectedShop extends StatefulWidget {
-  const AdminRejectedShop({super.key});
+class AdminAcceptedShop extends StatefulWidget {
+  const AdminAcceptedShop({super.key});
 
   @override
-  State<AdminRejectedShop> createState() => _AdminRejectedShopState();
+  State<AdminAcceptedShop> createState() => _AdminAcceptedShopState();
 }
 
-class _AdminRejectedShopState extends State<AdminRejectedShop> {
+class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,39 +33,39 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
           decoration: const BoxDecoration(color: Colors.white),
           columns: [
             _buildColumn('SL NO'),
-            _buildColumn('Owner Details'),
-            _buildColumn('Shop Name'),
-            _buildColumn('Floor'),
+            _buildColumn('Rider ID '),
+            _buildColumn('Rider Details'),
+            _buildColumn('Gender'),
             // _buildColumn('Phone Number'),
             // _buildColumn('Email'),
-            _buildColumn('Status'),
+            _buildColumn('Accept/Reject'),
           ],
           rows: List.generate(
-            shops.length,
+            Buddys.length,
                 (index) {
-              final shop = shops[index];
+              final Buddy = Buddys[index];
               return DataRow(
                 cells: [
                   DataCell(Text(
                     (index + 1).toString(),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   )),
+                  DataCell(Text(Buddy.Rider_ID)),
                   DataCell(Column(
                     children: [
                       Text(
-                        shop.Owner_Name,
+                        Buddy.Rider_Name,
                         style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),Text(shop.Phone_Number),Text(shop.Email_ID)
+                      ),Text(Buddy.Phone_Number),Text(Buddy.Email)
                     ],
                   )),
-                  DataCell(Text(shop.Shop_Name)),
-                  DataCell(Text(shop.Floor)),
+                  DataCell(Text(Buddy.Gender)),
                   DataCell(
                     Container(
                       height: 40,
                       width: 120,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.red, width: 1.5),
+                        border: Border.all(color: Colors.green, width: 1.5),
                         borderRadius: BorderRadius.circular(12), // Rounded corners
                         color: Colors.white, // Background color
                       ),
@@ -72,19 +73,21 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            "assets/admin/Rejected.png", // Replace with your actual asset path
+                            'assets/admin/Accepted.png', // Replace with your actual asset path
                             height: 25,
                             width: 25,
                           ),
                           SizedBox(width: 5), // Spacing
                           Text(
-                            "Rejected",
-                            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                            "Accepted",
+                            style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
                     ),
-                  ),                  // DataCell(Text(shop.Phone_Number)),
+                  ),
+
+                  // DataCell(Text(shop.Phone_Number)),
                   // DataCell(Text(shop.Email_ID)),
                   // DataCell(
                   //     // _buildOutlinedButton("Accepted", Colors.green, Colors.green, () {})
