@@ -72,7 +72,7 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'assets/admin/Rejected.png', // Replace with your actual asset path
+                            "assets/admin/Rejected.png", // Replace with your actual asset path
                             height: 25,
                             width: 25,
                           ),

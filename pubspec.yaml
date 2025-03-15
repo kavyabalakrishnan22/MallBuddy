@@ -67,11 +67,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
-    - assets/admin/
     - assets/ShopBottomnav/
     - assets/Bottomnav/
     - assets/scanner/
     - assets/profile/
+    - assets/admin/
 
 
   #   - images/a_dot_ham.jpeg

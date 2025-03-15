@@ -7,7 +7,10 @@ import '../view/Sreens/Dashboard/dashboard.dart';
 import '../view/Sreens/Usermanagement/Shop.dart';
 import '../view/Sreens/Usermanagement/buddy.dart';
 import '../view/Sreens/Usermanagement/customer.dart';
-import '../view/Sreens/ordermonitoring/complete orders.dart';
+import '../view/Sreens/ordermonitoring/AdminAllorders.dart';
+import '../view/Sreens/ordermonitoring/AdminCompleteOrder.dart';
+import '../view/Sreens/ordermonitoring/Adminriderperformnace.dart';
+import '../view/Sreens/servicecustomization/admin_Delivery_fees.dart';
 
 void main() {
   runApp(const MyApp());
@@ -135,19 +138,19 @@ class _AdminPageState extends State<AdminPage> {
                   title: 'Order Monitoring',
                   icon: Icons.monitor_heart_outlined,
                   children: [
-                    SubListTile("All Order", Admin_Complete_orders()),
-                    SubListTile("Completed order", Admin_Complete_orders()),
-                    SubListTile("Rider Performance", Admin_Complete_orders()),
-                    SubListTile("Customer Feedback", Admin_Complete_orders()),
+                    SubListTile("All Order", AdminAllOrders()),
+                    SubListTile("Completed order", AdminCompleteOrders()),
+                    SubListTile("Rider Performance", AdminRidrPerformnace()),
+                    // SubListTile("Customer Feedback", AdminAllOrders()),
                   ],
                 ),
                 _buildMainExpansionTile(
                   title: 'Service Customization',
                   icon: Icons.phonelink_setup_outlined,
                   children: [
-                    SubListTile("Delivery Fees", Admin_Complete_orders()),
-                    SubListTile("Rider Incentives", Admin_Complete_orders()),
-                    SubListTile("Delivery Time", Admin_Complete_orders()),
+                    SubListTile("Delivery Fees", AdminDeliveryFees()),
+                    SubListTile("Rider Incentives", AdminAllOrders()),
+                    SubListTile("Delivery Time", AdminAllOrders()),
                   ],
                 ),
                 _buildMainListTile('Reports', const Dashboard(),
