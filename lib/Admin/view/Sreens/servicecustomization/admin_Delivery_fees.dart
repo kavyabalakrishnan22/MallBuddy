@@ -25,7 +25,7 @@ class _AdminDeliveryFeesState extends State<AdminDeliveryFees> with SingleTicker
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -93,8 +93,8 @@ class _AdminDeliveryFeesState extends State<AdminDeliveryFees> with SingleTicker
 
             // Main Content: Delivery Fees Card
             Expanded(
-              child: Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: Card(color:Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -159,42 +159,50 @@ class _AdminDeliveryFeesState extends State<AdminDeliveryFees> with SingleTicker
   }
 
   // Function to build DataTable
+  // Function to build DataTable
   Widget _buildDataTable() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
-        columns: const [
-          DataColumn(label: Text("Sl No", style: TextStyle(fontWeight: FontWeight.bold))),
-          DataColumn(label: Text("Rider Name", style: TextStyle(fontWeight: FontWeight.bold))),
-          DataColumn(label: Text("Rider ID", style: TextStyle(fontWeight: FontWeight.bold))),
-          DataColumn(label: Text("Total Delivery", style: TextStyle(fontWeight: FontWeight.bold))),
-          DataColumn(label: Text("Delivery Fees", style: TextStyle(fontWeight: FontWeight.bold))),
-          DataColumn(label: Text("Action", style: TextStyle(fontWeight: FontWeight.bold))),
-        ],
-        rows: List.generate(
-          5,
-              (index) => DataRow(
-            cells: [
-              DataCell(Text((index + 1).toString())),
-              DataCell(Text(index == 0 ? "Adhi" : "Kiran")),
-              DataCell(Text("#123")),
-              DataCell(Text("5")),
-              DataCell(Text("200")),
-              DataCell(
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    side: const BorderSide(color: Colors.green),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  ),
-                  child: const Text("Edit", style: TextStyle(color: Colors.green)),
-                ),
-              ),
+    return Expanded( // Ensures the DataTable fills available space
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical, // Allow vertical scrolling
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal, // Allow horizontal scrolling if needed
+          child: DataTable(
+            columnSpacing: 140,
+            columns: const [
+              DataColumn(label: Text("Sl No", style: TextStyle(fontWeight: FontWeight.bold))),
+              DataColumn(label: Text("Rider Name", style: TextStyle(fontWeight: FontWeight.bold))),
+              DataColumn(label: Text("Rider ID", style: TextStyle(fontWeight: FontWeight.bold))),
+              DataColumn(label: Text("Total Delivery", style: TextStyle(fontWeight: FontWeight.bold))),
+              DataColumn(label: Text("Delivery Fees", style: TextStyle(fontWeight: FontWeight.bold))),
+              DataColumn(label: Text("Action", style: TextStyle(fontWeight: FontWeight.bold))),
             ],
+            rows: List.generate(
+              5,
+                  (index) => DataRow(
+                cells: [
+                  DataCell(Text((index + 1).toString())),
+                  DataCell(Text(index == 0 ? "Adhi" : "Kiran")),
+                  DataCell(Text("#123")),
+                  DataCell(Text("5")),
+                  DataCell(Text("200")),
+                  DataCell(
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.green),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                      child: const Text("Edit", style: TextStyle(color: Colors.green)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
     );
   }
+
 }
