@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../Widgets/Constants/colors.dart';
 import '../../../../Widgets/Constants/custom_field.dart';
@@ -13,7 +16,17 @@ class ShopSignupPage extends StatefulWidget {
 class _ShopSignupPageState extends State<ShopSignupPage> {
   bool rememberMe = false;
   String? selectedFloor; // Store selected floor
+  File? _imageFile;
 
+  // Function to pick an image
+  Future<void> _pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +39,8 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), color: Colors.white),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white),
                 child: Image.asset(
                   'assets/logo.png',
                   width: 150,
@@ -39,7 +53,8 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50)),
                   color: Colors.white,
                 ),
                 child: Padding(
@@ -55,8 +70,38 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
-                      ),
-                      SizedBox(height: 20),
+                      ),const SizedBox(height: 15),
+                      const SizedBox(height: 15),
+
+                      // **Image Upload Section**
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: Container(
+                          width: double.infinity,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: _imageFile == null
+                              ? const Center(
+                            child: Text(
+                              "Tap to upload image",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          )
+                              : ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.file(
+                              _imageFile!,
+                              width: double.infinity,
+                              height: 150,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),                      SizedBox(height: 20),
 
                       // **Row with Shop Name and Floor Selection**
                       Row(
@@ -82,8 +127,13 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                                     style: TextStyle(color: Colors.grey),
                                   ),
                                   isExpanded: true,
-                                  items: ["Ground Floor", "First Floor", "Second Floor", "Third Floor", "Forth Floor"]
-                                      .map((String value) {
+                                  items: [
+                                    "Ground Floor",
+                                    "First Floor",
+                                    "Second Floor",
+                                    "Third Floor",
+                                    "Forth Floor"
+                                  ].map((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
@@ -91,7 +141,8 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                                   }).toList(),
                                   onChanged: (newValue) {
                                     setState(() {
-                                      selectedFloor = newValue; // Update selected floor
+                                      selectedFloor =
+                                          newValue; // Update selected floor
                                     });
                                   },
                                 ),
@@ -100,6 +151,7 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                           ),
                         ],
                       ),
+
 
                       const SizedBox(height: 15),
                       CustomTextForm(hintText: "User name"),
@@ -125,7 +177,9 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                         child: Text(
                           "Register",
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
                         ),
                       ),
 
