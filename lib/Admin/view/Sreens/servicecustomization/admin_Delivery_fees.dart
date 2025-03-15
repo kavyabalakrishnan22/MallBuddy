@@ -94,7 +94,7 @@ class _AdminDeliveryFeesState extends State<AdminDeliveryFees> with SingleTicker
             // Main Content: Delivery Fees Card
             Expanded(
               child: Card(color:Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12),),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
