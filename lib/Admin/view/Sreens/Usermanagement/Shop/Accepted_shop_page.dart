@@ -64,8 +64,8 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                       height: 40,
                       width: 120,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.green, width: 1),
-                        borderRadius: BorderRadius.circular(20), // Rounded corners
+                        border: Border.all(color: Colors.green, width: 1.5),
+                        borderRadius: BorderRadius.circular(12), // Rounded corners
                         color: Colors.white, // Background color
                       ),
                       child: Row(
@@ -73,8 +73,8 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                         children: [
                           Image.asset(
                             'assets/admin/Accepted.png', // Replace with your actual asset path
-                            height: 10,
-                            width: 10,
+                            height: 25,
+                            width: 25,
                           ),
                           SizedBox(width: 5), // Spacing
                           Text(

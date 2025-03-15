@@ -59,8 +59,32 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
                   )),
                   DataCell(Text(shop.Shop_Name)),
                   DataCell(Text(shop.Floor)),
-                  DataCell(Container(height:40,width: 120,decoration: BoxDecoration(border: Border.all(color: Colors.green,width: 1)),)),
-                  // DataCell(Text(shop.Phone_Number)),
+                  DataCell(
+                    Container(
+                      height: 40,
+                      width: 120,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.green, width: 1.5),
+                        borderRadius: BorderRadius.circular(12), // Rounded corners
+                        color: Colors.white, // Background color
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/admin/Rejected.png', // Replace with your actual asset path
+                            height: 25,
+                            width: 25,
+                          ),
+                          SizedBox(width: 5), // Spacing
+                          Text(
+                            "Rejected",
+                            style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),                  // DataCell(Text(shop.Phone_Number)),
                   // DataCell(Text(shop.Email_ID)),
                   // DataCell(
                   //     // _buildOutlinedButton("Accepted", Colors.green, Colors.green, () {})
