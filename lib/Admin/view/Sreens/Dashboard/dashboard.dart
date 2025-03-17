@@ -110,17 +110,8 @@ class _DashboardState extends State<Dashboard> {
               BarChartData(
                 alignment: BarChartAlignment.spaceAround,
                 maxY: 70,
-                barGroups: [
-                  makeGroupData(0, 20, Colors.blue.withOpacity(0.4)),
-                  makeGroupData(1, 35, Colors.blue.withOpacity(0.4)),
-                  makeGroupData(2, 60, Colors.blue, isHighlighted: true),
-                  makeGroupData(3, 10, Colors.blue.withOpacity(0.4)),
-                  makeGroupData(4, 30, Colors.blue.withOpacity(0.4)),
-                ],
+                barGroups: _chartData(),
                 titlesData: FlTitlesData(
-                  leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
@@ -134,7 +125,6 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
-                gridData: FlGridData(show: false),
                 borderData: FlBorderData(show: false),
               ),
             ),
@@ -142,6 +132,16 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
     );
+  }
+
+  List<BarChartGroupData> _chartData() {
+    return [
+      makeGroupData(0, 20, Colors.blue.withOpacity(0.4)),
+      makeGroupData(1, 35, Colors.blue.withOpacity(0.4)),
+      makeGroupData(2, 60, Colors.blue, isHighlighted: true),
+      makeGroupData(3, 10, Colors.blue.withOpacity(0.4)),
+      makeGroupData(4, 30, Colors.blue.withOpacity(0.4)),
+    ];
   }
 
   BarChartGroupData makeGroupData(int x, double y, Color color, {bool isHighlighted = false}) {
@@ -159,6 +159,7 @@ class _DashboardState extends State<Dashboard> {
       showingTooltipIndicators: isHighlighted ? [0] : [],
     );
   }
+
   Widget _buildTransactionHistory() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

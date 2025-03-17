@@ -3,8 +3,8 @@ import 'package:mall_bud/User/View/Screens/auth/user_checkmail_page.dart';
 import 'package:mall_bud/User/View/Screens/auth/user_checkmail_page.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({super.key});
+class ShopForgotPasswordScreen extends StatelessWidget {
+  const ShopForgotPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   borderSide: const BorderSide(color: Colors.grey),
                 ),
                 contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
               ),
             ),
             const SizedBox(height: 20),
