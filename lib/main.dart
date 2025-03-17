@@ -32,7 +32,7 @@ import 'User/View/Screens/Splash/onboardingpage_three.dart';
 import 'User/View/Screens/Splash/onboardingpage_two.dart';
 import 'User/View/Screens/auth/User_login_page.dart';
 import 'User/View/Screens/auth/forgotpassword.dart';
-import 'User/View/Screens/auth/signup_page.dart';
+import 'User/View/Screens/auth/User_signup_page.dart';
 import 'User/View/Screens/completedelivery.dart';
 import 'User/View/Screens/myorders.dart';
 import 'User/View/Screens/notification.dart';

@@ -67,14 +67,16 @@ class _AdminPageState extends State<AdminPage> {
               color: Colors.white,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(45),
-                  bottomRight: Radius.circular(45)),boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5), // Shadow color with transparency
-                spreadRadius: 2, // How much the shadow spreads
-                blurRadius: 10, // Softness of the shadow
-                offset: Offset(4, 4), // Changes position of shadow (x, y)
-              ),
-            ],
+                  bottomRight: Radius.circular(45)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey
+                      .withOpacity(0.5), // Shadow color with transparency
+                  spreadRadius: 2, // How much the shadow spreads
+                  blurRadius: 10, // Softness of the shadow
+                  offset: Offset(4, 4), // Changes position of shadow (x, y)
+                ),
+              ],
             ),
             width: 300,
             padding: const EdgeInsets.all(6.0),

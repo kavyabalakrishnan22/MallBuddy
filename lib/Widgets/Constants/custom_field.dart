@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
-
 class CustomTextForm extends StatelessWidget {
-  String hintText;
-  TextEditingController? controller;
+  final String hintText;
+  final TextEditingController? controller;
+  final bool isObscure;
+  final String? Function(String?)? validator;
 
-  CustomTextForm({super.key, required this.hintText, this.controller,});
+  const CustomTextForm({
+    super.key,
+    required this.hintText,
+    this.controller,
+    this.isObscure = false,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      obscureText: isObscure,
       decoration: InputDecoration(
-          hintText: hintText,
-
-          border:
-          OutlineInputBorder(
-
-              borderRadius: BorderRadius.circular(10)
-          )),
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      validator: validator,
     );
   }
 }
+
 class Shopgridview extends StatelessWidget {
   String icon;
   String title;
