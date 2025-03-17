@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
-import '../myorders.dart';
+
+import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../notification.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -18,20 +20,11 @@ class _ProfilePageState extends State<ProfilePage> {
   int selectedIndex = -1;
   List<TextEditingController> controllers = [];
 
-
   final List<Map<String, String>> contactDetails = [
     {"label": "Email", "value": "kavyabalakrishnan2018@gmail.com"},
     {"label": "Mobile", "value": "8921689037"},
   ];
 
-
-
-  final List<Map<String, dynamic>> menuItems = [
-    {"icon": Icons.shopping_bag, "title": "My Orders"},
-    {"icon": Icons.lock, "title": "Privacy & Policy"},
-    {"icon": Icons.article, "title": "Terms & Conditions"},
-    {"icon": Icons.logout, "title": "Log Out", "isLogout": true},
-  ];
   File? _profileImage;
   final ImagePicker _picker = ImagePicker();
 
@@ -164,48 +157,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildMenuOption(IconData icon, String title, int index,
-      {bool isLogout = false}) {
-    bool isSelected = selectedIndex == index;
-    Color textColor =
-        isLogout ? Colors.red : (isSelected ? Colors.blue : Colors.black);
-    Color iconColor =
-        isLogout ? Colors.red : (isSelected ? Colors.blue : Colors.black);
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedIndex = index;
-        });
-        if (title == "My Orders") {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => OrderHistoryScreen()));
-        }
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.blue.withOpacity(0.1) : Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              color: isSelected ? Colors.blue : Colors.grey.shade300),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: iconColor),
-            const SizedBox(width: 10),
-            Text(title,
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: textColor)),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -257,7 +208,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               radius: 70,
                               backgroundImage: _profileImage != null
                                   ? FileImage(_profileImage!)
-                                  : const AssetImage("assets/profile/girl.png") as ImageProvider,
+                                  : const AssetImage("assets/profile/girl.png")
+                                      as ImageProvider,
                             ),
                             Positioned(
                               right: 0,
@@ -265,7 +217,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: GestureDetector(
                                 onTap: _showImagePickerOptions,
                                 child: Container(
-                                  decoration:  BoxDecoration(
+                                  decoration: BoxDecoration(
                                     color: defaultBlue,
                                     shape: BoxShape.circle,
                                   ),
@@ -301,14 +253,126 @@ class _ProfilePageState extends State<ProfilePage> {
                             (index) => _buildSelectableContactRow(
                                 contactDetails[index]["label"]!, index)),
                         const SizedBox(height: 4),
-                        ...List.generate(
-                            menuItems.length,
-                            (index) => _buildMenuOption(
-                                menuItems[index]["icon"],
-                                menuItems[index]["title"],
-                                index,
-                                isLogout:
-                                    menuItems[index].containsKey("isLogout"))),
+                        GestureDetector(
+                          onTap: () {
+                            print("object");
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(12),
+                              // border: Border.all(
+                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.shopping_bag, color: Colors.grey),
+                                const SizedBox(width: 10),
+                                Text("My Orders",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 4),
+                        GestureDetector(
+                          onTap: () {
+                            print("object");
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(12),
+                              // border: Border.all(
+                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.lock, color: Colors.grey),
+                                const SizedBox(width: 10),
+                                Text("Privacy and policy",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 4),
+                        GestureDetector(
+                          onTap: () {
+                            print("object");
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(12),
+                              // border: Border.all(
+                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.article, color: Colors.grey),
+                                const SizedBox(width: 10),
+                                Text("Terms and Condition",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        GestureDetector(
+                          onTap: () {
+                            final Authbloc = BlocProvider.of<AuthBloc>(context);
+                            Authbloc.add(SigOutEvent());
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              "/login",
+                              (route) => false,
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 20),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(12),
+                              // border: Border.all(
+                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.login, color: Colors.red),
+                                const SizedBox(width: 10),
+                                Text("Logout",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
                         const SizedBox(height: 20),
                       ],
                     ),
