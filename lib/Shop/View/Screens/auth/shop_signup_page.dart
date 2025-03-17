@@ -71,24 +71,23 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                           color: Colors.black,
                         ),
                       ),const SizedBox(height: 15),
-                      const SizedBox(height: 15),
 
                       // **Image Upload Section**
                       GestureDetector(
                         onTap: _pickImage,
                         child: Container(
                           width: double.infinity,
-                          height: 150,
+                          height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.grey),
+                            border: Border.all(color: Colors.black54),
                           ),
                           child: _imageFile == null
                               ? const Center(
                             child: Text(
                               "Tap to upload image",
-                              style: TextStyle(color: Colors.grey),
+                              style: TextStyle(color: Colors.black54),
                             ),
                           )
                               : ClipRRect(
@@ -124,7 +123,7 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                                   value: selectedFloor, // Show selected value
                                   hint: Text(
                                     "Select floor",
-                                    style: TextStyle(color: Colors.grey),
+                                    style: TextStyle(color: Colors.black54),
                                   ),
                                   isExpanded: true,
                                   items: [
@@ -183,7 +182,7 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                         ),
                       ),
 
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 70),
 
                       // **Sign In Prompt**
                       Row(

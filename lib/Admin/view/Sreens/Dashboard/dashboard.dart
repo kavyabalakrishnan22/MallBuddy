@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -10,6 +11,182 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.teal,);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(),
+              SizedBox(height: 20),
+              _buildStatsCards(),
+              SizedBox(height: 20),
+              _buildAnalyticsChart(),
+              SizedBox(height: 20),
+              _buildTransactionHistory(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Hello,", style: TextStyle(fontSize: 18, color: Colors.black54)),
+            Text("Good Morning Team!", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          ],
+        ),
+        CircleAvatar(
+          backgroundImage: AssetImage('assets/admin_avatar.png'),
+          radius: 20,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatsCards() {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.blueAccent,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildStatItem("Monthly Revenue", "₹1000", "+200%"),
+          _buildStatItem("Monthly Delivery", "₹4000", "+150%"),
+          _buildStatItem("Total Profit", "₹5000", "+400%"),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatItem(String title, String value, String change) {
+    return Column(
+      children: [
+        Text(title, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        Text(value, style: TextStyle(color: Colors.white, fontSize: 16)),
+        Text(change, style: TextStyle(color: Colors.greenAccent, fontSize: 14)),
+      ],
+    );
+  }
+
+  Widget _buildAnalyticsChart() {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10)],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Total Delivery & Cost", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          SizedBox(height: 4),
+          Text("Last 60 Days", style: TextStyle(color: Colors.grey)),
+          SizedBox(height: 8),
+          Row(
+            children: [
+              Text("₹8589", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+              SizedBox(width: 8),
+              Text("▲329%", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          Text("+956k vs prev. 60 days", style: TextStyle(color: Colors.green)),
+          SizedBox(height: 16),
+          Container(
+            height: 150,
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.spaceAround,
+                maxY: 70,
+                barGroups: [
+                  makeGroupData(0, 20, Colors.blue.withOpacity(0.4)),
+                  makeGroupData(1, 35, Colors.blue.withOpacity(0.4)),
+                  makeGroupData(2, 60, Colors.blue, isHighlighted: true),
+                  makeGroupData(3, 10, Colors.blue.withOpacity(0.4)),
+                  makeGroupData(4, 30, Colors.blue.withOpacity(0.4)),
+                ],
+                titlesData: FlTitlesData(
+                  leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (double value, TitleMeta meta) {
+                        List<String> labels = ["1-10 Aug", "11-20 Aug", "21-30 Aug", "1-10 Nov", "Month"];
+                        return Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                          child: Text(labels[value.toInt()], style: TextStyle(fontSize: 12)),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                gridData: FlGridData(show: false),
+                borderData: FlBorderData(show: false),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  BarChartGroupData makeGroupData(int x, double y, Color color, {bool isHighlighted = false}) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: y,
+          color: color,
+          width: 16,
+          borderRadius: BorderRadius.circular(4),
+          backDrawRodData: BackgroundBarChartRodData(show: true, toY: 70, color: Colors.grey.withOpacity(0.2)),
+        ),
+      ],
+      showingTooltipIndicators: isHighlighted ? [0] : [],
+    );
+  }
+  Widget _buildTransactionHistory() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Transaction History", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        SizedBox(height: 8),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10)],
+          ),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundImage: AssetImage('assets/user_avatar.png'),
+            ),
+            title: Text("Kiran Krishnan"),
+            subtitle: Text("kiranbalakrishnan97@gmail.com"),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("₹5000", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                Text("Jan 22, 2025, 10:00am", style: TextStyle(color: Colors.grey, fontSize: 12)),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
