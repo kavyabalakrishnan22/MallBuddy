@@ -154,7 +154,7 @@ class _ShopLoginPageState extends State<ShopLoginPage> {
 
                           // Login Button
                           if (state is ShopAuthloading) ...[
-                            const CircularProgressIndicator(),
+                            const Loading_Widget(),
                           ] else
                             MaterialButton(
                               shape: RoundedRectangleBorder(

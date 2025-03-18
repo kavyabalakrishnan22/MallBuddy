@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
-
 class ShopOrderhistory extends StatefulWidget {
   const ShopOrderhistory({super.key});
 
@@ -35,7 +34,7 @@ class _ShopOrderhistoryState extends State<ShopOrderhistory> {
             onPressed: () {},
           ),
           const CircleAvatar(
-            backgroundImage: AssetImage("assets/profile.jpg"),
+            backgroundImage: AssetImage("assets/logo.png"),
           ),
           const SizedBox(width: 10),
         ],
@@ -79,7 +78,7 @@ class _ShopOrderhistoryState extends State<ShopOrderhistory> {
                     status: "Pending",
                     statusColor: Colors.orange,
                     buttonText: "Order QR",
-                    buttonColor:defaultBlue,
+                    buttonColor: defaultBlue,
                   ),
                   _buildOrderCard(
                     orderId: "#kavya01234",
@@ -150,20 +149,28 @@ class _ShopOrderhistoryState extends State<ShopOrderhistory> {
             children: [
               Text(
                 "ORDER $orderId",
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const Spacer(),
-              const Text("Status ", style: TextStyle(fontSize: 14, color: Colors.grey)),
+              const Text("Status ",
+                  style: TextStyle(fontSize: 14, color: Colors.grey)),
               Text(
                 status,
-                style: TextStyle(fontSize: 14, color: statusColor, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 14,
+                    color: statusColor,
+                    fontWeight: FontWeight.bold),
               ),
             ],
           ),
           const SizedBox(height: 8),
-          Text("Rider ID : $riderId", style: const TextStyle(fontSize: 14, color: Colors.black)),
-          Text("Total items : $items", style: const TextStyle(fontSize: 14, color: Colors.black)),
-          Text("Total amount : $amount", style: const TextStyle(fontSize: 14, color: Colors.black)),
+          Text("Rider ID : $riderId",
+              style: const TextStyle(fontSize: 14, color: Colors.black)),
+          Text("Total items : $items",
+              style: const TextStyle(fontSize: 14, color: Colors.black)),
+          Text("Total amount : $amount",
+              style: const TextStyle(fontSize: 14, color: Colors.black)),
           const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerRight,
@@ -178,7 +185,8 @@ class _ShopOrderhistoryState extends State<ShopOrderhistory> {
                 ),
               ),
               onPressed: () {},
-              child: Text(buttonText, style: const TextStyle(color: Colors.white)),
+              child:
+                  Text(buttonText, style: const TextStyle(color: Colors.white)),
             ),
           ),
         ],

@@ -9,7 +9,7 @@ class Loading_Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        LoadingAnimationWidget.fallingDot(
+        LoadingAnimationWidget.staggeredDotsWave(
           color: CupertinoColors.systemGrey,
           size: 50,
         ),

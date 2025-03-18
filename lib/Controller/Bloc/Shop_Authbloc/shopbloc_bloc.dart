@@ -113,38 +113,46 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
 
             if (userDoc.exists) {
               final userData = userDoc.data() as Map<String, dynamic>;
+              if (userData['ban'] == "0") {
+                if (userData['status'] == "1") {
+                  // Update OneSignal ID
+                  await FirebaseFirestore.instance
+                      .collection("MallBuddyShops")
+                      .doc(user.uid)
+                      .update({"Onesignal_id": "playerId"});
 
-              // Check if the 'Ban' field is 1
-              if (userData['status'] == "1") {
-                if (userData['ban'] == "1") {
-                  emit(ShopAuthenticatedError(message: "you are banned"));
+                  emit(ShopAuthenticated(user));
+                  print("Auth successfully");
+                } else {
+                  await _auth.signOut();
+                  emit(ShopAuthenticatedError(
+                      message:
+                          "Please wait, you are in progress. Please try again later."));
                 }
-                // Update OneSignal ID
-                await FirebaseFirestore.instance
-                    .collection("MallBuddyShops")
-                    .doc(user.uid)
-                    .update({"Onesignal_id": "playerId"});
-
-                emit(ShopAuthenticated(user));
-                print("Auth successfully");
               } else {
                 await _auth.signOut();
-                emit(ShopAuthenticatedError(
-                    message:
-                        "Please wait, you are in progress. Please try again later."));
+                emit(ShopAuthenticatedError(message: "you are banned"));
+                emit(ShopUnAuthenticated());
               }
+              // Check if the 'Ban' field is 1
             } else {
               await _auth.signOut();
+              emit(ShopUnAuthenticated());
               emit(ShopAuthenticatedError(message: "User data not found."));
             }
           } else {
+            await _auth.signOut();
             emit(ShopUnAuthenticated());
           }
         } on FirebaseAuthException catch (e) {
+          await _auth.signOut();
+          emit(ShopUnAuthenticated());
           emit(ShopAuthenticatedError(
               message: e.message ?? "An error occurred."));
           print("FirebaseAuthException: ${e.message}");
         } catch (e) {
+          await _auth.signOut();
+          emit(ShopUnAuthenticated());
           emit(
               ShopAuthenticatedError(message: "An unexpected error occurred."));
           print("Login error: ${e.toString()}");
