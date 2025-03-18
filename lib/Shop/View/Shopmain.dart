@@ -1,10 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../firebase_options.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
-import '../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../../User/View/Screens/auth/Spashview.dart';
 import '../Bottomnav/Shop_Bottom.dart';
 import 'Screens/auth/shop_login.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/User/View/Screens/auth/User_signup_page.dart';
 import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
-import '../../../../Widgets/Constants/CustomSnackBar.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
 import '../../../../Widgets/Constants/custom_field.dart';
