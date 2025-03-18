@@ -50,8 +50,8 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
               "phone_number": event.user.phone,
               "timestamp": DateTime.now(),
               "Onesignal_id": "playerId",
-              "ban": "1",
-              "status": "1",
+              "ban": "0",
+              "status": "0",
               "imagepath":
                   "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
             });
@@ -115,7 +115,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
               final userData = userDoc.data() as Map<String, dynamic>;
 
               // Check if the 'Ban' field is 1
-              if (userData['ban'] == "1") {
+              if (userData['status'] == "1") {
                 // Update OneSignal ID
                 await FirebaseFirestore.instance
                     .collection("MallBuddyShops")
