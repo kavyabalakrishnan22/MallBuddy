@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
+import 'package:flutter/material.dart';
+
+import 'colors.dart';
+
 class CustomTextForm extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
-  final bool isObscure;
+  final bool obscureText;
   final String? Function(String?)? validator;
 
   const CustomTextForm({
     super.key,
     required this.hintText,
     this.controller,
-    this.isObscure = false,
+    this.obscureText = false,
     this.validator,
   });
 
@@ -19,7 +23,7 @@ class CustomTextForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      obscureText: isObscure,
+      obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hintText,
         border: OutlineInputBorder(
@@ -30,6 +34,7 @@ class CustomTextForm extends StatelessWidget {
     );
   }
 }
+
 
 class Shopgridview extends StatelessWidget {
   String icon;

@@ -10,6 +10,7 @@ import 'Shop/Bottomnav/Shop_Bottom.dart';
 import 'Shop/View/Screens/Checkout.dart';
 import 'Shop/View/Screens/Home/shop_home_page.dart';
 import 'Shop/View/Screens/Shop_Userselectparking.dart';
+import 'Shop/View/Screens/auth/Shopsplashview.dart';
 import 'Shop/View/Screens/auth/shop_login.dart';
 import 'Shop/View/Screens/auth/shop_signup_page.dart';
 import 'Shop/View/Screens/paymentsuccessful.dart';
@@ -30,9 +31,9 @@ import 'User/View/Screens/Home/scan.dart';
 import 'User/View/Screens/Splash/onboardingpage_one.dart';
 import 'User/View/Screens/Splash/onboardingpage_three.dart';
 import 'User/View/Screens/Splash/onboardingpage_two.dart';
+import 'User/View/Screens/Splash/splash_screen.dart';
 import 'User/View/Screens/auth/User_login_page.dart';
 import 'User/View/Screens/auth/forgotpassword.dart';
-import 'User/View/Screens/auth/signup_page.dart';
 import 'User/View/Screens/auth/user_checkmail_page.dart';
 import 'User/View/Screens/completedelivery.dart';
 import 'User/View/Screens/myorders.dart';
@@ -56,7 +57,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ForgotPasswordScreen(),
+      home: Splashview(),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
+import 'Shop_ProfilePage.dart';
+
 
 
 class ShopHomeScreen extends StatelessWidget {
@@ -35,10 +37,18 @@ class ShopHomeScreen extends StatelessWidget {
                 Text("Kavya", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
               ],
             ),
-            Spacer(),
-            Icon(Icons.notifications, size: 30, color: Colors.black45),
+            Spacer(), SizedBox(width: 10),
+            Icon(Icons.notifications_on_sharp, size: 30, color: Colors.black45),
             SizedBox(width: 10),
-            Icon(Icons.settings, size: 30, color: Colors.black45),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ShopProfilePage()), // Navigate to ProfilePage
+                );
+              },
+              child: Icon(Icons.person, size: 30, color: Colors.black45),
+            ),
             SizedBox(width: 10),
           ],
         ),

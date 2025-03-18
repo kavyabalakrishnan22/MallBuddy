@@ -180,7 +180,7 @@ class _User_Signup_PageState extends State<User_Signup_Page> {
                               CustomTextForm(
                                 hintText: "Password",
                                 controller: _passwordController,
-                                isObscure: true,
+                                obscureText: true,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Password is required';
@@ -198,7 +198,7 @@ class _User_Signup_PageState extends State<User_Signup_Page> {
                               CustomTextForm(
                                 hintText: "Confirm Password",
                                 controller: _confirmPasswordController,
-                                isObscure: true,
+                                obscureText: true,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Confirm password is required';

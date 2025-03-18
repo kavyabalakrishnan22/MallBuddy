@@ -1,4 +1,29 @@
-part of 'shopbloc_bloc.dart';
+
+
+import 'package:flutter/cupertino.dart';
+
+import 'Shopauthmodel/Shopauthmodel.dart';
 
 @immutable
-sealed class ShopblocEvent {}
+sealed class ShopAuthEvent {}
+
+class checkShoploginstateevent extends ShopAuthEvent {}
+
+// login
+
+class ShopLoginEvent extends ShopAuthEvent {
+  final String Email;
+  final String Password;
+
+  ShopLoginEvent({required this.Email, required this.Password});
+}
+
+// Signup
+class ShopSignupEvent extends ShopAuthEvent {
+  final ShopModel user;
+  ShopSignupEvent({required this.user});
+}
+
+//signout
+
+class ShopSigOutEvent extends ShopAuthEvent {}

@@ -6,6 +6,8 @@ class UserModel {
   String? phone;
   String? status;
   String? Ban;
+  String? Image;
+
 
 
 
@@ -16,6 +18,8 @@ class UserModel {
       this.uid,
       this.phone,
       this.status,
-      this.Ban
+      this.Ban,
+      this.Image
+
       });
 }
