@@ -116,6 +116,9 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
 
               // Check if the 'Ban' field is 1
               if (userData['status'] == "1") {
+                if (userData['ban'] == "1") {
+                  emit(ShopAuthenticatedError(message: "you are banned"));
+                }
                 // Update OneSignal ID
                 await FirebaseFirestore.instance
                     .collection("MallBuddyShops")
@@ -127,7 +130,8 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
               } else {
                 await _auth.signOut();
                 emit(ShopAuthenticatedError(
-                    message: "Your account has been deleted."));
+                    message:
+                        "Please wait, you are in progress. Please try again later."));
               }
             } else {
               await _auth.signOut();
