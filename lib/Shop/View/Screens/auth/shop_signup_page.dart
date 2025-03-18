@@ -84,7 +84,7 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
       listener: (context, state) {
         if (state is ShopAuthenticated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+            Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
           });
         }
         if (state is ShopAuthenticatedError) {
