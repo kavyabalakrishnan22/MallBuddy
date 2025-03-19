@@ -18,7 +18,11 @@ class _ShopBottomNavBarExampleState extends State<ShopBottomNavBarExample> {
 
   final List<Widget> _screens = [
     ShopHomeScreen(),
-    InvoiceFormPage(name: '', email: '', contact: '',),
+    InvoiceFormPage(
+      name: '',
+      email: '',
+      contact: '',
+    ),
     ActiveDeliveryPage(),
     CompleteDeliveryPage(),
     ShopOrderhistory(),
@@ -73,13 +77,13 @@ class _ShopBottomNavBarExampleState extends State<ShopBottomNavBarExample> {
             label: 'Active',
           ),
           BottomNavigationBarItem(
-            icon: _buildSvgIcon('assets/ShopBottomnav/Completed.svg',
-                _selectedIndex == 4),
+            icon: _buildSvgIcon(
+                'assets/ShopBottomnav/Completed.svg', _selectedIndex == 3),
             label: 'Completed',
           ),
           BottomNavigationBarItem(
-            icon: _buildSvgIcon('assets/ShopBottomnav/status.svg',
-                _selectedIndex == 5),
+            icon: _buildSvgIcon(
+                'assets/ShopBottomnav/status.svg', _selectedIndex == 4),
             label: 'Status',
           ),
         ],
@@ -123,6 +127,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+
 class Status extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

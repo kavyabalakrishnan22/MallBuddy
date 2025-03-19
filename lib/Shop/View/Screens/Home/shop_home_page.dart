@@ -47,7 +47,11 @@ class ShopHomeScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => ShopProfilePage()), // Navigate to ProfilePage
                 );
               },
-              child: Icon(Icons.person, size: 30, color: Colors.black45),
+              child: CircleAvatar(
+                radius: 20, // Adjust size as needed
+                backgroundImage: AssetImage("assets/profile/girl.png"),
+                backgroundColor: Colors.transparent, // Optional: Make the background transparent
+              ),
             ),
             SizedBox(width: 10),
           ],

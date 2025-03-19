@@ -9,6 +9,7 @@ import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+
 class BuddyProfilePage extends StatefulWidget {
   const BuddyProfilePage({super.key});
 
