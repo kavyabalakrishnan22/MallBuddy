@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mall_bud/Widgets/Constants/Loading.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
 import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
 
 class BuddyProfilePage extends StatefulWidget {
   const BuddyProfilePage({super.key});
@@ -79,84 +80,12 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    controllers = List.generate(contactDetails.length, (index) {
-      return TextEditingController(text: contactDetails[index]["value"]);
-    });
-  }
-
   @override
   void dispose() {
     for (var controller in controllers) {
       controller.dispose();
     }
     super.dispose();
-  }
-
-  Widget _buildSelectableContactRow(String label, int index) {
-    bool isEditing = selectedContactIndex == index;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedContactIndex = isEditing ? -1 : index;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Text(label,
-                        style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold))),
-                Expanded(
-                  flex: 3,
-                  child: isEditing
-                      ? TextField(
-                    controller: controllers[index],
-                    decoration:
-                    const InputDecoration(border: InputBorder.none),
-                    style: const TextStyle(
-                        fontSize: 14, color: Colors.black),
-                    onSubmitted: (newValue) {
-                      setState(() {
-                        contactDetails[index]["value"] = newValue;
-                        selectedContactIndex = -1;
-                      });
-                    },
-                  )
-                      : Text(contactDetails[index]["value"]!,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                          fontSize: 14, color: Colors.black)),
-                ),
-                IconButton(
-                  icon: Icon(isEditing ? Icons.check : Icons.edit,
-                      size: 16, color: Colors.blue),
-                  onPressed: () {
-                    setState(() {
-                      if (isEditing) {
-                        contactDetails[index]["value"] =
-                            controllers[index].text;
-                        selectedContactIndex = -1;
-                      } else {
-                        selectedContactIndex = index;
-                      }
-                    });
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            const Divider(color: Colors.black, thickness: 0.3),
-          ],
-        ),
-      ),
-    );
   }
 
   @override
@@ -204,61 +133,78 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        Stack(
-                          children: [
-                            CircleAvatar(
-                              radius: 70,
-                              backgroundImage: _profileImage != null
-                                  ? FileImage(_profileImage!)
-                                  : const AssetImage("assets/profile/girl.png")
-                              as ImageProvider,
-                            ),
-                            Positioned(
-                              right: 0,
-                              bottom: 0,
-                              child: GestureDetector(
-                                onTap: _showImagePickerOptions,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: defaultBlue,
-                                    shape: BoxShape.circle,
+                        BlocBuilder<BuddyAuthBloc, BuddyAuthState>(
+                          builder: (context, state) {
+                            if (state is Buddyloading) {
+                              return SizedBox(
+                                height: 200,
+                                child: Loading_Widget(),
+                              );
+                              Center(child: CircularProgressIndicator());
+                            } else if (state is BuddyByidLoaded) {
+                              final user = state.Userdata;
+                              return Column(
+                                children: [
+                                  Stack(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 70,
+                                        backgroundImage: _profileImage != null
+                                            ? FileImage(_profileImage!)
+                                            :  AssetImage(
+                                                    "assets/profile/girl.png")
+                                                as ImageProvider,
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        bottom: 0,
+                                        child: GestureDetector(
+                                          onTap: _showImagePickerOptions,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: defaultBlue,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            padding: const EdgeInsets.all(8),
+                                            child: const Icon(
+                                              CupertinoIcons.camera,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  padding: const EdgeInsets.all(8),
-                                  child: const Icon(
-                                    CupertinoIcons.camera,
-                                    color: Colors.white,
-                                    size: 20,
+                                  const SizedBox(height: 8),
+                                  Text('${user.name ?? ''}',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 20),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: const Text("Contact Details",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold))),
+                                  ListTile(
+                                    title: Text("Email"),
+                                    subtitle: Text('${user.email ?? ''}'),
                                   ),
-                                ),
-                              ),
-                            ),
-                          ],
+                                  ListTile(
+                                    title: Text("Mobile"),
+                                    subtitle: Text('Name: ${user.phone ?? ''}'),
+                                  ),
+                                ],
+                              );
+                            }
+                            return SizedBox();
+                          },
                         ),
-                        // const CircleAvatar(
-                        //   radius: 70,
-                        //   backgroundImage:
-                        //       AssetImage("assets/profile/girl.png"),
-                        // ),
-                        const SizedBox(height: 8),
-                        const Text("Kavya Krishnan K K",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 20),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: const Text("Contact Details",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold))),
-                        ...List.generate(
-                            contactDetails.length,
-                                (index) => _buildSelectableContactRow(
-                                contactDetails[index]["label"]!, index)),
                         const SizedBox(height: 4),
                         GestureDetector(
-                          onTap: () {
-                            print("object");
-                          },
+                          onTap: () {},
                           child: Container(
                             margin: const EdgeInsets.symmetric(vertical: 6),
                             padding: const EdgeInsets.symmetric(
@@ -282,7 +228,6 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
@@ -311,7 +256,6 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
@@ -343,12 +287,13 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
-                            final BuddyAuthbloc = BlocProvider.of<BuddyAuthBloc>(context);
+                            final BuddyAuthbloc =
+                                BlocProvider.of<BuddyAuthBloc>(context);
                             BuddyAuthbloc.add(BuddySigOutEvent());
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               "/login",
-                                  (route) => false,
+                              (route) => false,
                             );
                           },
                           child: Container(
@@ -374,6 +319,27 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             ),
                           ),
                         ),
+                        // BlocBuilder<BuddyAuthBloc, BuddyAuthState>(
+                        //   builder: (context, state) {
+                        //     if (state is Buddyloading) {
+                        //       return const Center(
+                        //           child: CircularProgressIndicator());
+                        //     } else if (state is BuddyByidLoaded) {
+                        //       final user = state.Userdata;
+                        //       return Column(
+                        //         children: [
+                        //           Text('Name: ${user.name ?? ''}'),
+                        //           Text('Email: ${user.email ?? ''}'),
+                        //           Text('Phone: ${user.phone ?? ''}'),
+                        //           Text('Status: ${user.status ?? ''}'),
+                        //         ],
+                        //       );
+                        //     } else if (state is Buddyerror) {
+                        //       return Center(child: Text(state.error));
+                        //     }
+                        //     return const SizedBox.shrink();
+                        //   },
+                        // ),
                         const SizedBox(height: 4),
                         const SizedBox(height: 20),
                       ],

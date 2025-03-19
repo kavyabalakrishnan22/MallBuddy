@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'Buddyauthmodel/Buddyauthmodel.dart';
 import 'buddy_auth_event.dart';
 import 'buddy_auth_state.dart';
 
@@ -66,6 +67,34 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
         }
       },
     );
+
+    on<FetchBuddyDetailsById>((event, emit) async {
+      emit(Buddyloading());
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        try {
+          final user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            final doc = await FirebaseFirestore.instance
+                .collection('MallBuddyRiders')
+                .doc(user.uid)
+                .get();
+
+            if (doc.exists) {
+              BuddyModel userData = BuddyModel.fromMap(doc.data()!);
+              emit(BuddyByidLoaded(userData));
+            } else {
+              emit(Buddyerror(error: "User profile not found"));
+            }
+          } else {
+            emit(Buddyerror(error: "User not authenticated"));
+          }
+        } catch (e) {
+          emit(Buddyerror(error: e.toString()));
+        }
+      }
+    });
 
     on<BuddySigOutEvent>(
       (event, emit) async {

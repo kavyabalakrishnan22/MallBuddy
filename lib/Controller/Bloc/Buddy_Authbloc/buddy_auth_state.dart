@@ -1,14 +1,7 @@
-
-
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/cupertino.dart';
-
-
-
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+
+import 'Buddyauthmodel/Buddyauthmodel.dart';
 
 
 @immutable
@@ -29,4 +22,18 @@ class BuddyAuthenticatedError extends BuddyAuthState {
   final String message;
 
   BuddyAuthenticatedError({required this.message});
+}
+
+// get all personal details
+
+final class BuddyByidLoaded extends BuddyAuthState {
+  final BuddyModel Userdata;
+  BuddyByidLoaded(this.Userdata);
+}
+
+class Buddyloading extends BuddyAuthState {}
+
+class Buddyerror extends BuddyAuthState {
+  String error;
+  Buddyerror({required this.error});
 }

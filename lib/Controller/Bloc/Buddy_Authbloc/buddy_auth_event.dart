@@ -1,9 +1,6 @@
-
-
 import 'package:flutter/cupertino.dart';
 
 import 'Buddyauthmodel/Buddyauthmodel.dart';
-
 
 @immutable
 sealed class BuddyAuthEvent {}
@@ -28,3 +25,8 @@ class BuddySignupEvent extends BuddyAuthEvent {
 //signout
 
 class BuddySigOutEvent extends BuddyAuthEvent {}
+
+//get all personal details
+
+class FetchBuddyDetailsById extends BuddyAuthEvent {}
+

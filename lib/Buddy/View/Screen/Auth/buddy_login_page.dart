@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
@@ -22,9 +21,6 @@ class Buddy_Loginwrapper extends StatelessWidget {
   }
 }
 
-
-
-
 class BuddyLoginPage extends StatefulWidget {
   const BuddyLoginPage({super.key});
 
@@ -40,7 +36,6 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
 
   // Create a global key for the form state
   final _formKey = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +153,7 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
 
                             // Login Button
                             SizedBox(
-                                height: 100,
+                                height: 150,
                                 child: Column(
                                   children: [
                                     state is BuddyAuthloading
@@ -182,7 +177,7 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                                 if (_formKey.currentState!.validate()) {
                                   // If form is valid, send login event
                                   final BuddyauthBloc =
-                                  BlocProvider.of<BuddyAuthBloc>(context);
+                                      BlocProvider.of<BuddyAuthBloc>(context);
                                   BuddyauthBloc.add(BuddyLoginEvent(
                                     Email: _emailController.text,
                                     Password: _passwordController.text,
@@ -234,7 +229,7 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                        const Buddysignupwrapper(),
+                                            const Buddysignupwrapper(),
                                       ),
                                     );
                                   },

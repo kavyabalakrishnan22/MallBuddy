@@ -10,20 +10,30 @@ class BuddyModel {
   String? Dob;
   String? Gender;
 
-
-
-
-BuddyModel(
+  BuddyModel(
       {this.email,
-        this.password,
-        this.name,
-        this.uid,
-        this.phone,
-        this.status,
-        this.Ban,
-        this.Image,
-        this.Dob,
-        this.Gender
+      this.password,
+      this.name,
+      this.uid,
+      this.phone,
+      this.status,
+      this.Ban,
+      this.Image,
+      this.Dob,
+      this.Gender});
 
-      });
+  factory BuddyModel.fromMap(Map<String, dynamic> data) {
+    return BuddyModel(
+      email: data['email'],
+      password: data['password'],
+      uid: data['userId'],
+      name: data['Customername'],
+      phone: data['phone_number'],
+      status: data['status'],
+      Ban: data['ban'],
+      Image: data['image'],
+      Dob: data['Dateodbirth'],
+      Gender: data['Gender'],
+    );
+  }
 }

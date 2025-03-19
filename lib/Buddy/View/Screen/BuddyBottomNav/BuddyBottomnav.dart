@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mall_bud/Buddy/View/Screen/Home/home.dart';
 
-
-import '../../../../User/View/Screens/Home/User_Home_page.dart';
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../Home/BuddyProfile.dart';
 import '../Home/Buddy_scan.dart';
 
+class BottomNavwrapper extends StatelessWidget {
+  const BottomNavwrapper({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => BuddyAuthBloc()..add(FetchBuddyDetailsById()),
+      child: BuddyBottomNav(),
+    );
+  }
+}
 
 class BuddyBottomNav extends StatefulWidget {
   @override
@@ -52,9 +63,9 @@ class _BuddyBottomNavState extends State<BuddyBottomNav> {
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,
         selectedLabelStyle:
-        TextStyle(color: Colors.blue), // Selected label color
+            TextStyle(color: Colors.blue), // Selected label color
         unselectedLabelStyle:
-        TextStyle(color: Colors.black), // Unselected label color
+            TextStyle(color: Colors.black), // Unselected label color
         items: [
           BottomNavigationBarItem(
             icon: _buildSvgIcon(
@@ -66,7 +77,6 @@ class _BuddyBottomNavState extends State<BuddyBottomNav> {
                 'assets/Bottomnav/mage_scan.svg', _selectedIndex == 1),
             label: 'Scan',
           ),
-
           BottomNavigationBarItem(
             icon: _buildSvgIcon('assets/Bottomnav/iconamoon_profile-light.svg',
                 _selectedIndex == 3),
