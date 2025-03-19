@@ -24,4 +24,19 @@ class ShopModel {
         this.Shopname,
         this.Selectfloor,
       });
+
+  factory ShopModel.fromMap(Map<String, dynamic> data) {
+    return ShopModel(
+      email: data['email'],
+      uid: data['userId'],
+      Shopname: data['Shopname'],
+      Ownername: data['Ownername'],
+      phone: data['phone_number'],
+      status: data['status'],
+      Ban: data['ban'],
+      Image: data['imagepath'],
+      Selectfloor: data['selecfloor'],
+
+    );
+  }
 }

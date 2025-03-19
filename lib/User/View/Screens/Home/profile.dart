@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
 import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
+import '../../../../Widgets/Constants/Loading.dart';
 import '../notification.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -202,56 +203,85 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        Stack(
-                          children: [
-                            CircleAvatar(
-                              radius: 70,
-                              backgroundImage: _profileImage != null
-                                  ? FileImage(_profileImage!)
-                                  : const AssetImage("assets/profile/girl.png")
-                                      as ImageProvider,
-                            ),
-                            Positioned(
-                              right: 0,
-                              bottom: 0,
-                              child: GestureDetector(
-                                onTap: _showImagePickerOptions,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: defaultBlue,
-                                    shape: BoxShape.circle,
+                        BlocBuilder<AuthBloc, AuthState>(
+                          builder: (context, state) {
+                            if (state is loading) {
+                              return SizedBox(
+                                height: 200,
+                                child: Loading_Widget(),
+                              );
+                              Center(child: CircularProgressIndicator());
+                            } else if (state is UserByidLoaded) {
+                              final user = state.Userdata;
+                              return Column(
+                                children: [
+                                  Stack(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 70,
+                                        backgroundImage: _profileImage != null
+                                            ? FileImage(_profileImage!)
+                                            : AssetImage(
+                                                    "assets/profile/girl.png")
+                                                as ImageProvider,
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        bottom: 0,
+                                        child: GestureDetector(
+                                          onTap: _showImagePickerOptions,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: defaultBlue,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            padding: const EdgeInsets.all(8),
+                                            child: const Icon(
+                                              CupertinoIcons.camera,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  padding: const EdgeInsets.all(8),
-                                  child: const Icon(
-                                    CupertinoIcons.camera,
-                                    color: Colors.white,
-                                    size: 20,
+                                  const SizedBox(height: 8),
+                                  Text('${user.name ?? ''}',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 20),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: const Text("Contact Details",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold))),
+                                  ListTile(
+                                    title: Text("Email"),
+                                    subtitle: Text('${user.email ?? ''}'),
                                   ),
-                                ),
-                              ),
-                            ),
-                          ],
+                                  Divider(
+                                    color: Colors.black54,
+                                  ),
+                                  ListTile(
+                                    title: Text("Mobile"),
+                                    subtitle: Text('Name: ${user.phone ?? ''}'),
+                                  ),
+                                  Divider(
+                                    color: Colors.black54,
+                                  ),
+                                ],
+                              );
+                            }
+                            return SizedBox();
+                          },
                         ),
-                        // const CircleAvatar(
-                        //   radius: 70,
-                        //   backgroundImage:
-                        //       AssetImage("assets/profile/girl.png"),
-                        // ),
-                        const SizedBox(height: 8),
-                        const Text("Kavya Krishnan K K",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 20),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: const Text("Contact Details",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold))),
-                        ...List.generate(
-                            contactDetails.length,
-                            (index) => _buildSelectableContactRow(
-                                contactDetails[index]["label"]!, index)),
+                        // ...List.generate(
+                        //     contactDetails.length,
+                        //     (index) => _buildSelectableContactRow(
+                        //         contactDetails[index]["label"]!, index)),
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
@@ -262,11 +292,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.shopping_bag, color: Colors.grey),
@@ -291,11 +323,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.lock, color: Colors.grey),
@@ -320,11 +354,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.article, color: Colors.grey),
@@ -354,11 +390,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.login, color: Colors.red),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/User/View/Screens/Home/scan.dart';
+import 'package:mall_bud/Widgets/Constants/Loading.dart';
 import 'dart:async';
 
+import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../myorders.dart';
 import 'User_shop.dart';
-
 
 class UserHomePage extends StatefulWidget {
   @override
@@ -56,13 +58,16 @@ class _UserHomePageState extends State<UserHomePage> {
 
     switch (title) {
       case "Shop":
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Shop()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Shop()));
         break;
       case "Scan":
-        Navigator.push(context, MaterialPageRoute(builder: (context) => QRScanPage()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => QRScanPage()));
         break;
       case "Status":
-        Navigator.push(context, MaterialPageRoute(builder: (context) => OrderHistoryScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => OrderHistoryScreen()));
         break;
     }
   }
@@ -97,7 +102,18 @@ class _UserHomePageState extends State<UserHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Hello!", style: TextStyle(fontSize: 18)),
-                      Text("Kavya", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+                      BlocBuilder<AuthBloc, AuthState>(
+                          builder: (context, state) {
+                        if (state is loading) {
+                          return Center(child: Loading_Widget());
+                        } else if (state is UserByidLoaded) {
+                          final user = state.Userdata;
+                          return Text(' ${user.name ?? ''}',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold));
+                        }
+                        return SizedBox();
+                      })
                     ],
                   ),
                   Spacer(),
@@ -144,7 +160,9 @@ class _UserHomePageState extends State<UserHomePage> {
                       width: currentIndex == index ? 30 : 10,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: currentIndex == index ? Colors.blueAccent : Colors.black.withOpacity(0.4),
+                        color: currentIndex == index
+                            ? Colors.blueAccent
+                            : Colors.black.withOpacity(0.4),
                       ),
                     ),
                   );
@@ -229,7 +247,10 @@ class _UserHomePageState extends State<UserHomePage> {
             SizedBox(height: 5),
             Text(
               title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
             ),
           ],
         ),
@@ -243,23 +264,29 @@ class _UserHomePageState extends State<UserHomePage> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 5, spreadRadius: 2)],
+        boxShadow: [
+          BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              blurRadius: 5,
+              spreadRadius: 2)
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-            child: Image.asset(data["icon"], height: 200, width: double.infinity, fit: BoxFit.cover),
+            child: Image.asset(data["icon"],
+                height: 200, width: double.infinity, fit: BoxFit.cover),
           ),
           SizedBox(height: 8),
-          Text(data["name"], style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(data["name"],
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           SizedBox(height: 4),
-          Text(data["subtitle"], style: TextStyle(fontSize: 12, color: Colors.grey[700])),
+          Text(data["subtitle"],
+              style: TextStyle(fontSize: 12, color: Colors.grey[700])),
         ],
       ),
     );
   }
 }
-
-

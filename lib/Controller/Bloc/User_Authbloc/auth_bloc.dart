@@ -66,6 +66,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
+    on<FetchUserDetailsById>((event, emit) async {
+      emit(loading());
+      User? user = _auth.currentUser;
+
+      if (user != null) {
+        try {
+          final user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            final doc = await FirebaseFirestore.instance
+                .collection('MallBuddyUsers')
+                .doc(user.uid)
+                .get();
+
+            if (doc.exists) {
+              UserModel userData = UserModel.fromMap(doc.data()!);
+              emit(UserByidLoaded(userData));
+            } else {
+              emit(Usererror(error: "User profile not found"));
+            }
+          } else {
+            emit(Usererror(error: "User not authenticated"));
+          }
+        } catch (e) {
+          emit(Usererror(error: e.toString()));
+        }
+      }
+    });
 
     // logout
     // on<SigOutEvent>(

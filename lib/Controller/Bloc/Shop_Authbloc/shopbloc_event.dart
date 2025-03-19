@@ -27,3 +27,6 @@ class ShopSignupEvent extends ShopAuthEvent {
 //signout
 
 class ShopSigOutEvent extends ShopAuthEvent {}
+
+//fetch details from shops
+class FetchShopDetailsById extends ShopAuthEvent {}

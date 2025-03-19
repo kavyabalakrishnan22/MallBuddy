@@ -80,15 +80,6 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
   }
 
   @override
-  @override
-  void dispose() {
-    for (var controller in controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: defaultBlue,
@@ -191,11 +182,11 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                                   ListTile(
                                     title: Text("Email"),
                                     subtitle: Text('${user.email ?? ''}'),
-                                  ),
+                                  ),Divider(color: Colors.black54,),
                                   ListTile(
                                     title: Text("Mobile"),
                                     subtitle: Text('Name: ${user.phone ?? ''}'),
-                                  ),
+                                  ),Divider(color: Colors.black54,),
                                 ],
                               );
                             }
@@ -210,8 +201,8 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),border: Border.all(width: 1,color: Colors.black)
                               // border: Border.all(
                               //     color: isSelected ? Colors.blue : Colors.grey.shade300),
                             ),
@@ -238,8 +229,8 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),border: Border.all(width: 1,color: Colors.black)
                               // border: Border.all(
                               //     color: isSelected ? Colors.blue : Colors.grey.shade300),
                             ),
@@ -266,8 +257,8 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),border: Border.all(width: 1,color: Colors.black)
                               // border: Border.all(
                               //     color: isSelected ? Colors.blue : Colors.grey.shade300),
                             ),
@@ -301,8 +292,8 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),border: Border.all(width: 1,color: Colors.black)
                               // border: Border.all(
                               //     color: isSelected ? Colors.blue : Colors.grey.shade300),
                             ),

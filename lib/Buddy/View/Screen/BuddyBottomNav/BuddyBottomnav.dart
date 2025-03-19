@@ -79,7 +79,7 @@ class _BuddyBottomNavState extends State<BuddyBottomNav> {
           ),
           BottomNavigationBarItem(
             icon: _buildSvgIcon('assets/Bottomnav/iconamoon_profile-light.svg',
-                _selectedIndex == 3),
+                _selectedIndex == 2),
             label: 'Profile',
           ),
         ],

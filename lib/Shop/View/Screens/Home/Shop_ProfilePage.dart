@@ -5,9 +5,23 @@ import 'package:mall_bud/Widgets/Constants/colors.dart';
 
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
-import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import '../../../../Widgets/Constants/Loading.dart';
+
+// class Shopprofileavwrapper extends StatelessWidget {
+//   const Shopprofileavwrapper({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider(
+//       create: (context) => ShopAuthBloc()..add(FetchShopDetailsById()),
+//       child: ShopProfilePage(),
+//     );
+//   }
+// }
 
 class ShopProfilePage extends StatefulWidget {
   const ShopProfilePage({super.key});
@@ -78,87 +92,6 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    controllers = List.generate(contactDetails.length, (index) {
-      return TextEditingController(text: contactDetails[index]["value"]);
-    });
-  }
-
-  @override
-  void dispose() {
-    for (var controller in controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-  Widget _buildSelectableContactRow(String label, int index) {
-    bool isEditing = selectedContactIndex == index;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedContactIndex = isEditing ? -1 : index;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Text(label,
-                        style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold))),
-                Expanded(
-                  flex: 3,
-                  child: isEditing
-                      ? TextField(
-                    controller: controllers[index],
-                    decoration:
-                    const InputDecoration(border: InputBorder.none),
-                    style: const TextStyle(
-                        fontSize: 14, color: Colors.black),
-                    onSubmitted: (newValue) {
-                      setState(() {
-                        contactDetails[index]["value"] = newValue;
-                        selectedContactIndex = -1;
-                      });
-                    },
-                  )
-                      : Text(contactDetails[index]["value"]!,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                          fontSize: 14, color: Colors.black)),
-                ),
-                IconButton(
-                  icon: Icon(isEditing ? Icons.check : Icons.edit,
-                      size: 16, color: Colors.blue),
-                  onPressed: () {
-                    setState(() {
-                      if (isEditing) {
-                        contactDetails[index]["value"] =
-                            controllers[index].text;
-                        selectedContactIndex = -1;
-                      } else {
-                        selectedContactIndex = index;
-                      }
-                    });
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            const Divider(color: Colors.black, thickness: 0.3),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: defaultBlue,
@@ -203,56 +136,75 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        Stack(
-                          children: [
-                            CircleAvatar(
-                              radius: 70,
-                              backgroundImage: _profileImage != null
-                                  ? FileImage(_profileImage!)
-                                  : const AssetImage("assets/profile/girl.png")
-                              as ImageProvider,
-                            ),
-                            Positioned(
-                              right: 0,
-                              bottom: 0,
-                              child: GestureDetector(
-                                onTap: _showImagePickerOptions,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: defaultBlue,
-                                    shape: BoxShape.circle,
+                        BlocBuilder<ShopAuthBloc, ShopAuthState>(
+                          builder: (context, state) {
+                            if (state is Shoploading) {
+                              return SizedBox(
+                                height: 200,
+                                child: Loading_Widget(),
+                              );
+                              Center(child: CircularProgressIndicator());
+                            } else if (state is ShopByidLoaded) {
+                              final user = state.Userdata;
+                              return Column(
+                                children: [
+                                  Stack(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: 70,
+                                        backgroundImage: _profileImage != null
+                                            ? FileImage(_profileImage!)
+                                            : AssetImage(
+                                                    "assets/profile/girl.png")
+                                                as ImageProvider,
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        bottom: 0,
+                                        child: GestureDetector(
+                                          onTap: _showImagePickerOptions,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: defaultBlue,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            padding: const EdgeInsets.all(8),
+                                            child: const Icon(
+                                              CupertinoIcons.camera,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  padding: const EdgeInsets.all(8),
-                                  child: const Icon(
-                                    CupertinoIcons.camera,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                                  const SizedBox(height: 8),
+                                  Text('${user.Ownername ?? ''}',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 20),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: const Text("Contact Details",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold))),
+                                  ListTile(
+                                    title: Text("Email"),
+                                    subtitle: Text('${user.email ?? ''}'),
+                                  ),Divider(color: Colors.black54,),
+                                  ListTile(
+                                    title: Text("Mobile"),
+                                    subtitle: Text('Name: ${user.phone ?? ''}'),
+                                  ),Divider(color: Colors.black54,),
+                                ],
+                              );
+                            }
+                            return SizedBox();
+                          },
                         ),
-                        // const CircleAvatar(
-                        //   radius: 70,
-                        //   backgroundImage:
-                        //       AssetImage("assets/profile/girl.png"),
-                        // ),
-                        const SizedBox(height: 8),
-                        const Text("Kavya Krishnan K K",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 20),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: const Text("Contact Details",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold))),
-                        ...List.generate(
-                            contactDetails.length,
-                                (index) => _buildSelectableContactRow(
-                                contactDetails[index]["label"]!, index)),
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
@@ -263,11 +215,13 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.shopping_bag, color: Colors.grey),
@@ -281,7 +235,6 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
@@ -292,11 +245,13 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1.2, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.lock, color: Colors.grey),
@@ -310,7 +265,6 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
@@ -321,11 +275,13 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.article, color: Colors.grey),
@@ -342,12 +298,13 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
-                            final ShopAuthbloc = BlocProvider.of<ShopAuthBloc>(context);
+                            final ShopAuthbloc =
+                                BlocProvider.of<ShopAuthBloc>(context);
                             ShopAuthbloc.add(ShopSigOutEvent());
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               "/login",
-                                  (route) => false,
+                              (route) => false,
                             );
                           },
                           child: Container(
@@ -355,11 +312,12 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(12),
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(width: 1, color: Colors.red)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.login, color: Colors.red),

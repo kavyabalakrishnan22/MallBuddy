@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
+import '../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../View/Screens/Home/shop_home_page.dart';
 import '../View/Screens/shop_active_delivery.dart';
 import '../View/Screens/shop_complete_delivery.dart';
 import '../View/Screens/shop_select_parking.dart';
 import '../View/Screens/shoporderhistory.dart';
+
+class ShopBottomnavwrapper extends StatelessWidget {
+  const ShopBottomnavwrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ShopAuthBloc()..add(FetchShopDetailsById()),
+      child: ShopBottomNavBarExample(),
+    );
+  }
+}
 
 class ShopBottomNavBarExample extends StatefulWidget {
   @override

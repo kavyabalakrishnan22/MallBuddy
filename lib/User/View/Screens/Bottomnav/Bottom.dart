@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mall_bud/Controller/Bloc/User_Authbloc/auth_bloc.dart';
 
 import '../Home/User_Home_page.dart';
 import '../Home/User_shop.dart';
 import '../Home/listinvoices.dart';
 import '../Home/profile.dart';
 import '../Home/scan.dart';
+
+class UserBottomnavwrapper extends StatelessWidget {
+  const UserBottomnavwrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AuthBloc()..add(FetchUserDetailsById()),
+      child: BottomNavBarExample(),
+    );
+  }
+}
 
 class BottomNavBarExample extends StatefulWidget {
   @override

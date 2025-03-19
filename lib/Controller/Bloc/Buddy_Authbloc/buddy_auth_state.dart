@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 
 import 'Buddyauthmodel/Buddyauthmodel.dart';
 
-
 @immutable
 sealed class BuddyAuthState {}
 

@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 
+import 'Shopauthmodel/Shopauthmodel.dart';
+
 class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   ShopAuthBloc() : super(ShopAuthInitial()) {
@@ -48,6 +50,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
               "Ownername": event.user.Ownername,
               "Shopname": event.user.Shopname,
               "phone_number": event.user.phone,
+              "selecfloor": event.user.Selectfloor,
               "timestamp": DateTime.now(),
               "Onesignal_id": "playerId",
               "ban": "0",
@@ -65,6 +68,34 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
         }
       },
     );
+
+    on<FetchShopDetailsById>((event, emit) async {
+      emit(Shoploading());
+      User? user = _auth.currentUser;
+      print("fetch shop details loading......");
+      if (user != null) {
+        try {
+          final user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            final doc = await FirebaseFirestore.instance
+                .collection('MallBuddyShops')
+                .doc(user.uid)
+                .get();
+
+            if (doc.exists) {
+              ShopModel userData = ShopModel.fromMap(doc.data()!);
+              emit(ShopByidLoaded(userData));
+            } else {
+              emit(Shoperror(error: "User profile not found"));
+            }
+          } else {
+            emit(Shoperror(error: "User not authenticated"));
+          }
+        } catch (e) {
+          emit(Shoperror(error: e.toString()));
+        }
+      }
+    });
 
     on<ShopSigOutEvent>(
       (event, emit) async {

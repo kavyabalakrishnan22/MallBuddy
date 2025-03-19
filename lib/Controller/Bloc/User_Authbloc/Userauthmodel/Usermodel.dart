@@ -22,4 +22,16 @@ class UserModel {
       this.Image
 
       });
+
+  factory UserModel.fromMap(Map<String, dynamic> data) {
+    return UserModel(
+      email: data['email'],
+      uid: data['userId'],
+      name: data['name'],
+      phone: data['phone_number'],
+      status: data['status'],
+      Ban: data['ban'],
+      Image: data['imagepath'],
+    );
+  }
 }
