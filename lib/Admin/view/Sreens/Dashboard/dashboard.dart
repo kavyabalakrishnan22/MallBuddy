@@ -46,9 +46,44 @@ class _DashboardState extends State<Dashboard> {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           ],
         ),
-        CircleAvatar(
-          backgroundImage: AssetImage('assets/logo.png'),
-          radius: 20,
+        Row(
+          children: [
+            Container(
+              width: 200,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(width: 0.5, color: Colors.grey)),
+              child: const TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  prefixIcon: Icon(Icons.search, color: Colors.black),
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            const SizedBox(width: 20),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 14, vertical: 6),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(width: 0.5, color: Colors.grey)),
+              child: Row(
+                children: const [
+                  CircleAvatar(
+                    backgroundImage:
+                    AssetImage('assets/profile/girl.png'),
+                  ),
+                  SizedBox(width: 10),
+                  Text("Admin",
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+          ],
         ),
       ],
     );

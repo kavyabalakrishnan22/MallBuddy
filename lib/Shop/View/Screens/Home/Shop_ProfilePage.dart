@@ -10,18 +10,19 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import '../../../../Widgets/Constants/Loading.dart';
+import '../shoporderhistory.dart';
 
-// class Shopprofileavwrapper extends StatelessWidget {
-//   const Shopprofileavwrapper({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (context) => ShopAuthBloc()..add(FetchShopDetailsById()),
-//       child: ShopProfilePage(),
-//     );
-//   }
-// }
+class Shopprofileavwrapper extends StatelessWidget {
+  const Shopprofileavwrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ShopAuthBloc()..add(FetchShopDetailsById()),
+      child: ShopProfilePage(),
+    );
+  }
+}
 
 class ShopProfilePage extends StatefulWidget {
   const ShopProfilePage({super.key});
@@ -192,13 +193,25 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold))),
                                   ListTile(
-                                    title: Text("Email"),
-                                    subtitle: Text('${user.email ?? ''}'),
-                                  ),Divider(color: Colors.black54,),
+                                    title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Email"), // Left side label
+                                        Text('${user.email ?? ''}', style: TextStyle(fontWeight: FontWeight.w500)), // Right side email text
+                                      ],
+                                    ),
+                                  ),
+                                  Divider(color: Colors.black54,),
                                   ListTile(
-                                    title: Text("Mobile"),
-                                    subtitle: Text('Name: ${user.phone ?? ''}'),
-                                  ),Divider(color: Colors.black54,),
+                                    title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Mobile"), // Left side label
+                                        Text('${user.phone ?? ''}', style: TextStyle(fontWeight: FontWeight.w500)), // Right side email text
+                                      ],
+                                    ),
+                                  ),
+                                  Divider(color: Colors.black54,),
                                 ],
                               );
                             }
@@ -207,7 +220,7 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                         ),
                         const SizedBox(height: 4),
                         GestureDetector(
-                          onTap: () {
+                          onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ShopOrderhistory(),));
                             print("object");
                           },
                           child: Container(

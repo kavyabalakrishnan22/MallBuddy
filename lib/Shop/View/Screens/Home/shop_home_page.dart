@@ -8,6 +8,15 @@ import '../../../../Widgets/Constants/Loading.dart';
 import 'Shop_ProfilePage.dart';
 
 class ShopHomeScreen extends StatelessWidget {
+  final List<Map<String, dynamic>> categories = [
+    {"icon": Icons.add_shopping_cart_outlined, "label": "Delivery\nBooking"},
+    {
+      "icon": Icons.shopping_cart_checkout_outlined,
+      "label": "Active\nDelivery"
+    },
+    {"icon": Icons.done_all, "label": "Complete\nDelivery"},
+    {"icon": Icons.list_alt, "label": "Order\nStatus"},
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +68,7 @@ class ShopHomeScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        ShopProfilePage()), // Navigate to ProfilePage
+                        Shopprofileavwrapper()), // Navigate to ProfilePage
               );
             },
             child: CircleAvatar(
@@ -72,14 +81,16 @@ class ShopHomeScreen extends StatelessWidget {
           SizedBox(width: 10),
         ],
       ),
-      SizedBox(height: 16),
+      SizedBox(height: 50),
 
       // Today Delivery Section
       Row(
         children: [
+          SizedBox(height: 40),
           Text(
             "Today Delivery",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -95,39 +106,145 @@ class ShopHomeScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Container(
+              height: 70,
+              width: 70,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Image.asset("assets/ShopBottomnav/pending.png"),
+            ),
             deliveryStatusItem("Pending Delivery", "4", Icons.access_time),
+            const SizedBox(
+              width: 10,
+            ),
+            Container(
+              height: 70,
+              width: 70,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Image.asset("assets/ShopBottomnav/done.png"),
+            ),
             deliveryStatusItem("Done Delivery", "10", Icons.check_circle),
           ],
         ),
       ),
-      SizedBox(height: 16),
+      SizedBox(height: 50),
 
       // Quick Actions Row
       Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          quickActionItem(Icons.local_shipping, "Delivery\nParking lot"),
-          quickActionItem(Icons.directions_bike, "Active\nDelivery"),
-          quickActionItem(Icons.done_all, "Completed\nDelivery"),
-          quickActionItem(Icons.list_alt, "Order\nStatus"),
+          Text("Categories",
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal)),
         ],
       ),
-      SizedBox(height: 16),
+      SizedBox(height: 20),
+
+      /// Category Icons Row
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: categories.map((category) {
+          return Column(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.grey[200],
+                radius: 30,
+                child: Icon(category["icon"], size: 30, color: Colors.black),
+              ),
+              SizedBox(height: 5),
+              Text(category["label"], style: TextStyle(fontSize: 14)),
+            ],
+          );
+        }).toList(),
+      ),
+      SizedBox(
+        height: 40,
+        width: 20,
+      ),
+      Row(
+        children: [
+          // SizedBox(width: 20,),
+          Text(
+            "Earnings",
+            style: TextStyle(
+                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+      SizedBox(height: 30),
 
       // Earnings Section
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
-              height: 200,
-              width: 150,
-              color: defaultBlue,
-              child: earningsCard("Today Earnings", "₹1000")),
+            height: 220,
+            width: 180,
+            decoration: BoxDecoration(
+                color: defaultBlue, borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child:
+                        Image.asset("assets/ShopBottomnav/todayearnings.png")),
+                Text(
+                  "Today Earnings",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            // child: earningsCard("Today Earnings", "₹1000")
+          ),
           Container(
-              height: 200,
-              width: 150,
-              color: defaultBlue,
-              child: earningsCard("Total Earnings", "₹50000")),
+            height: 220,
+            width: 180,
+            decoration: BoxDecoration(
+                color: defaultBlue, borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child:
+                        Image.asset("assets/ShopBottomnav/totalearnings.png")),
+                Text(
+                  "Total Earnings",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  height: 50,
+                  width: 100,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(120),),child: Text("data",style: TextStyle(color: Colors.black),textAlign: TextAlign.center,),
+                )
+              ],
+            ),
+            // child: earningsCard("Today Earnings", "₹1000")
+          ),
         ],
       ),
     ]))));
@@ -141,7 +258,8 @@ class ShopHomeScreen extends StatelessWidget {
         SizedBox(height: 4),
         Text(
           title,
-          style: TextStyle(color: Colors.white, fontSize: 14),
+          style: TextStyle(
+              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w800),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 4),
