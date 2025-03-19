@@ -94,24 +94,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    // logout
-    // on<SigOutEvent>(
-    //   (event, emit) async {
-    //     User? user=_auth.currentUser;
-    //     try {
-    //       user = _auth.currentUser;
-    //
-    //      await FirebaseFirestore.instance
-    //           .collection("User")
-    //           .doc(user.uid)
-    //           .update({"Onesignal_id": 12121});
-    //       await _auth.signOut();
-    //       emit(UnAuthenticated());
-    //     } catch (e) {
-    //       emit(AuthenticatedError(message: e.toString()));
-    //     }
-    //   },
-    // );
+    //  get all users
+    on<FetchUsers>((event, emit) async {
+      emit(UsersLoading());
+      try {
+        CollectionReference driversCollection =
+            FirebaseFirestore.instance.collection('MallBuddyUsers');
+
+        Query query = driversCollection;
+        QuerySnapshot snapshot = await query.get();
+
+        List<UserModel> drivers = snapshot.docs.map((doc) {
+          return UserModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+
+        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+          drivers = drivers.where((driver) {
+            return driver.name!
+                .toLowerCase()
+                .contains(event.searchQuery!.toLowerCase());
+          }).toList();
+        }
+
+        emit(Usersloaded(drivers));
+      } catch (e) {
+        emit(Usersfailerror(e.toString()));
+      }
+    });
+
     on<SigOutEvent>(
       (event, emit) async {
         try {

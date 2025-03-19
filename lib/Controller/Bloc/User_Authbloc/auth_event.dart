@@ -24,7 +24,12 @@ class SignupEvent extends AuthEvent {
 //signout
 class SigOutEvent extends AuthEvent {}
 
-
 //fetch details from users
 class FetchUserDetailsById extends AuthEvent {}
 
+// fetc all users
+
+class FetchUsers extends AuthEvent {
+  final String? searchQuery;
+  FetchUsers({required this.searchQuery});
+}

@@ -1,8 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
-import '../../User/View/Screens/Home/User_shop.dart';
+import '../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
+import '../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
+import '../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
+import '../../firebase_options.dart';
 import '../view/Sreens/Dashboard/dashboard.dart';
 import '../view/Sreens/Usermanagement/Shop.dart';
 import '../view/Sreens/Usermanagement/buddy.dart';
@@ -12,8 +17,11 @@ import '../view/Sreens/ordermonitoring/AdminCompleteOrder.dart';
 import '../view/Sreens/ordermonitoring/Adminriderperformnace.dart';
 import '../view/Sreens/servicecustomization/admin_Delivery_fees.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,14 +30,26 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: defaultBlue),
-          useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc()..add(FetchUsers(searchQuery: null)),
         ),
-        home: AdminPage());
+        BlocProvider<ShopAuthBloc>(
+          create: (context) => ShopAuthBloc()
+            ..add(FetchShopesDetailsEvent(searchQuery: null, status: "0")),
+        ),
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            colorScheme: ColorScheme.fromSeed(seedColor: defaultBlue),
+            useMaterial3: true,
+          ),
+          home: AdminPage()),
+    );
   }
 }
 

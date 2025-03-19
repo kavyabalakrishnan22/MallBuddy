@@ -1,5 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../../../Model/User_Management/shop_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
+import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
+import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
+import '../../../../../Widgets/Constants/Loading.dart';
+
+class AdminAcceptedwrapper extends StatelessWidget {
+  const AdminAcceptedwrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<ShopAuthBloc>(
+      create: (context) => ShopAuthBloc()
+        ..add(FetchShopesDetailsEvent(searchQuery: null, status: "0")),
+      child: AdminAcceptedShop(),
+    );
+  }
+}
 
 class AdminAcceptedShop extends StatefulWidget {
   const AdminAcceptedShop({super.key});
@@ -22,82 +39,80 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
 
   // Function to build shop tables for each tab
   Widget _buildShopTable(String title) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minWidth: MediaQuery.of(context).size.width,
-        ),
-        child: DataTable(dataRowMaxHeight: 100,
-          decoration: const BoxDecoration(color: Colors.white),
-          columns: [
-            _buildColumn('SL NO'),
-            _buildColumn('Owner Details'),
-            _buildColumn('Shop Name'),
-            _buildColumn('Floor'),
-            // _buildColumn('Phone Number'),
-            // _buildColumn('Email'),
-            _buildColumn('Status'),
-          ],
-          rows: List.generate(
-            shops.length,
+    return BlocConsumer<ShopAuthBloc, ShopAuthState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        if (state is ShopgetLoading) {
+          return Center(child: Loading_Widget());
+        } else if (state is Shopesfailerror) {
+          return Text(state.error.toString());
+        } else if (state is Shopesloaded) {
+          if (state.Shopes.isEmpty) {
+            // Return "No data found" if txhe list is empty
+            return Center(
+              child: Text(
+                "No data found",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            );
+          }
+          return ConstrainedBox(
+            constraints:
+                BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+            child: DataTable(
+              dataRowMaxHeight: 100,
+              decoration: const BoxDecoration(color: Colors.white),
+              columns: [
+                _buildColumn('SL NO'),
+                _buildColumn('Owner Details'),
+                _buildColumn('Shop Name'),
+                _buildColumn('Floor'),
+                _buildColumn('Edit'),
+                _buildColumn('Delete'),
+              ],
+              rows: List.generate(
+                state.Shopes.length,
                 (index) {
-              final shop = shops[index];
-              return DataRow(
-                cells: [
-                  DataCell(Text(
-                    (index + 1).toString(),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  )),
-                  DataCell(Column(
-                    children: [
-                      Text(
-                        shop.Owner_Name,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),Text(shop.Phone_Number),Text(shop.Email_ID)
+                  final shop = state.Shopes[index];
+                  return DataRow(
+                    cells: [
+                      DataCell(Text((index + 1).toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold))),
+                      DataCell(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              shop.Ownername.toString(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(shop.phone.toString(),
+                                overflow: TextOverflow.ellipsis),
+                            Text(shop.email.toString(),
+                                overflow: TextOverflow.ellipsis),
+                          ],
+                        ),
+                      ),
+                      DataCell(Text(shop.Shopname.toString())),
+                      DataCell(Text(shop.Selectfloor.toString())),
+                      DataCell(IconButton(
+                          onPressed: () {}, icon: Icon(Icons.delete))),
+                      DataCell(IconButton(
+                          onPressed: () {}, icon: Icon(Icons.delete))),
                     ],
-                  )),
-                  DataCell(Text(shop.Shop_Name)),
-                  DataCell(Text(shop.Floor)),
-                  DataCell(
-                    Container(
-                      height: 40,
-                      width: 120,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.green, width: 1.5),
-                        borderRadius: BorderRadius.circular(12), // Rounded corners
-                        color: Colors.white, // Background color
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/admin/Accepted.png', // Replace with your actual asset path
-                            height: 25,
-                            width: 25,
-                          ),
-                          SizedBox(width: 5), // Spacing
-                          Text(
-                            "Accepted",
-                            style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // DataCell(Text(shop.Phone_Number)),
-                  // DataCell(Text(shop.Email_ID)),
-                  // DataCell(
-                  //     // _buildOutlinedButton("Accepted", Colors.green, Colors.green, () {})
-                  // ),
-
-                ],
-              );
-            },
-          ),
-        ),
-      ),
+                  );
+                },
+              ),
+            ),
+          );
+        }
+        return SizedBox();
+      },
     );
   }
 
@@ -132,5 +147,4 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
   //     ),
   //   );
   // }
-
 }

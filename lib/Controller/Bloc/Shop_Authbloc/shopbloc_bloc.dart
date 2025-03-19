@@ -190,5 +190,36 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
         }
       },
     );
+
+    //   get all shopes
+
+    on<FetchShopesDetailsEvent>((event, emit) async {
+      emit(ShopgetLoading());
+      try {
+        CollectionReference ShopesCollection =
+            FirebaseFirestore.instance.collection('MallBuddyShops');
+
+        Query query = ShopesCollection;
+        query = query.where("status", isEqualTo: event.status);
+
+        QuerySnapshot snapshot = await query.get();
+
+        List<ShopModel> shopes = snapshot.docs.map((doc) {
+          return ShopModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+
+        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+          shopes = shopes.where((driver) {
+            return driver.Ownername!
+                .toLowerCase()
+                .contains(event.searchQuery!.toLowerCase());
+          }).toList();
+        }
+
+        emit(Shopesloaded(shopes));
+      } catch (e) {
+        emit(Shopesfailerror(e.toString()));
+      }
+    });
   }
 }

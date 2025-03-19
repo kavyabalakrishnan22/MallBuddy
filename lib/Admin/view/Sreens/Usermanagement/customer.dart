@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mall_bud/Controller/Bloc/User_Authbloc/auth_bloc.dart';
+import 'package:mall_bud/Widgets/Constants/Loading.dart';
 import '../../../Model/User_Management/Customer_model.dart';
 
 class AdminCustomer extends StatefulWidget {
@@ -17,7 +20,7 @@ class _AdminCustomerState extends State<AdminCustomer>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 1, vsync: this);
   }
 
   @override
@@ -78,7 +81,11 @@ class _AdminCustomerState extends State<AdminCustomer>
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(width: 0.5, color: Colors.grey)),
-                child: const TextField(
+                child: TextField(
+                  onChanged: (value) {
+                    context.read<AuthBloc>().add(
+                        FetchUsers(searchQuery: value)); // Pass search query
+                  },
                   decoration: InputDecoration(
                     hintText: 'Search',
                     prefixIcon: Icon(Icons.search, color: Colors.black),
@@ -88,7 +95,8 @@ class _AdminCustomerState extends State<AdminCustomer>
               ),
               const SizedBox(width: 20),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -129,52 +137,80 @@ class _AdminCustomerState extends State<AdminCustomer>
   }
 
   Widget _buildShopTable(String title) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
-        child: DataTable(
-          dataRowMaxHeight: 80,
-          decoration: const BoxDecoration(color: Colors.white),
-          columns: [
-            _buildColumn('SL NO'),
-            _buildColumn('Customer Details'),
-            _buildColumn('Invoice ID'),
-            _buildColumn('Edit'),
-            _buildColumn('Delete'),
-          ],
-          rows: List.generate(
-            customers.length,
-                (index) {
-              final customer = customers[index];
-              return DataRow(
-                cells: [
-                  DataCell(Text((index + 1).toString(),
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          customer.Customer_Name,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(customer.Phone_Number, overflow: TextOverflow.ellipsis),
-                        Text(customer.Email, overflow: TextOverflow.ellipsis),
-                      ],
-                    ),
-                  ),
-                  DataCell(Text(customer.Invoice_ID)),
-                  DataCell(_buildToggleButton("Edit", index, true)),
-                  DataCell(_buildToggleButton("Delete", index, false)),
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        if (state is UsersLoading) {
+          return Center(child: Loading_Widget());
+        } else if (state is Usersfailerror) {
+          return Text(state.error.toString());
+        } else if (state is Usersloaded) {
+          if (state.Users.isEmpty) {
+            // Return "No data found" if txhe list is empty
+            return Center(
+              child: Text(
+                "No data found",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            );
+          }
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ConstrainedBox(
+              constraints:
+                  BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+              child: DataTable(
+                dataRowMaxHeight: 80,
+                decoration: const BoxDecoration(color: Colors.white),
+                columns: [
+                  _buildColumn('SL NO'),
+                  _buildColumn('Customer Details'),
+                  _buildColumn('Invoice ID'),
+                  _buildColumn('Edit'),
+                  _buildColumn('Delete'),
                 ],
-              );
-            },
-          ),
-        ),
-      ),
+                rows: List.generate(
+                  state.Users.length,
+                  (index) {
+                    final User = state.Users[index];
+                    return DataRow(
+                      cells: [
+                        DataCell(Text((index + 1).toString(),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold))),
+                        DataCell(
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                state.Users[index].name.toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(User.phone.toString(),
+                                  overflow: TextOverflow.ellipsis),
+                              Text(User.email.toString(),
+                                  overflow: TextOverflow.ellipsis),
+                            ],
+                          ),
+                        ),
+                        DataCell(Text(User.status.toString())),
+                        DataCell(_buildToggleButton("Edit", index, true)),
+                        DataCell(_buildToggleButton("Delete", index, false)),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
+        }
+        return SizedBox();
+      },
     );
   }
 
@@ -239,11 +275,11 @@ class _AdminCustomerState extends State<AdminCustomer>
             }
           });
         },
-        child: SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
+        child:
+            SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
       ),
     );
   }
-
 
   void _showDeleteDialog(int index) {
     showDialog(
@@ -253,10 +289,12 @@ class _AdminCustomerState extends State<AdminCustomer>
           title: const Text("Confirm Delete"),
           content: const Text("Are you sure you want to delete this customer?"),
           actions: [
-            TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text("Cancel")),
+            TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text("Cancel")),
             TextButton(
               onPressed: () {
-                setState(() { customers.removeAt(index); });
+                setState(() {});
                 Navigator.of(context).pop();
               },
               child: const Text("Delete", style: TextStyle(color: Colors.red)),

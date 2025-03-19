@@ -7,13 +7,9 @@ class Loading_Widget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        LoadingAnimationWidget.staggeredDotsWave(
-          color: CupertinoColors.systemGrey,
-          size: 50,
-        ),
-      ],
+    return LoadingAnimationWidget.staggeredDotsWave(
+      color: CupertinoColors.systemGrey,
+      size: 50,
     );
   }
 }

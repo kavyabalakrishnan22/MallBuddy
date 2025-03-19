@@ -1,17 +1,10 @@
-
-
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/cupertino.dart';
-
-
-
-
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'Shopauthmodel/Shopauthmodel.dart';
-
 
 @immutable
 sealed class ShopAuthState {}
@@ -44,4 +37,24 @@ class Shoploading extends ShopAuthState {}
 class Shoperror extends ShopAuthState {
   String error;
   Shoperror({required this.error});
+}
+
+//Get all shopes
+
+final class ShopgetLoading extends ShopAuthState {}
+
+final class ShopGetSuccess extends ShopAuthState {}
+
+final class Shopesfailerror extends ShopAuthState {
+  final String error;
+
+  Shopesfailerror(this.error);
+}
+
+class Shopesloaded extends ShopAuthState {
+  final List<ShopModel> Shopes;
+
+  Shopesloaded(
+    this.Shopes,
+  );
 }

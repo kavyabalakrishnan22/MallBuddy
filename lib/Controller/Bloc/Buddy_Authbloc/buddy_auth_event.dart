@@ -30,3 +30,7 @@ class BuddySigOutEvent extends BuddyAuthEvent {}
 
 class FetchBuddyDetailsById extends BuddyAuthEvent {}
 
+
+// get all user
+
+

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 
 import 'Shopauthmodel/Shopauthmodel.dart';
@@ -30,3 +28,11 @@ class ShopSigOutEvent extends ShopAuthEvent {}
 
 //fetch details from shops
 class FetchShopDetailsById extends ShopAuthEvent {}
+
+//fetch all shop
+
+class FetchShopesDetailsEvent extends ShopAuthEvent {
+  final String? searchQuery;
+  final String? status;
+  FetchShopesDetailsEvent({required this.searchQuery, required this.status});
+}

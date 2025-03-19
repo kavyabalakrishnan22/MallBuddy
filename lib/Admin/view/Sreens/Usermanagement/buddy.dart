@@ -177,7 +177,8 @@ class _AdminBuddyState extends State<AdminBuddy>
                 _buildColumn('Buddy Details'),
                 _buildColumn('Edit'),
                 _buildColumn('Delete'),
-              ],dividerThickness: 4,
+              ],
+              dividerThickness: 4,
               rows: List.generate(
                 Buddys.length,
                 (index) {
@@ -216,7 +217,6 @@ class _AdminBuddyState extends State<AdminBuddy>
             ),
           ),
         ),
-
       ],
     );
   }
@@ -277,9 +277,7 @@ class _AdminBuddyState extends State<AdminBuddy>
                 child: const Text("Cancel")),
             TextButton(
               onPressed: () {
-                setState(() {
-                  customers.removeAt(index);
-                });
+                setState(() {});
                 Navigator.of(context).pop();
               },
               child: const Text("Delete", style: TextStyle(color: Colors.red)),

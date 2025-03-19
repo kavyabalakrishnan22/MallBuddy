@@ -40,12 +40,14 @@ class _DashboardState extends State<Dashboard> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Hello,", style: TextStyle(fontSize: 18, color: Colors.black54)),
-            Text("Good Morning Team!", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Text("Hello,",
+                style: TextStyle(fontSize: 18, color: Colors.black54)),
+            Text("Good Morning Team!",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           ],
         ),
         CircleAvatar(
-          backgroundImage: AssetImage('assets/admin_avatar.png'),
+          backgroundImage: AssetImage('assets/logo.png'),
           radius: 20,
         ),
       ],
@@ -73,7 +75,8 @@ class _DashboardState extends State<Dashboard> {
   Widget _buildStatItem(String title, String value, String change) {
     return Column(
       children: [
-        Text(title, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        Text(title,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         Text(value, style: TextStyle(color: Colors.white, fontSize: 16)),
         Text(change, style: TextStyle(color: Colors.greenAccent, fontSize: 14)),
       ],
@@ -86,20 +89,29 @@ class _DashboardState extends State<Dashboard> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10)],
+        boxShadow: [
+          BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10)
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Total Delivery & Cost", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          Text("Total Delivery & Cost",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           SizedBox(height: 4),
           Text("Last 60 Days", style: TextStyle(color: Colors.grey)),
           SizedBox(height: 8),
           Row(
             children: [
-              Text("₹8589", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+              Text("₹8589",
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueAccent)),
               SizedBox(width: 8),
-              Text("▲329%", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+              Text("▲329%",
+                  style: TextStyle(
+                      color: Colors.green, fontWeight: FontWeight.bold)),
             ],
           ),
           Text("+956k vs prev. 60 days", style: TextStyle(color: Colors.green)),
@@ -116,10 +128,17 @@ class _DashboardState extends State<Dashboard> {
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (double value, TitleMeta meta) {
-                        List<String> labels = ["1-10 Aug", "11-20 Aug", "21-30 Aug", "1-10 Nov", "Month"];
+                        List<String> labels = [
+                          "1-10 Aug",
+                          "11-20 Aug",
+                          "21-30 Aug",
+                          "1-10 Nov",
+                          "Month"
+                        ];
                         return Padding(
                           padding: EdgeInsets.only(top: 8.0),
-                          child: Text(labels[value.toInt()], style: TextStyle(fontSize: 12)),
+                          child: Text(labels[value.toInt()],
+                              style: TextStyle(fontSize: 12)),
                         );
                       },
                     ),
@@ -144,7 +163,8 @@ class _DashboardState extends State<Dashboard> {
     ];
   }
 
-  BarChartGroupData makeGroupData(int x, double y, Color color, {bool isHighlighted = false}) {
+  BarChartGroupData makeGroupData(int x, double y, Color color,
+      {bool isHighlighted = false}) {
     return BarChartGroupData(
       x: x,
       barRods: [
@@ -153,7 +173,8 @@ class _DashboardState extends State<Dashboard> {
           color: color,
           width: 16,
           borderRadius: BorderRadius.circular(4),
-          backDrawRodData: BackgroundBarChartRodData(show: true, toY: 70, color: Colors.grey.withOpacity(0.2)),
+          backDrawRodData: BackgroundBarChartRodData(
+              show: true, toY: 70, color: Colors.grey.withOpacity(0.2)),
         ),
       ],
       showingTooltipIndicators: isHighlighted ? [0] : [],
@@ -164,25 +185,31 @@ class _DashboardState extends State<Dashboard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Transaction History", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        Text("Transaction History",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10)],
+            boxShadow: [
+              BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10)
+            ],
           ),
           child: ListTile(
             leading: CircleAvatar(
-              backgroundImage: AssetImage('assets/user_avatar.png'),
+              backgroundImage: AssetImage('assets/logo.png'),
             ),
             title: Text("Kiran Krishnan"),
             subtitle: Text("kiranbalakrishnan97@gmail.com"),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("₹5000", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
-                Text("Jan 22, 2025, 10:00am", style: TextStyle(color: Colors.grey, fontSize: 12)),
+                Text("₹5000",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black)),
+                Text("Jan 22, 2025, 10:00am",
+                    style: TextStyle(color: Colors.grey, fontSize: 12)),
               ],
             ),
           ),

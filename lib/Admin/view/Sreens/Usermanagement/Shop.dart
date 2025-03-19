@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
+import '../../../../Widgets/Constants/Loading.dart';
 import '../../../Model/User_Management/shop_model.dart';
 import 'Shop/Accepted_shop_page.dart';
 import 'Shop/Admin_Rejected_shop.dart';
 import 'Shop/Registered_shop.dart';
-
+late TabController _tabController;
 class AdminShop extends StatefulWidget {
   const AdminShop({super.key});
 
@@ -13,14 +18,14 @@ class AdminShop extends StatefulWidget {
 
 class _AdminShopState extends State<AdminShop>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+
   Map<int, bool> selectedEdit = {};
   Map<int, bool> selectedDelete = {};
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this); // FIXED: length = 4
+    _tabController = TabController(length: 3, vsync: this); // FIXED: length = 4
   }
 
   @override
@@ -41,8 +46,8 @@ class _AdminShopState extends State<AdminShop>
                   children: const [
                     Text("Hello,", style: TextStyle(fontSize: 22)),
                     Text("Good Morning Team!",
-                        style:
-                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold)),
                     SizedBox(height: 5),
                     Text(
                       "Unlock insights, track growth, and manage performance effortlessly.",
@@ -58,7 +63,13 @@ class _AdminShopState extends State<AdminShop>
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(width: 0.5, color: Colors.grey)),
-                      child: const TextField(
+                      child: TextField(
+                        onChanged: (value) {
+                          context.read<ShopAuthBloc>().add(
+                              FetchShopesDetailsEvent(
+                                  searchQuery: value,
+                                  status: "1")); // Pass search query
+                        },
                         decoration: InputDecoration(
                           hintText: 'Search',
                           prefixIcon: Icon(Icons.search, color: Colors.black),
@@ -78,7 +89,7 @@ class _AdminShopState extends State<AdminShop>
                         children: const [
                           CircleAvatar(
                             backgroundImage:
-                            AssetImage('assets/profile/girl.png'),
+                                AssetImage('assets/profile/girl.png'),
                           ),
                           SizedBox(width: 10),
                           Text("Admin",
@@ -103,7 +114,6 @@ class _AdminShopState extends State<AdminShop>
               unselectedLabelColor: Colors.grey,
               tabs: const [
                 Tab(text: "All Shop"),
-                Tab(text: "Registered Shop"),
                 Tab(text: "Accepted Shop"),
                 Tab(text: "Rejected Shop"),
               ],
@@ -115,12 +125,12 @@ class _AdminShopState extends State<AdminShop>
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                physics: const BouncingScrollPhysics(), // FIXED: Ensures smooth scrolling
+                physics:
+                    const BouncingScrollPhysics(), // FIXED: Ensures smooth scrolling
                 children: [
                   _buildShopTable("All Shops"),
-                  RegisteredShop(),
-                  AdminAcceptedShop(),
-                  AdminRejectedShop(),
+                  AdminAcceptedwrapper(),
+                  AdminRejectedtedwrapper(),
                 ],
               ),
             ),
@@ -132,54 +142,78 @@ class _AdminShopState extends State<AdminShop>
 
   // Function to build shop tables dynamically
   Widget _buildShopTable(String title) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
-        child: DataTable(
-          dataRowMaxHeight: 100,
-          decoration: const BoxDecoration(color: Colors.white),
-          columns: [
-            _buildColumn('SL NO'),
-            _buildColumn('Owner Details'),
-            _buildColumn('Shop Name'),
-            _buildColumn('Floor'),
-            _buildColumn('Edit'),
-            _buildColumn('Delete'),
-          ],
-          rows: List.generate(
-            shops.length,
+    return BlocConsumer<ShopAuthBloc, ShopAuthState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        if (state is ShopgetLoading) {
+          return Center(child: Loading_Widget());
+        } else if (state is Shopesfailerror) {
+          return Text(state.error.toString());
+        } else if (state is Shopesloaded) {
+          if (state.Shopes.isEmpty) {
+            // Return "No data found" if txhe list is empty
+            return Center(
+              child: Text(
+                "No data found",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            );
+          }
+          return ConstrainedBox(
+            constraints:
+                BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+            child: DataTable(
+              dataRowMaxHeight: 100,
+              decoration: const BoxDecoration(color: Colors.white),
+              columns: [
+                _buildColumn('SL NO'),
+                _buildColumn('Owner Details'),
+                _buildColumn('Shop Name'),
+                _buildColumn('Floor'),
+                _buildColumn('Edit'),
+                _buildColumn('Delete'),
+              ],
+              rows: List.generate(
+                state.Shopes.length,
                 (index) {
-              final shop = shops[index];
-              return DataRow(
-                cells: [
-                  DataCell(Text((index + 1).toString(),
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          shop.Owner_Name,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
+                  final shop = state.Shopes[index];
+                  return DataRow(
+                    cells: [
+                      DataCell(Text((index + 1).toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold))),
+                      DataCell(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              shop.Ownername.toString(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(shop.phone.toString(),
+                                overflow: TextOverflow.ellipsis),
+                            Text(shop.email.toString(),
+                                overflow: TextOverflow.ellipsis),
+                          ],
                         ),
-                        Text(shop.Phone_Number, overflow: TextOverflow.ellipsis),
-                        Text(shop.Email_ID, overflow: TextOverflow.ellipsis),
-                      ],
-                    ),
-                  ),
-                  DataCell(Text(shop.Shop_Name)),
-                  DataCell(Text(shop.Floor)),
-                  DataCell(_buildToggleButton("Edit", index, true)),
-                  DataCell(_buildToggleButton("Delete", index, false)),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
+                      ),
+                      DataCell(Text(shop.Shopname.toString())),
+                      DataCell(Text(shop.Selectfloor.toString())),
+                      DataCell(_buildToggleButton("Edit", index, true)),
+                      DataCell(_buildToggleButton("Delete", index, false)),
+                    ],
+                  );
+                },
+              ),
+            ),
+          );
+        }
+        return SizedBox();
+      },
     );
   }
 
@@ -213,7 +247,8 @@ class _AdminShopState extends State<AdminShop>
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
-                side: BorderSide(color: isSelected ? Colors.blue : Colors.black),
+                side:
+                    BorderSide(color: isSelected ? Colors.blue : Colors.black),
               ),
             ),
           ),
@@ -227,9 +262,11 @@ class _AdminShopState extends State<AdminShop>
               }
             });
           },
-          child: SizedBox(width: 90, height: 50, child: Center(child: Text(text)))),
+          child: SizedBox(
+              width: 90, height: 50, child: Center(child: Text(text)))),
     );
   }
+
   void _showDeleteDialog(int index) {
     showDialog(
       context: context,
@@ -256,5 +293,4 @@ class _AdminShopState extends State<AdminShop>
       },
     );
   }
-
 }

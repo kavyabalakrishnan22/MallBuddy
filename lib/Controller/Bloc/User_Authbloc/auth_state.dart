@@ -5,6 +5,7 @@ sealed class AuthState {}
 
 final class AuthInitial extends AuthState {}
 
+// authentication
 class Authloading extends AuthState {}
 
 class Authenticated extends AuthState {
@@ -19,7 +20,8 @@ class AuthenticatedError extends AuthState {
 
   AuthenticatedError({required this.message});
 }
-//
+
+//user get by id
 final class UserByidLoaded extends AuthState {
   final UserModel Userdata;
   UserByidLoaded(this.Userdata);
@@ -30,4 +32,23 @@ class loading extends AuthState {}
 class Usererror extends AuthState {
   String error;
   Usererror({required this.error});
+}
+
+//  get users..............
+final class UsersLoading extends AuthState {}
+
+final class UsersGetSuccess extends AuthState {}
+
+final class Usersfailerror extends AuthState {
+  final String error;
+
+  Usersfailerror(this.error);
+}
+
+class Usersloaded extends AuthState {
+  final List<UserModel> Users;
+
+  Usersloaded(
+    this.Users,
+  );
 }
