@@ -12,7 +12,7 @@ class AdminAcceptedwrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<ShopAuthBloc>(
       create: (context) => ShopAuthBloc()
-        ..add(FetchShopesDetailsEvent(searchQuery: null, status: "0")),
+        ..add(FetchShopesDetailsEvent(searchQuery: null, status: "1")),
       child: AdminAcceptedShop(),
     );
   }
@@ -33,7 +33,35 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
       //   // title: const Text("Registered Shops"),
       //   // backgroundColor: Colors.blue,
       // ),
-      body: _buildShopTable("Registered Shops"),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: 250,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(width: 0.5, color: Colors.grey)),
+                child: TextField(
+                  onChanged: (value) {
+                    context.read<ShopAuthBloc>().add(FetchShopesDetailsEvent(
+                        searchQuery: value, status: "1")); // Pass search query
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    prefixIcon: Icon(Icons.search, color: Colors.black),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+            ],
+          ),
+          _buildShopTable("Registered Shops"),
+        ],
+      ),
     );
   }
 
@@ -58,57 +86,70 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
               ),
             );
           }
-          return ConstrainedBox(
-            constraints:
-                BoxConstraints(minWidth: MediaQuery.of(context).size.width),
-            child: DataTable(
-              dataRowMaxHeight: 100,
-              decoration: const BoxDecoration(color: Colors.white),
-              columns: [
-                _buildColumn('SL NO'),
-                _buildColumn('Owner Details'),
-                _buildColumn('Shop Name'),
-                _buildColumn('Floor'),
-                _buildColumn('Edit'),
-                _buildColumn('Delete'),
-              ],
-              rows: List.generate(
-                state.Shopes.length,
-                (index) {
-                  final shop = state.Shopes[index];
-                  return DataRow(
-                    cells: [
-                      DataCell(Text((index + 1).toString(),
-                          style: const TextStyle(fontWeight: FontWeight.bold))),
-                      DataCell(
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              shop.Ownername.toString(),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis,
+          return Column(
+            children: [
+              ConstrainedBox(
+                constraints:
+                    BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+                child: DataTable(
+                  dataRowMaxHeight: 100,
+                  decoration: const BoxDecoration(color: Colors.white),
+                  columns: [
+                    _buildColumn('SL NO'),
+                    _buildColumn('Owner Details'),
+                    _buildColumn('Shop Name'),
+                    _buildColumn('Floor'),
+                    _buildColumn('Edit'),
+                    _buildColumn('Delete'),
+                  ],
+                  rows: List.generate(
+                    state.Shopes.length,
+                    (index) {
+                      final shop = state.Shopes[index];
+                      return DataRow(
+                        cells: [
+                          DataCell(Text((index + 1).toString(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold))),
+                          DataCell(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  shop.Ownername.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(shop.phone.toString(),
+                                    overflow: TextOverflow.ellipsis),
+                                Text(shop.email.toString(),
+                                    overflow: TextOverflow.ellipsis),
+                              ],
                             ),
-                            Text(shop.phone.toString(),
-                                overflow: TextOverflow.ellipsis),
-                            Text(shop.email.toString(),
-                                overflow: TextOverflow.ellipsis),
-                          ],
-                        ),
-                      ),
-                      DataCell(Text(shop.Shopname.toString())),
-                      DataCell(Text(shop.Selectfloor.toString())),
-                      DataCell(IconButton(
-                          onPressed: () {}, icon: Icon(Icons.delete))),
-                      DataCell(IconButton(
-                          onPressed: () {}, icon: Icon(Icons.delete))),
-                    ],
-                  );
-                },
+                          ),
+                          DataCell(Text(shop.Shopname.toString())),
+                          DataCell(Text(shop.Selectfloor.toString())),
+                          DataCell(IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.done,
+                                color: Colors.green,
+                              ))),
+                          DataCell(IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.close,
+                                color: Colors.red,
+                              ))),
+                        ],
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
+            ],
           );
         }
         return SizedBox();

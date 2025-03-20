@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
+import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../../Widgets/Constants/Loading.dart';
-import '../../../../Model/User_Management/shop_model.dart';
+
+class PegisterdShopwrapper extends StatelessWidget {
+  const PegisterdShopwrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<ShopAuthBloc>(
+      create: (context) => ShopAuthBloc()
+        ..add(FetchShopesDetailsEvent(searchQuery: null, status: "0")),
+      child: RegisteredShop(),
+    );
+  }
+}
 
 class RegisteredShop extends StatefulWidget {
   const RegisteredShop({super.key});
@@ -20,7 +33,35 @@ class _RegisteredShopState extends State<RegisteredShop> {
       //   // title: const Text("Registered Shops"),
       //   // backgroundColor: Colors.blue,
       // ),
-      body: _buildShopTable("Registered Shops"),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: 250,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(width: 0.5, color: Colors.grey)),
+                child: TextField(
+                  onChanged: (value) {
+                    context.read<ShopAuthBloc>().add(FetchShopesDetailsEvent(
+                        searchQuery: value, status: "0")); // Pass search query
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    prefixIcon: Icon(Icons.search, color: Colors.black),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+            ],
+          ),
+          _buildShopTable("Registered Shops"),
+        ],
+      ),
     );
   }
 
@@ -56,8 +97,8 @@ class _RegisteredShopState extends State<RegisteredShop> {
                 _buildColumn('Owner Details'),
                 _buildColumn('Shop Name'),
                 _buildColumn('Floor'),
-                _buildColumn('Edit'),
-                _buildColumn('Delete'),
+                _buildColumn('Accept'),
+                _buildColumn('Reject'),
               ],
               rows: List.generate(
                 state.Shopes.length,
@@ -88,9 +129,17 @@ class _RegisteredShopState extends State<RegisteredShop> {
                       DataCell(Text(shop.Shopname.toString())),
                       DataCell(Text(shop.Selectfloor.toString())),
                       DataCell(IconButton(
-                          onPressed: () {}, icon: Icon(Icons.delete))),
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.done,
+                            color: Colors.green,
+                          ))),
                       DataCell(IconButton(
-                          onPressed: () {}, icon: Icon(Icons.delete))),
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.red,
+                          ))),
                     ],
                   );
                 },
@@ -116,24 +165,5 @@ class _RegisteredShopState extends State<RegisteredShop> {
     );
   }
 
-  Widget _buildOutlinedButton(
-      String text, Color textColor, Color borderColor, VoidCallback onPressed) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: textColor, // Text color
-          side: BorderSide(color: borderColor), // Border color
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          padding: const EdgeInsets.symmetric(
-              horizontal: 20, vertical: 12), // Button padding
-        ),
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
+
 }

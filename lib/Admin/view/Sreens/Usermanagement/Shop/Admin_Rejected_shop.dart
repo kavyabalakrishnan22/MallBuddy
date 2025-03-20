@@ -17,6 +17,7 @@ class AdminRejectedtedwrapper extends StatelessWidget {
     );
   }
 }
+
 class AdminRejectedShop extends StatefulWidget {
   const AdminRejectedShop({super.key});
 
@@ -32,7 +33,35 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
       //   // title: const Text("Registered Shops"),
       //   // backgroundColor: Colors.blue,
       // ),
-      body: _buildShopTable("Registered Shops"),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: 250,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(width: 0.5, color: Colors.grey)),
+                child: TextField(
+                  onChanged: (value) {
+                    context.read<ShopAuthBloc>().add(FetchShopesDetailsEvent(
+                        searchQuery: value, status: "2")); // Pass search query
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    prefixIcon: Icon(Icons.search, color: Colors.black),
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+            ],
+          ),
+          _buildShopTable("Registered Shops"),
+        ],
+      ),
     );
   }
 
@@ -146,5 +175,4 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
 //     ),
 //   );
 // }
-
 }

@@ -104,19 +104,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         Query query = driversCollection;
         QuerySnapshot snapshot = await query.get();
 
-        List<UserModel> drivers = snapshot.docs.map((doc) {
+        List<UserModel> userss = snapshot.docs.map((doc) {
           return UserModel.fromMap(doc.data() as Map<String, dynamic>);
         }).toList();
 
         if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
-          drivers = drivers.where((driver) {
+          userss = userss.where((driver) {
             return driver.name!
                 .toLowerCase()
                 .contains(event.searchQuery!.toLowerCase());
           }).toList();
         }
 
-        emit(Usersloaded(drivers));
+        emit(Usersloaded(userss));
       } catch (e) {
         emit(Usersfailerror(e.toString()));
       }
