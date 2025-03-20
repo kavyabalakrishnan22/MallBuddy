@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
+import '../../../../../Widgets/Constants/Loading.dart';
 import '../../../../Model/User_Management/Buddy_model.dart';
 import '../../../../Model/User_Management/shop_model.dart';
+
+class RegisterdBuddywrapper extends StatelessWidget {
+  const RegisterdBuddywrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<BuddyAuthBloc>(
+      create: (context) => BuddyAuthBloc()
+        ..add(FetchBuddyDetailsEvent(searchQuery: null, status: "0")),
+      child: RegisteredBuddy(),
+    );
+  }
+}
 
 class RegisteredBuddy extends StatefulWidget {
   const RegisteredBuddy({super.key});
@@ -13,16 +31,36 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   // title: const Text("Registered Shops"),
-      //   // backgroundColor: Colors.blue,
-      // ),
-      body: _buildShopTable("Registered Shops"),
+      body: Column(
+        children: [
+          // _buildFloorSelection(),
+          _buildShopTable("Registered Shops"),
+        ],
+      ),
     );
   }
 
   // Function to build shop tables for each tab
   Widget _buildShopTable(String title) {
+    return BlocConsumer<BuddyAuthBloc, BuddyAuthState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          if (state is BuddygetLoading) {
+            return Center(child: Loading_Widget());
+          } else if (state is Buddyfailerror) {
+            return Text(state.error.toString());
+          } else if (state is Buddyloaded) {
+            if (state.Buddys.isEmpty) {
+              // Return "No data found" if txhe list is empty
+              return Center(
+                child: Text(
+                  "No data found",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              );
+            }
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: ConstrainedBox(
@@ -38,7 +76,8 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
             _buildColumn('Gender'),
             // _buildColumn('Phone Number'),
             // _buildColumn('Email'),
-            _buildColumn('Accept/Reject'),
+            _buildColumn('Accept'),
+            _buildColumn('Reject'),
           ],
           rows: List.generate(
             Buddys.length,
@@ -64,15 +103,23 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                   // DataCell(Text(shop.Email_ID)),
                   DataCell(Row(
                     children: [
-                      _buildOutlinedButton("Accept", Colors.green, Colors.green, () {
-                        print("Accept button pressed!");
-                      }),
-                      const SizedBox(width: 10),
-                      _buildOutlinedButton("Reject", Colors.red, Colors.red, () {
-                        print("Reject button pressed!");
-                      }),
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.done,
+                            color: Colors.green,
+                          )),
                     ],
-                  )),
+                  )),DataCell(Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.red,
+                          )),
+                    ],
+                  ))
 
                 ],
               );
@@ -81,6 +128,10 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
         ),
       ),
     );
+          }
+          return SizedBox();
+  },
+);
   }
 
   DataColumn _buildColumn(String title) {

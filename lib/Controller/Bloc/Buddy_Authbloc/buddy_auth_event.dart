@@ -30,7 +30,12 @@ class BuddySigOutEvent extends BuddyAuthEvent {}
 
 class FetchBuddyDetailsById extends BuddyAuthEvent {}
 
+//fetch all shop
 
-// get all user
-
-
+class FetchBuddyDetailsEvent extends BuddyAuthEvent {
+  final String? searchQuery;
+  final String? status;
+  final String? floor;
+  FetchBuddyDetailsEvent(
+      {required this.searchQuery, required this.status, this.floor});
+}

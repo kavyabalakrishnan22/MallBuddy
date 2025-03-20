@@ -177,5 +177,36 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
         }
       },
     );
+
+    //   get all shopes
+
+    on<FetchBuddyDetailsEvent>((event, emit) async {
+      emit(BuddygetLoading());
+      try {
+        CollectionReference BuddyCollection =
+            FirebaseFirestore.instance.collection('MallBuddyRiders');
+
+        Query query = BuddyCollection;
+        query = query.where("status", isEqualTo: event.floor);
+
+        QuerySnapshot snapshot = await query.get();
+
+        List<BuddyModel> Buddys = snapshot.docs.map((doc) {
+          return BuddyModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+
+        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+          Buddys = Buddys.where((driver) {
+            return driver.name!
+                .toLowerCase()
+                .contains(event.searchQuery!.toLowerCase());
+          }).toList();
+        }
+
+        emit(Buddyloaded(Buddys));
+      } catch (e) {
+        emit(Buddyfailerror(e.toString()));
+      }
+    });
   }
 }

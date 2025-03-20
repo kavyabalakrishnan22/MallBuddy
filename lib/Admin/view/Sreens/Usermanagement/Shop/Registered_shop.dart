@@ -164,6 +164,4 @@ class _RegisteredShopState extends State<RegisteredShop> {
       ),
     );
   }
-
-
 }

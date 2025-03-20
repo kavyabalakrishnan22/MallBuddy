@@ -1,6 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
+import '../../../../../Widgets/Constants/Loading.dart';
 import '../../../../Model/User_Management/Buddy_model.dart';
 import '../../../../Model/User_Management/shop_model.dart';
+
+
+class BuddyRejectedtedwrapper extends StatelessWidget {
+  const BuddyRejectedtedwrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<BuddyAuthBloc>(
+      create: (context) => BuddyAuthBloc()
+        ..add(FetchBuddyDetailsEvent(searchQuery: null, status: "2")),
+      child: AdminRejectedBuddy(),
+    );
+  }
+}
 
 class AdminRejectedBuddy extends StatefulWidget {
   const AdminRejectedBuddy({super.key});
@@ -23,6 +42,25 @@ class _AdminRejectedBuddyState extends State<AdminRejectedBuddy> {
 
   // Function to build shop tables for each tab
   Widget _buildShopTable(String title) {
+    return BlocConsumer<BuddyAuthBloc, BuddyAuthState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          if (state is BuddygetLoading) {
+            return Center(child: Loading_Widget());
+          } else if (state is Buddyfailerror) {
+            return Text(state.error.toString());
+          } else if (state is Buddyloaded) {
+            if (state.Buddys.isEmpty) {
+              // Return "No data found" if txhe list is empty
+              return Center(
+                child: Text(
+                  "No data found",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              );
+            }
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: ConstrainedBox(
@@ -98,6 +136,10 @@ class _AdminRejectedBuddyState extends State<AdminRejectedBuddy> {
         ),
       ),
     );
+          }
+          return SizedBox();
+  },
+);
   }
 
   DataColumn _buildColumn(String title) {

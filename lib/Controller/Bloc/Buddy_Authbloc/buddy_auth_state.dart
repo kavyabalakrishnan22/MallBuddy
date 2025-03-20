@@ -36,3 +36,23 @@ class Buddyerror extends BuddyAuthState {
   String error;
   Buddyerror({required this.error});
 }
+
+//Get all Buddy
+
+final class BuddygetLoading extends BuddyAuthState {}
+
+final class BuddyGetSuccess extends BuddyAuthState {}
+
+final class Buddyfailerror extends BuddyAuthState {
+  final String error;
+
+  Buddyfailerror(this.error);
+}
+
+class Buddyloaded extends BuddyAuthState {
+  final List<BuddyModel> Buddys;
+
+  Buddyloaded(
+      this.Buddys,
+      );
+}

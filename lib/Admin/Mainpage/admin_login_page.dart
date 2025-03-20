@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
+import '../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
+import '../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
@@ -38,6 +40,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<ShopAuthBloc>(
           create: (context) => ShopAuthBloc()
             ..add(FetchShopesDetailsEvent(searchQuery: null, status: "0")),
+        ),BlocProvider<BuddyAuthBloc>(
+          create: (context) => BuddyAuthBloc()
+            ..add(FetchBuddyDetailsEvent(searchQuery: null, status: "0")),
         ),
       ],
       child: MaterialApp(

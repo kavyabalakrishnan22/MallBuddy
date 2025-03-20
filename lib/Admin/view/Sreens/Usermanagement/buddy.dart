@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
+import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
+import '../../../../Widgets/Constants/Loading.dart';
 import '../../../Model/User_Management/Buddy_model.dart';
 import '../../../Model/User_Management/Customer_model.dart';
-import 'Buudy/BuddyAdd_rider.dart';
+import 'Buudy/BuddyAdd_rider.md';
 import 'Buudy/Accepeted_Buddy.dart';
 import 'Buudy/Registered_Buddy.dart';
 import 'Buudy/Rejected_Buddy.dart';
@@ -16,14 +21,14 @@ class AdminBuddy extends StatefulWidget {
 class _AdminBuddyState extends State<AdminBuddy>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int selectedFloor = 0;
+  // int selectedFloor = 0;
   Map<int, bool> selectedEdit = {};
   Map<int, bool> selectedDelete = {};
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -38,17 +43,13 @@ class _AdminBuddyState extends State<AdminBuddy>
             _buildHeader(),
             const SizedBox(height: 20),
             _buildTabBar(),
-            const SizedBox(height: 20),
-            _buildFloorSelection(),
-            const SizedBox(height: 20),
             Expanded(
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  _buildShopTable("All Buddy"),
-                  RegisteredBuddy(),
-                  AdminAcceptedShop(),
-                  AdminRejectedBuddy(),
+                  RegisterdBuddywrapper(),
+                  AdminAcceptedwrapper(),
+                  BuddyRejectedtedwrapper(),
                 ],
               ),
             ),
@@ -87,7 +88,6 @@ class _AdminBuddyState extends State<AdminBuddy>
       indicatorColor: Colors.blue,
       isScrollable: true,
       tabs: const [
-        Tab(text: "All Buddy"),
         Tab(text: "Registered Buddy"),
         Tab(text: "Accepted Buddy"),
         Tab(text: "Rejected Buddy"),
@@ -95,129 +95,83 @@ class _AdminBuddyState extends State<AdminBuddy>
     );
   }
 
-  Widget _buildFloorSelection() {
-    List<String> floors = [
-      "Ground Floor",
-      "First Floor",
-      "Second Floor",
-      "Third Floor",
-      "Fourth Floor"
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(floors.length, (index) {
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedFloor = index;
-                });
-              },
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                decoration: BoxDecoration(
-                  color: selectedFloor == index ? Colors.blue : Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.black),
-                ),
-                child: Text(
-                  floors[index],
-                  style: TextStyle(
-                    color: selectedFloor == index ? Colors.white : Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+  Widget _buildShopTable(String title) {
+    return BlocConsumer<BuddyAuthBloc, BuddyAuthState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        if (state is BuddygetLoading) {
+          return Center(child: Loading_Widget());
+        } else if (state is Buddyfailerror) {
+          return Text(state.error.toString());
+        } else if (state is Buddyloaded) {
+          if (state.Buddys.isEmpty) {
+            // Return "No data found" if txhe list is empty
+            return Center(
+              child: Text(
+                "No data found",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             );
-          }),
-        ),
-        // const SizedBox(height: 16),
-        // Align(
-        //   alignment: Alignment.centerRight,
-        //   child: ElevatedButton.icon(
-        //     onPressed: _onAddPressed,
-        //     style: ElevatedButton.styleFrom(
-        //       backgroundColor: Colors.blue,
-        //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        //     ),
-        //     icon: const Icon(Icons.add, color: Colors.white),
-        //     label: const Text("Add", style: TextStyle(fontSize: 16, color: Colors.white)),
-        //   ),
-        // ),
-      ],
-    );
-  }
-
-  void _onAddPressed() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AdminAddRiderPage()),
-    );
-  }
-
-  Widget _buildShopTable(String title) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: ConstrainedBox(
-            constraints:
-                BoxConstraints(minWidth: MediaQuery.of(context).size.width),
-            child: DataTable(
-              dataRowMaxHeight: 80,
-              decoration: const BoxDecoration(color: Colors.white),
-              columns: [
-                _buildColumn('SL NO'),
-                _buildColumn('Buddy ID'),
-                _buildColumn('Buddy Details'),
-                _buildColumn('Edit'),
-                _buildColumn('Delete'),
-              ],
-              dividerThickness: 4,
-              rows: List.generate(
-                Buddys.length,
-                (index) {
-                  final Buddy = Buddys[index];
-                  return DataRow(
-                    cells: [
-                      DataCell(Text((index + 1).toString(),
-                          style: const TextStyle(fontWeight: FontWeight.bold))),
-                      DataCell(Text(Buddy.Rider_ID,
-                          overflow: TextOverflow.ellipsis)),
-                      DataCell(
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(Buddy.Rider_Name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.ellipsis),
-                            Text(Buddy.Gender,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.ellipsis),
-                            Text(Buddy.Phone_Number,
-                                overflow: TextOverflow.ellipsis),
-                            Text(Buddy.Email, overflow: TextOverflow.ellipsis),
-                          ],
-                        ),
-                      ),
-                      DataCell(_buildToggleButton("Edit", index, true)),
-                      DataCell(_buildToggleButton("Delete", index, false)),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
-        ),
-      ],
+          }
+          // return SingleChildScrollView(
+          //       scrollDirection: Axis.horizontal,
+          //       child: ConstrainedBox(
+          //         constraints:
+          //             BoxConstraints(minWidth: MediaQuery.of(context).size.width),
+          //         child: DataTable(
+          //           dataRowMaxHeight: 80,
+          //           decoration: const BoxDecoration(color: Colors.white),
+          //           columns: [
+          //             _buildColumn('SL NO'),
+          //             _buildColumn('Buddy ID'),
+          //             _buildColumn('Buddy Details'),
+          //             _buildColumn('Edit'),
+          //             _buildColumn('Delete'),
+          //           ],
+          //           dividerThickness: 4,
+          //           rows: List.generate(
+          //             Buddys.length,
+          //             (index) {
+          //               final Buddy = Buddys[index];
+          //               return DataRow(
+          //                 cells: [
+          //                   DataCell(Text((index + 1).toString(),
+          //                       style: const TextStyle(fontWeight: FontWeight.bold))),
+          //                   DataCell(Text(Buddy.Rider_ID,
+          //                       overflow: TextOverflow.ellipsis)),
+          //                   DataCell(
+          //                     Column(
+          //                       mainAxisAlignment: MainAxisAlignment.center,
+          //                       crossAxisAlignment: CrossAxisAlignment.start,
+          //                       children: [
+          //                         Text(Buddy.Rider_Name,
+          //                             style: const TextStyle(
+          //                                 fontWeight: FontWeight.bold),
+          //                             overflow: TextOverflow.ellipsis),
+          //                         Text(Buddy.Gender,
+          //                             style: const TextStyle(
+          //                                 fontWeight: FontWeight.bold),
+          //                             overflow: TextOverflow.ellipsis),
+          //                         Text(Buddy.Phone_Number,
+          //                             overflow: TextOverflow.ellipsis),
+          //                         Text(Buddy.Email, overflow: TextOverflow.ellipsis),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                   DataCell(_buildToggleButton("Edit", index, true)),
+          //                   DataCell(_buildToggleButton("Delete", index, false)),
+          //                 ],
+          //               );
+          //             },
+          //           ),
+          //         ),
+          //       ),
+          //     );
+        }
+        return SizedBox();
+      },
     );
   }
 

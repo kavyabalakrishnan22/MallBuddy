@@ -58,26 +58,6 @@ class _AdminShopState extends State<AdminShop>
                 ),
                 Row(
                   children: [
-                    // Container(
-                    //   width: 200,
-                    //   decoration: BoxDecoration(
-                    //       color: Colors.white,
-                    //       borderRadius: BorderRadius.circular(20),
-                    //       border: Border.all(width: 0.5, color: Colors.grey)),
-                    //   child: TextField(
-                    //     onChanged: (value) {
-                    //       context.read<ShopAuthBloc>().add(
-                    //           FetchShopesDetailsEvent(
-                    //               searchQuery: value,
-                    //               status: "1")); // Pass search query
-                    //     },
-                    //     decoration: InputDecoration(
-                    //       hintText: 'Search',
-                    //       prefixIcon: Icon(Icons.search, color: Colors.black),
-                    //       border: InputBorder.none,
-                    //     ),
-                    //   ),
-                    // ),
                     const SizedBox(width: 20),
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -138,35 +118,6 @@ class _AdminShopState extends State<AdminShop>
           ],
         ),
       ),
-    );
-  }
-
-  // Function to build shop tables dynamically
-
-  void _showDeleteDialog(int index) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Confirm Delete"),
-          content: const Text("Are you sure you want to delete this shop?"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  shops.removeAt(index);
-                });
-                Navigator.of(context).pop();
-              },
-              child: const Text("Delete", style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        );
-      },
     );
   }
 }

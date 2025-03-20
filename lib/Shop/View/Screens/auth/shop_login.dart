@@ -103,6 +103,12 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
                                 color: Colors.black,
                               ),
                             ),
+                            const SizedBox(height: 10),
+                            Text(
+                              "Shop Login",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
+                            ),
                             const SizedBox(height: 40),
 
                             // Email Field with Validation
@@ -155,7 +161,7 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
 
                             // Login Button
                             SizedBox(
-                                height: 100,
+                                height: 70,
                                 child: Column(
                                   children: [
                                     state is ShopAuthloading
@@ -179,7 +185,7 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
                                 if (_formKey.currentState!.validate()) {
                                   // If form is valid, send login event
                                   final ShopauthBloc =
-                                  BlocProvider.of<ShopAuthBloc>(context);
+                                      BlocProvider.of<ShopAuthBloc>(context);
                                   ShopauthBloc.add(ShopLoginEvent(
                                     Email: _emailController.text,
                                     Password: _passwordController.text,
@@ -210,7 +216,7 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
                               ),
                             ),
 
-                            const SizedBox(height: 50),
+                            const SizedBox(height: 40),
 
                             // Sign Up Section
                             Row(
@@ -231,7 +237,7 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                        const Shopsignupwrapper(),
+                                            const Shopsignupwrapper(),
                                       ),
                                     );
                                   },

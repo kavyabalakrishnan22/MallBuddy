@@ -197,15 +197,35 @@ class ShopHomeScreen extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10)),
                     child:
-                        Image.asset("assets/ShopBottomnav/todayearnings.png")),
+                        Image.asset("assets/ShopBottomnav/todayearning.png")),
+                const SizedBox(
+                  height: 20,
+                ),
                 Text(
-                  "Today Earnings",
+                  "Total Earnings",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
-                )
-              ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 45,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(120),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "45000",
+                      style: TextStyle(color: Colors.black,fontSize:18,fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )              ],
             ),
             // child: earningsCard("Today Earnings", "₹1000")
           ),
@@ -226,7 +246,10 @@ class ShopHomeScreen extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10)),
                     child:
-                        Image.asset("assets/ShopBottomnav/totalearnings.png")),
+                        Image.asset("assets/ShopBottomnav/totalearning.png")),
+                const SizedBox(
+                  height: 20,
+                ),
                 Text(
                   "Total Earnings",
                   style: TextStyle(
@@ -234,12 +257,23 @@ class ShopHomeScreen extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Container(
-                  height: 50,
+                  height: 45,
                   width: 100,
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(120),),child: Text("data",style: TextStyle(color: Colors.black),textAlign: TextAlign.center,),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(120),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "500000",
+                      style: TextStyle(color: Colors.black,fontSize:18,fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 )
               ],
             ),
