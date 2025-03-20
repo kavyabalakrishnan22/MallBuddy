@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
+import '../View/Screens/Home/Shop_ProfilePage.dart';
 import '../View/Screens/Home/shop_home_page.dart';
 import '../View/Screens/shop_active_delivery.dart';
 import '../View/Screens/shop_complete_delivery.dart';
@@ -38,9 +39,9 @@ class _ShopBottomNavBarExampleState extends State<ShopBottomNavBarExample> {
       email: '',
       contact: '',
     ),
-    ActiveDeliveryPage(),
-    CompleteDeliveryPage(),
-    ShopOrderhistory(),
+    // ActiveDeliveryPage(),
+    // CompleteDeliveryPage(),
+    Shopprofileavwrapper(),
   ];
 
   void _onItemTapped(int index) {
@@ -86,20 +87,20 @@ class _ShopBottomNavBarExampleState extends State<ShopBottomNavBarExample> {
                 'assets/ShopBottomnav/book.svg', _selectedIndex == 1),
             label: 'Book',
           ),
+          // BottomNavigationBarItem(
+          //   icon: _buildSvgIcon(
+          //       'assets/ShopBottomnav/active.svg', _selectedIndex == 2),
+          //   label: 'Active',
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: _buildSvgIcon(
+          //       'assets/ShopBottomnav/Completed.svg', _selectedIndex == 3),
+          //   label: 'Completed',
+          // ),
           BottomNavigationBarItem(
             icon: _buildSvgIcon(
-                'assets/ShopBottomnav/active.svg', _selectedIndex == 2),
-            label: 'Active',
-          ),
-          BottomNavigationBarItem(
-            icon: _buildSvgIcon(
-                'assets/ShopBottomnav/Completed.svg', _selectedIndex == 3),
-            label: 'Completed',
-          ),
-          BottomNavigationBarItem(
-            icon: _buildSvgIcon(
-                'assets/ShopBottomnav/status.svg', _selectedIndex == 4),
-            label: 'Status',
+                'assets/Bottomnav/iconamoon_profile-light.svg', _selectedIndex == 2),
+            label: 'Profile',
           ),
         ],
       ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Shop/View/Screens/auth/shop_signup_page.dart';
-
+import 'package:mall_bud/User/View/Screens/auth/User_signup_page.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
+import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
 import '../../../../Widgets/Constants/custom_field.dart';
@@ -15,26 +16,27 @@ class Shop_Loginwrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ShopAuthBloc(),
-      child: const ShopLoginPage(),
+      create: (context) => AuthBloc(),
+      child: ShoLoginPage(),
     );
   }
 }
 
-class ShopLoginPage extends StatefulWidget {
-  const ShopLoginPage({super.key});
+class ShoLoginPage extends StatefulWidget {
+  const ShoLoginPage({super.key});
 
   @override
-  State<ShopLoginPage> createState() => _ShopLoginPageState();
+  State<ShoLoginPage> createState() => _ShoLoginPageState();
 }
 
-class _ShopLoginPageState extends State<ShopLoginPage> {
+class _ShoLoginPageState extends State<ShoLoginPage> {
   bool rememberMe = false;
 
+  // Create controllers for email and password
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Form key for validation
+  // Create a global key for the form state
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -44,13 +46,11 @@ class _ShopLoginPageState extends State<ShopLoginPage> {
         if (state is ShopAuthenticated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/home',
-              (route) => false,
-            );
+                context, '/home', (route) => false);
           });
         }
         if (state is ShopAuthenticatedError) {
+          print("Failed");
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
@@ -60,7 +60,8 @@ class _ShopLoginPageState extends State<ShopLoginPage> {
         return Scaffold(
           backgroundColor: defaultBlue,
           body: SafeArea(
-            child: SingleChildScrollView(
+            child: Form(
+              key: _formKey, // Wrap with Form
               child: Column(
                 children: [
                   const SizedBox(height: 100),
@@ -78,96 +79,108 @@ class _ShopLoginPageState extends State<ShopLoginPage> {
                     ),
                   ),
                   const SizedBox(height: 50),
-                  Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(50),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          topRight: Radius.circular(50),
+                        ),
+                        color: Colors.white,
                       ),
-                      color: Colors.white,
-                    ),
-                    padding: const EdgeInsets.all(16.0),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 10),
-                          const Text(
-                            "Welcome to Shop!",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          const SizedBox(height: 40),
-
-                          // Email Field
-                          CustomTextForm(
-                            hintText: "Enter your email",
-                            controller: _emailController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
-                              }
-                              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                                  .hasMatch(value)) {
-                                return 'Please enter a valid email';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 30),
-
-                          // Password Field
-                          CustomTextForm(
-                            hintText: "Enter your password",
-                            controller: _passwordController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              if (value.length < 6) {
-                                return 'Password must be at least 6 characters';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 10),
-
-                          Row(
-                            children: [
-                              Checkbox(
-                                value: rememberMe,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    rememberMe = value ?? false;
-                                  });
-                                },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ListView(
+                          children: [
+                            const SizedBox(height: 10),
+                            const Text(
+                              "Welcome to Mall Buddy!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
                               ),
-                              const Text("Remember Me"),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
+                            ),
+                            const SizedBox(height: 40),
 
-                          // Login Button
-                          if (state is ShopAuthloading) ...[
-                            const Loading_Widget(),
-                          ] else
+                            // Email Field with Validation
+                            CustomTextForm(
+                              hintText: "Enter your email",
+                              controller: _emailController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your email';
+                                }
+                                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                    .hasMatch(value)) {
+                                  return 'Please enter a valid email';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 30),
+
+                            // Password Field with Validation
+                            CustomTextForm(
+                              hintText: "Enter your password",
+                              controller: _passwordController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                                if (value.length < 6) {
+                                  return 'Password must be at least 6 characters';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 10),
+
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: rememberMe,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      rememberMe = value ?? false;
+                                    });
+                                  },
+                                ),
+                                const Text("Remember Me"),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+
+                            // Login Button
+                            SizedBox(
+                                height: 100,
+                                child: Column(
+                                  children: [
+                                    state is ShopAuthloading
+                                        ? Text("Login...")
+                                        : Text(""),
+                                    state is ShopAuthloading
+                                        ? Loading_Widget()
+                                        : Text(""),
+                                  ],
+                                )),
                             MaterialButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               minWidth: MediaQuery.of(context).size.width,
                               height: 50,
-                              color: defaultBlue,
+                              color: state is Authloading
+                                  ? Colors.blue.shade50
+                                  : defaultBlue,
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  final shopAuthBloc =
-                                      BlocProvider.of<ShopAuthBloc>(context);
-                                  shopAuthBloc.add(ShopLoginEvent(
+                                  // If form is valid, send login event
+                                  final ShopauthBloc =
+                                  BlocProvider.of<ShopAuthBloc>(context);
+                                  ShopauthBloc.add(ShopLoginEvent(
                                     Email: _emailController.text,
                                     Password: _passwordController.text,
                                   ));
@@ -182,50 +195,62 @@ class _ShopLoginPageState extends State<ShopLoginPage> {
                                 ),
                               ),
                             ),
-                          const SizedBox(height: 20),
 
-                          // Forgot Password
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              "Forgot Password?",
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
+                            const SizedBox(height: 10),
+
+                            Padding(
+                              padding: const EdgeInsets.only(left: 220),
+                              child: Text(
+                                "Forgot Password?",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 30),
 
-                          // Sign Up
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("New to Mall Buddy?"),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const Shopsignupwrapper(),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  "Sign Up",
+                            const SizedBox(height: 50),
+
+                            // Sign Up Section
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "New to Mall Buddy?",
                                   style: TextStyle(
-                                    color: defaultBlue,
+                                    color: Colors.black87,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                const SizedBox(width: 10),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                        const Shopsignupwrapper(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                      color: defaultBlue,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),

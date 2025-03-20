@@ -177,6 +177,15 @@ class _AdminPageState extends State<AdminPage> {
                 ),
                 _buildMainListTile('Reports', const Dashboard(),
                     icon: Icons.event_note_outlined),
+                _buildMainListTile(
+                  'Logout',
+                  const Dashboard(),
+                  icon: Icons.logout_outlined,
+                  iconColor: Colors.red,
+                  textColor: Colors.red,
+
+                ),
+
               ],
             ),
           ),
@@ -249,7 +258,8 @@ class _AdminPageState extends State<AdminPage> {
     );
   }
 
-  Widget _buildMainListTile(String title, Widget page, {IconData? icon}) {
+  Widget _buildMainListTile(String title, Widget page, {IconData? icon,Color textColor = Colors.red,  // Added textColor parameter
+    Color iconColor = Colors.red,}) {
     return Container(
       // decoration: BoxDecoration(
       //   color: _selectedTile == title ? Colors.grey.shade50 : Colors.transparent,
