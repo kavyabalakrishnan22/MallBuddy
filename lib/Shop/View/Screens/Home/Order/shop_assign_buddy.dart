@@ -21,6 +21,7 @@ class AssignRiderWrapper extends StatelessWidget {
   final String vehicleColor;
   final String deliveryTime;
   final String pillar;
+  final String Userid;
 
   const AssignRiderWrapper({
     super.key,
@@ -34,6 +35,7 @@ class AssignRiderWrapper extends StatelessWidget {
     required this.vehicleColor,
     required this.deliveryTime,
     required this.pillar,
+    required this.Userid,
   });
 
   @override
@@ -52,6 +54,7 @@ class AssignRiderWrapper extends StatelessWidget {
         vehicleColor: vehicleColor,
         deliveryTime: deliveryTime,
         pillar: pillar,
+        Userid: Userid,
       ),
     );
   }
@@ -68,6 +71,7 @@ class AssignRidersPage extends StatelessWidget {
   final String vehicleColor;
   final String deliveryTime;
   final String pillar;
+  final String Userid;
 
   const AssignRidersPage({
     super.key,
@@ -81,6 +85,7 @@ class AssignRidersPage extends StatelessWidget {
     required this.vehicleColor,
     required this.deliveryTime,
     required this.pillar,
+    required this.Userid,
   });
 
   @override
@@ -170,31 +175,32 @@ class AssignRidersPage extends StatelessWidget {
                                                   MaterialPageRoute(
                                                     builder: (context) {
                                                       return ShopCheckoutPage(
-                                                        riderName: rider.name
-                                                            .toString(),
-                                                        riderContact: rider
-                                                            .phone
-                                                            .toString(),
-                                                        ownerName: ownername
-                                                            .toString(),
-                                                        useremail: ownerEmail,
-                                                        ownerContact:
-                                                            ownerContact,
-                                                        invoiceId: invoiceId,
-                                                        parkingFloor:
-                                                            parkingfloor,
-                                                        vehicleName:
-                                                            vehiclename,
-                                                        vehicleNumber:
-                                                            vehicleNumber,
-                                                        vehicleColor:
-                                                            vehicleColor,
-                                                        deliveryTime:
-                                                            deliveryTime,
-                                                        parkingPillar: pillar,
-                                                        ownerMobile:
-                                                            ownerContact,
-                                                      );
+                                                          riderName: rider.name
+                                                              .toString(),
+                                                          riderContact: rider
+                                                              .phone
+                                                              .toString(),
+                                                          ownerName: ownername
+                                                              .toString(),
+                                                          useremail: ownerEmail,
+                                                          ownerContact:
+                                                              ownerContact,
+                                                          invoiceId: invoiceId,
+                                                          parkingFloor:
+                                                              parkingfloor,
+                                                          vehicleName:
+                                                              vehiclename,
+                                                          vehicleNumber:
+                                                              vehicleNumber,
+                                                          vehicleColor:
+                                                              vehicleColor,
+                                                          deliveryTime:
+                                                              deliveryTime,
+                                                          parkingPillar: pillar,
+                                                          ownerMobile:
+                                                              ownerContact,
+                                                          Userid: Userid,
+                                                          Riderid: rider.uid.toString());
                                                     },
                                                   ),
                                                 );

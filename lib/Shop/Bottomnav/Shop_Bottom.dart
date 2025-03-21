@@ -34,11 +34,8 @@ class _ShopBottomNavBarExampleState extends State<ShopBottomNavBarExample> {
 
   final List<Widget> _screens = [
     ShopHomeScreen(),
-    InvoiceFormPage(
-      name: '',
-      email: '',
-      contact: '',
-    ),
+    ShopHomeScreen(),
+
     // ActiveDeliveryPage(),
     // CompleteDeliveryPage(),
     Shopprofileavwrapper(),
@@ -98,8 +95,8 @@ class _ShopBottomNavBarExampleState extends State<ShopBottomNavBarExample> {
           //   label: 'Completed',
           // ),
           BottomNavigationBarItem(
-            icon: _buildSvgIcon(
-                'assets/Bottomnav/iconamoon_profile-light.svg', _selectedIndex == 2),
+            icon: _buildSvgIcon('assets/Bottomnav/iconamoon_profile-light.svg',
+                _selectedIndex == 2),
             label: 'Profile',
           ),
         ],

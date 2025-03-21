@@ -19,7 +19,7 @@ import 'Shop/View/Screens/paymentsuccessful.dart';
 import 'Shop/View/Screens/shop_active_delivery.dart';
 import 'Shop/View/Screens/Home/Order/shop_assign_buddy.dart';
 
-import 'Shop/View/Screens/shop_payment_successfull.dart';
+import 'Shop/View/Screens/Home/Order/shop_payment_successfull.dart';
 import 'Shop/View/Screens/Home/Order/shop_select_parking.dart';
 import 'Shop/View/Screens/shoporderhistory.dart';
 import 'User/View/Screens/Bottomnav/Bottom.dart';

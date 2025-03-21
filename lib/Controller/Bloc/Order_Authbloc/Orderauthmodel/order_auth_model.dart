@@ -1,6 +1,6 @@
 class OrderModel {
   String? useremail;
-  String? uid;
+  String? userid;
   String? invoiceid;
   String? orderid;
   String? riderid;
@@ -8,7 +8,6 @@ class OrderModel {
   String? userphone;
   String? status;
   String? time;
-
   String? Shopname;
   String? Selectfloor;
   String? vehicle_name;
@@ -17,29 +16,28 @@ class OrderModel {
   String? Ridername;
   String? conatctrider;
 
-
-
-  OrderModel(
-      {this.useremail,
-        this.Ownername,
-        this.uid,
-        this.invoiceid,
-        this.userphone,
-        this.status,
-
-        this.Shopname,
-        this.Selectfloor,
-        this.vehicle_name,
-        this.vehicle_color,
-        this.vehicle_number,
-        this.Ridername,
-        this.conatctrider,
-      });
+  OrderModel({
+    this.useremail,
+    this.Ownername,
+    this.userid,
+    this.riderid,
+    this.invoiceid,
+    this.userphone,
+    this.status,
+    this.Shopname,
+    this.Selectfloor,
+    this.vehicle_name,
+    this.vehicle_color,
+    this.vehicle_number,
+    this.Ridername,
+    this.conatctrider,
+  });
 
   factory OrderModel.fromMap(Map<String, dynamic> data) {
     return OrderModel(
       useremail: data['useremail'],
-      uid: data['userId'],
+      userid: data['userId'],
+      riderid: data["riderid"],
       invoiceid: data['invoiceid'],
       Shopname: data['Shopname'],
       Ownername: data['Ownername'],
@@ -51,7 +49,6 @@ class OrderModel {
       vehicle_number: data['vehicle_number'],
       Ridername: data['Ridername'],
       conatctrider: data['Conatctrider'],
-
     );
   }
 }

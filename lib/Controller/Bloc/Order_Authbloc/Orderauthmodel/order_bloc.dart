@@ -21,7 +21,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
           await orderRef.set({
             "useremail": event.order.useremail,
-            "uid": event.order.uid,
+            "uid": event.order.userid,
             "invoiceid": event.order.invoiceid,
             "orderid": orderId,
             "riderid": event.order.riderid,
