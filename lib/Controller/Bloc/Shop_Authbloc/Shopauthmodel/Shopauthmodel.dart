@@ -37,6 +37,7 @@ class ShopModel {
       Image: data['imagepath'],
       Selectfloor: data['selecfloor'],
 
+
     );
   }
 }

@@ -15,13 +15,14 @@ class ShopCheckoutPage extends StatelessWidget {
   final String vehicleColor;
   final String parkingFloor;
   final String parkingPillar;
-
-  final String ownerEmail;
+  final String id;
+  final String useremail;
   final String ownerContact;
   final String invoiceId;
 
   const ShopCheckoutPage({
     super.key,
+    required this.id,
     required this.riderName,
     required this.riderContact,
     required this.deliveryTime,
@@ -32,7 +33,7 @@ class ShopCheckoutPage extends StatelessWidget {
     required this.vehicleColor,
     required this.parkingFloor,
     required this.parkingPillar,
-    required this.ownerEmail,
+    required this.useremail,
     required this.ownerContact,
     required this.invoiceId,
   });
@@ -40,7 +41,21 @@ class ShopCheckoutPage extends StatelessWidget {
   void _registerUser() {
     void _registerUser() {
       if (_formKey.currentState?.validate() ?? false) {
-        OrderModel user = OrderModel(conatctrider: riderContact);
+        OrderModel user = OrderModel(conatctrider: riderContact,
+            Ridername: riderName,
+          useremail: useremail,
+          invoiceid: invoiceId,
+          Ownername: ownerName,
+          userphone: ownerMobile,
+          status: "0",
+          Shopname: ownerName,
+          Selectfloor: parkingFloor,
+          vehicle_name: vehicleName,
+          vehicle_color: vehicleColor,
+          vehicle_number: vehicleNumber,
+          uid: id,
+
+        );
         // Trigger the sign-up event
         context.read<OrderBloc>().add(ShopSignupEvent(user: user));
       }
