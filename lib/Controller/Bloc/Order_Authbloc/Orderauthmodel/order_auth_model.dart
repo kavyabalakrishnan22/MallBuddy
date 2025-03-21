@@ -8,7 +8,7 @@ class OrderModel {
   String? userphone;
   String? status;
   String? time;
-  String? Image;
+
   String? Shopname;
   String? Selectfloor;
   String? vehicle_name;
@@ -26,7 +26,7 @@ class OrderModel {
         this.invoiceid,
         this.userphone,
         this.status,
-        this.Image,
+
         this.Shopname,
         this.Selectfloor,
         this.vehicle_name,
@@ -45,7 +45,6 @@ class OrderModel {
       Ownername: data['Ownername'],
       userphone: data['phone_number'],
       status: data['status'],
-      Image: data['imagepath'],
       Selectfloor: data['selecfloor'],
       vehicle_name: data['vehicle_name'],
       vehicle_color: data['vehicle_color'],

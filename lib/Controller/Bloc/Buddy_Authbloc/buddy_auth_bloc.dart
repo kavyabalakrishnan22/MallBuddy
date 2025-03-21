@@ -55,7 +55,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
               "ban": "1",
               "status": "1",
               "imagepath":
-                  "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                  "https://cdn1.iconfinder.com/data/icons/proffesion/257/Driver-512.png"
             });
             emit(BuddyAuthenticated(user));
           } else {

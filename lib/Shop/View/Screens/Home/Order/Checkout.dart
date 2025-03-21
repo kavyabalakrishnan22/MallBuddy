@@ -1,6 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mall_bud/Controller/Bloc/Order_Authbloc/Orderauthmodel/order_auth_model.dart';
+import 'package:mall_bud/Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
 
 class ShopCheckoutPage extends StatelessWidget {
+  final String riderName;
+
+  final String riderContact;
+  final String deliveryTime;
+  final String ownerName;
+  final String ownerMobile;
+  final String vehicleNumber;
+  final String vehicleName;
+  final String vehicleColor;
+  final String parkingFloor;
+  final String parkingPillar;
+
+  final String ownerEmail;
+  final String ownerContact;
+  final String invoiceId;
+
+  const ShopCheckoutPage({
+    super.key,
+    required this.riderName,
+    required this.riderContact,
+    required this.deliveryTime,
+    required this.ownerName,
+    required this.ownerMobile,
+    required this.vehicleNumber,
+    required this.vehicleName,
+    required this.vehicleColor,
+    required this.parkingFloor,
+    required this.parkingPillar,
+    required this.ownerEmail,
+    required this.ownerContact,
+    required this.invoiceId,
+  });
+
+  void _registerUser() {
+    void _registerUser() {
+      if (_formKey.currentState?.validate() ?? false) {
+        OrderModel user = OrderModel(conatctrider: riderContact);
+        // Trigger the sign-up event
+        context.read<OrderBloc>().add(ShopSignupEvent(user: user));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +56,9 @@ class ShopCheckoutPage extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: Padding(
@@ -20,37 +68,38 @@ class ShopCheckoutPage extends StatelessWidget {
           children: [
             // Rider Details
             _buildSectionTitle("Rider Details"),
-            _buildBoldText("Adhi", "(Rider ID: Jack01)"),
-            _buildDetailRow("Contact:", "8921669037"),
+            _buildBoldText("Ridername", riderName),
+            _buildDetailRow("Contact:", riderContact),
             const SizedBox(height: 8),
 
             // Delivery Time Box
-            _buildDeliveryTimeBox("08:43"),
+            _buildDeliveryTimeBox(deliveryTime),
             const Divider(height: 30),
 
-            // Customer Details (Modified)
+            // Customer Details
             _buildSectionTitle("Customer Details"),
-            _buildParkingFloorRow(),
-            _buildDetailRow("Owner Name", "KAVYA KRISHNAN K K"),
-            _buildDetailRow("Mobile Number", "8921669037"),
-            _buildDetailRow("Vehicle Number", "KL 57 W 417"),
-            _buildDetailRow("Vehicle Name", "Tata Harrier"),
-            _buildDetailRow("Vehicle Color", "Black"),
+            _buildParkingFloorRow(parkingFloor, parkingPillar),
+            _buildDetailRow("Owner Name", ownerName),
+            _buildDetailRow("Mobile Number", ownerMobile),
+            _buildDetailRow("Vehicle Number", vehicleNumber),
+            _buildDetailRow("Vehicle Name", vehicleName),
+            _buildDetailRow("Vehicle Color", vehicleColor),
             const Divider(height: 30),
 
             // Payment Details
             _buildSectionTitle("Payment Details"),
             _buildDetailRow("Delivery Charges", "₹ 200"),
-            _buildDetailRow("Total", "₹ 200"),
 
-            const Spacer(), // Pushes the button to the bottom
+            const Spacer(),
 
             // Complete Payment Button
             SizedBox(
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _registerUser();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
@@ -134,7 +183,7 @@ class ShopCheckoutPage extends StatelessWidget {
   }
 
   // Parking Floor and Pillar Row
-  Widget _buildParkingFloorRow() {
+  Widget _buildParkingFloorRow(String floor, String pillar) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
@@ -146,9 +195,9 @@ class ShopCheckoutPage extends StatelessWidget {
           ),
           Row(
             children: [
-              _buildSmallButton("Ground"),
+              _buildSmallButton(floor),
               const SizedBox(width: 6),
-              _buildSmallButton("H01"),
+              _buildSmallButton(pillar),
             ],
           ),
         ],
@@ -156,7 +205,7 @@ class ShopCheckoutPage extends StatelessWidget {
     );
   }
 
-  // Small Button (For Ground & H01)
+  // Small Button (For Parking Floor & Pillar)
   Widget _buildSmallButton(String text) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -175,15 +224,19 @@ class ShopCheckoutPage extends StatelessWidget {
   Widget _buildDeliveryTimeBox(String time) {
     return Row(
       children: [
-        const Text("Delivery Time:", style: TextStyle(fontSize: 14, color: Colors.black87)),
+        const Text("Delivery Time:",
+            style: TextStyle(fontSize: 14, color: Colors.black87)),
         const SizedBox(width: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(color: Colors.white38,
-            border: Border.all(width: 0.7,color: Colors.grey),
+          decoration: BoxDecoration(
+            color: Colors.white38,
+            border: Border.all(width: 0.7, color: Colors.grey),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: Text(time, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+          child: Text(time,
+              style:
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
         ),
       ],
     );

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mall_bud/Shop/View/Screens/shop_select_parking.dart';
+import 'package:mall_bud/Shop/View/Screens/Home/Order/shop_select_parking.dart';
 
-import '../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
-import '../../../Widgets/Constants/Loading.dart';
+import '../../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
+import '../../../../../Widgets/Constants/Loading.dart';
 
 class UserListselectparkingwrapper extends StatelessWidget {
   const UserListselectparkingwrapper({super.key});
@@ -103,15 +103,6 @@ class _UserListSelectparkingState extends State<UserListSelectparking> {
             user["email"]!.toLowerCase().contains(searchQuery))
         .toList();
 
-    return ListView.builder(
-      itemCount: filteredUsers.length,
-      itemBuilder: (context, index) {
-        return _buildUserCard(filteredUsers[index]);
-      },
-    );
-  }
-
-  Widget _buildUserCard(Map<String, String> user) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         // TODO: implement listener
@@ -131,56 +122,64 @@ class _UserListSelectparkingState extends State<UserListSelectparking> {
               ),
             );
           }
-          return Card(
-            color: Colors.blue[50],
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            margin: const EdgeInsets.only(bottom: 12),
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          user["image"]!,
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user["name"]!,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text("Email: ${user["email"]!}"),
-                            Text("Contact: ${user["contact"]!}"),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  _buildSelectButton(user),
-                ],
-              ),
-            ),
+          return ListView.builder(
+            itemCount: filteredUsers.length,
+            itemBuilder: (context, index) {
+              return _buildUserCard(filteredUsers[index]);
+            },
           );
         }
         return SizedBox();
       },
+    );
+  }
+
+  Widget _buildUserCard(Map<String, String> user) {
+    return Card(
+      color: Colors.blue[50],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    user["image"]!,
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user["name"]!,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text("Email: ${user["email"]!}"),
+                      Text("Contact: ${user["contact"]!}"),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _buildSelectButton(user),
+          ],
+        ),
+      ),
     );
   }
 

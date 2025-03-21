@@ -5,10 +5,10 @@ import 'package:mall_bud/Widgets/Constants/colors.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../Widgets/Constants/Loading.dart';
-import '../Shop_Userselectparking.dart';
+import 'Order/Shop_Userselectparking.dart';
 import '../shop_active_delivery.dart';
 import '../shop_complete_delivery.dart';
-import '../shop_select_parking.dart';
+import 'Order/shop_select_parking.dart';
 import '../shoporderhistory.dart';
 import 'Shop_ProfilePage.dart';
 
@@ -233,7 +233,7 @@ class ShopHomeScreen extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10)),
                     child:
-                        Image.asset("assets/ShopBottomnav/todayearning.png")),
+                        Image.asset("assets/ShopBottomnav/totalearning.png")),
                 const SizedBox(
                   height: 20,
                 ),

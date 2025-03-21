@@ -8,7 +8,7 @@ import '../View/Screens/Home/Shop_ProfilePage.dart';
 import '../View/Screens/Home/shop_home_page.dart';
 import '../View/Screens/shop_active_delivery.dart';
 import '../View/Screens/shop_complete_delivery.dart';
-import '../View/Screens/shop_select_parking.dart';
+import '../View/Screens/Home/Order/shop_select_parking.dart';
 import '../View/Screens/shoporderhistory.dart';
 
 class ShopBottomnavwrapper extends StatelessWidget {
