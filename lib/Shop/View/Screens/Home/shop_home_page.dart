@@ -5,6 +5,11 @@ import 'package:mall_bud/Widgets/Constants/colors.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../Widgets/Constants/Loading.dart';
+import '../Shop_Userselectparking.dart';
+import '../shop_active_delivery.dart';
+import '../shop_complete_delivery.dart';
+import '../shop_select_parking.dart';
+import '../shoporderhistory.dart';
 import 'Shop_ProfilePage.dart';
 
 class ShopHomeScreen extends StatelessWidget {
@@ -128,38 +133,69 @@ class ShopHomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      SizedBox(height: 50),
+      SizedBox(height: 30),
+      Row(
+        children: [
+          Text(
+            "Categories",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.teal,
+            ),
+          ),
+        ],
+      ),
+      SizedBox(height: 15),
 
       // Quick Actions Row
       Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text("Categories",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal)),
-        ],
-      ),
-      SizedBox(height: 20),
-
-      /// Category Icons Row
-      Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: categories.map((category) {
-          return Column(
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.grey[200],
-                radius: 30,
-                child: Icon(category["icon"], size: 30, color: Colors.black),
-              ),
-              SizedBox(height: 5),
-              Text(category["label"], style: TextStyle(fontSize: 14)),
-            ],
+          return GestureDetector(
+            onTap: () {
+              // Navigate to the respective page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => getCategoryPage(category["label"]),
+                ),
+              );
+            },
+            child: Column(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.grey[200],
+                  radius: 30,
+                  child: Icon(category["icon"], size: 30, color: Colors.black),
+                ),
+                SizedBox(height: 5),
+                Text(category["label"], style: TextStyle(fontSize: 14)),
+              ],
+            ),
           );
         }).toList(),
       ),
+
+      SizedBox(height: 20),
+
+      /// Category Icons Row
+      // Row(
+      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //   children: categories.map((category) {
+      //     return Column(
+      //       children: [
+      //         CircleAvatar(
+      //           backgroundColor: Colors.grey[200],
+      //           radius: 30,
+      //           child: Icon(category["icon"], size: 30, color: Colors.black),
+      //         ),
+      //         SizedBox(height: 5),
+      //         Text(category["label"], style: TextStyle(fontSize: 14)),
+      //       ],
+      //     );
+      //   }).toList(),
+      // ),
       SizedBox(
         height: 40,
         width: 20,
@@ -221,11 +257,15 @@ class ShopHomeScreen extends StatelessWidget {
                   child: Center(
                     child: Text(
                       "45000",
-                      style: TextStyle(color: Colors.black,fontSize:18,fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                )              ],
+                )
+              ],
             ),
             // child: earningsCard("Today Earnings", "₹1000")
           ),
@@ -270,7 +310,10 @@ class ShopHomeScreen extends StatelessWidget {
                   child: Center(
                     child: Text(
                       "500000",
-                      style: TextStyle(color: Colors.black,fontSize:18,fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -349,5 +392,20 @@ class ShopHomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget getCategoryPage(String label) {
+    switch (label) {
+      case "Delivery\nBooking":
+        return UserListselectparkingwrapper();
+      case "Active\nDelivery":
+        return ActiveDeliveryPage();
+      case "Complete\nDelivery":
+        return CompleteDeliveryPage();
+      case "Order\nStatus":
+        return ShopOrderhistory();
+      default:
+        return ShopHomeScreen(); // Default to home if no match found
+    }
   }
 }

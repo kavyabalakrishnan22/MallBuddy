@@ -100,6 +100,11 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
+                            ),  const SizedBox(height: 10),
+                            Text(
+                              "Buddy Login",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
                             ),
                             const SizedBox(height: 40),
 
@@ -153,7 +158,7 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
 
                             // Login Button
                             SizedBox(
-                                height: 150,
+                                height: 70,
                                 child: Column(
                                   children: [
                                     state is BuddyAuthloading

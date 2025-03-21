@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../firebase_options.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
+import '../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../../User/View/Screens/auth/Spashview.dart';
 import '../Bottomnav/Shop_Bottom.dart';
 import 'Screens/auth/shop_login.dart';
@@ -24,6 +25,12 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<ShopAuthBloc>(
           create: (context) => ShopAuthBloc()..add(FetchShopDetailsById()),
+        ),
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc()
+            ..add(FetchUsers(
+              searchQuery: null,
+            )),
         )
       ],
       child: MaterialApp(
