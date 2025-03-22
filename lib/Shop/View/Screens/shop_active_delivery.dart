@@ -90,92 +90,103 @@ class ActiveDeliveryPage extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      // Text(
-                                      //   "Order ID ${order.orderId}",
-                                      //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                      // ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 4),
-                                        decoration: BoxDecoration(
-                                          color: Colors.red.shade100,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Text(
-                                          "Status : ${Order.status}",
-                                          style: TextStyle(
-                                              color: Colors.red, fontSize: 12),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10),
-
-                                  /// **Customer Name & Image**
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 30,
-                                        backgroundImage: AssetImage(
-                                            "assets/profile/girl.png"),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Text(
-                                        Order.Ownername.toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10),
-
-                                  /// **Invoices**
-                                  // Column(
-                                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   children: Order.invoiceid.t
-                                  //       .map<Widget>((invoice) => Text(invoice))
-                                  //       .toList(),
-                                  // ),
-                                  SizedBox(height: 10),
-
-                                  /// **Rider Information**
-                                  Text(
-                                    "${Order.orderid.toString()} (Rider ID : ${Order.riderid})",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(height: 10),
-
-                                  /// **Delivery Time & Location**
-                                  Row(
-                                    mainAxisAlignment:
+                                      /// **Order ID & Status**
+                                      Row(
+                                        mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Delivery Time"),
-                                      Text(
-                                        Order.time.toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                        children: [
+                                          Text("Order_ID"),
+                                          Text(
+                                            Order.orderid.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 4),
+                                            decoration: BoxDecoration(
+                                              color: Colors.red.shade100,
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: Text(
+                                              "Status : ${Order.status.toString()}",
+                                              style: TextStyle(
+                                                  color: Colors.red, fontSize: 12),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 10),
+
+                                      /// **Customer Name & Image**
+                                      Row(
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 30,
+                                            backgroundImage:
+                                            AssetImage("assets/profile/girl.png"),
+                                          ),
+                                          SizedBox(width: 8),
+                                          Text(
+                                            Order.Ownername.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 10),
+
+                                      /// **Invoices**
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text("Invoice_ID"),
+                                              Text(Order.invoiceid.toString()),
+                                            ],
+                                          ),
+                                          SizedBox(height: 10),
+
+                                          /// **Rider Information**
+                                          Row(
+                                            children: [
+                                              Text("Rider_ID"),
+                                              Text(Order.riderid.toString()),
+                                            ],
+                                          ),
+                                          SizedBox(height: 10),
+
+                                          /// **Delivery Time & Location**
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Delivery Time"),
+                                              Text(
+                                                Order.time.toString(),
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Delivery Location"),
+                                              Text(
+                                                Order.Selectfloor.toString(),
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Delivery Location"),
-                                      Text(
-                                        Order.Selectfloor.toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ],
                               ),
-                            ),
-                          );
+                            ]),
+                          ));
                         })));
           }
           return SizedBox();

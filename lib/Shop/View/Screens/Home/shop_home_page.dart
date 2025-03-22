@@ -401,9 +401,9 @@ class ShopHomeScreen extends StatelessWidget {
       case "Active\nDelivery":
         return ActiveDeliverywrapper();
       case "Complete\nDelivery":
-        return CompleteDeliveryPage();
+        return CompleteDeliverywrapper();
       case "Order\nStatus":
-        return ShopOrderhistory();
+        return Shoporderstatuswrapper();
       default:
         return ShopHomeScreen(); // Default to home if no match found
     }

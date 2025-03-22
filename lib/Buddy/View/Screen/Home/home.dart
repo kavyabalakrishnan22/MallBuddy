@@ -58,7 +58,7 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
         break;
       case "Active\nDelivery":
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BuddyActiveDeliveryPage()));
+            context, MaterialPageRoute(builder: (context) => BuddyActiveDeliverywrapper()));
         break;
       case "Completed\nDelivery":
         Navigator.push(

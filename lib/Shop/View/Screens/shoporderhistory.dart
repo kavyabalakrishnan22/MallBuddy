@@ -1,6 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
+import '../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../Widgets/Constants/Loading.dart';
+import '../../Bottomnav/Shop_Bottom.dart';
+String buttonText = "View Details"; // Set the appropriate text
+
+
+
+class Shoporderstatuswrapper extends StatelessWidget {
+  const Shoporderstatuswrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<OrderBloc>(
+      create: (context) => OrderBloc()
+        ..add(
+          FetchPlaceorderEvent(
+            searchQuery: null,
+            status: '0',
+          ),
+        ),
+      child: ShopOrderhistory(),
+    );
+  }
+}
 class ShopOrderhistory extends StatefulWidget {
   const ShopOrderhistory({super.key});
 
@@ -21,7 +46,7 @@ class _ShopOrderhistoryState extends State<ShopOrderhistory> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ShopBottomnavwrapper(),));},
         ),
         title: const Text(
           "My orders",
@@ -40,66 +65,99 @@ class _ShopOrderhistoryState extends State<ShopOrderhistory> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 10),
-            // Order Status Tabs
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildTabButton("All orders"),
-                _buildTabButton("In Progress"),
-                _buildTabButton("Delivered"),
-                _buildTabButton("Canceled"),
-              ],
-            ),
-            const SizedBox(height: 20),
-            // Order List
-            Expanded(
-              child: ListView(
-                children: [
-                  _buildOrderCard(
-                    orderId: "#kavya01234",
-                    riderId: "Adhi01",
-                    items: 6,
-                    amount: 20000,
-                    status: "Buddy Reached",
-                    statusColor: Colors.green,
-                    buttonText: "Order QR",
-                    buttonColor: defaultBlue,
+        padding: const EdgeInsets.all(8.0),
+        child: BlocConsumer<OrderBloc, OrderState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is OrderLoading) {
+              return Center(child: Loading_Widget());
+            } else if (state is Orderfailerror) {
+              return Text(state.error.toString());
+            } else if (state is Ordersloaded) {
+              if (state.Orders.isEmpty) {
+                return Center(
+                  child: Text(
+                    "No data found",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  _buildOrderCard(
-                    orderId: "#kavya01234",
-                    riderId: "Adhi01",
-                    items: 6,
-                    amount: 20000,
-                    status: "Pending",
-                    statusColor: Colors.orange,
-                    buttonText: "Order QR",
-                    buttonColor: defaultBlue,
-                  ),
-                  _buildOrderCard(
-                    orderId: "#kavya01234",
-                    riderId: "Adhi01",
-                    items: 6,
-                    amount: 20000,
-                    status: "Delivered",
-                    statusColor: Colors.green,
-                    buttonText: "Order QR",
-                    buttonColor: defaultBlue,
-                  ),
-                ],
-              ),
-            ),
-          ],
+                );
+              }
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListView.builder(
+                  itemCount: state.Orders.length,
+                  itemBuilder: (context, index) {
+                    final Order = state.Orders[index];
+                    return Card(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "${Order.riderid.toString()}",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                const Spacer(),
+                                const Text("Status ",
+                                    style: TextStyle(fontSize: 14, color: Colors.grey)),
+                                Text(
+                                  "Status : ${Order.status}",
+                                  style: TextStyle(color: Colors.red, fontSize: 12),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "${Order.riderid.toString()}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text("Total items : 9",
+                                style: TextStyle(fontSize: 14, color: Colors.black)),
+                            Text(
+                              "${Order.payment.toString()}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 8),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: defaultBlue,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: defaultBlue == Colors.black
+                                        ? BorderSide(color: Colors.black)
+                                        : BorderSide.none,
+                                  ),
+                                ),
+                                onPressed: () {},
+                                child: Text(buttonText,
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
+            return SizedBox();
+          },
         ),
       ),
     );
-  }
 
-  // Order Status Tabs
+  }
   Widget _buildTabButton(String text) {
     return GestureDetector(
       onTap: () {
@@ -124,73 +182,5 @@ class _ShopOrderhistoryState extends State<ShopOrderhistory> {
     );
   }
 
-  // Order Card Widget
-  Widget _buildOrderCard({
-    required String orderId,
-    required String riderId,
-    required int items,
-    required int amount,
-    required String status,
-    required Color statusColor,
-    required String buttonText,
-    required Color buttonColor,
-  }) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                "ORDER $orderId",
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const Spacer(),
-              const Text("Status ",
-                  style: TextStyle(fontSize: 14, color: Colors.grey)),
-              Text(
-                status,
-                style: TextStyle(
-                    fontSize: 14,
-                    color: statusColor,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text("Rider ID : $riderId",
-              style: const TextStyle(fontSize: 14, color: Colors.black)),
-          Text("Total items : $items",
-              style: const TextStyle(fontSize: 14, color: Colors.black)),
-          Text("Total amount : $amount",
-              style: const TextStyle(fontSize: 14, color: Colors.black)),
-          const SizedBox(height: 8),
-          Align(
-            alignment: Alignment.centerRight,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: buttonColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  side: buttonColor == Colors.black
-                      ? const BorderSide(color: Colors.black)
-                      : BorderSide.none,
-                ),
-              ),
-              onPressed: () {},
-              child:
-                  Text(buttonText, style: const TextStyle(color: Colors.white)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+
 }

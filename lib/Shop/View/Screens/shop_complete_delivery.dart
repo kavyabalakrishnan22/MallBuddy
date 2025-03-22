@@ -1,6 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../Widgets/Constants/Loading.dart';
 import '../../../Widgets/Constants/colors.dart';
+
+class CompleteDeliverywrapper extends StatelessWidget {
+  const CompleteDeliverywrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<OrderBloc>(
+      create: (context) => OrderBloc()
+        ..add(
+          FetchPlaceorderEvent(
+            searchQuery: null,
+            status: '0',
+          ),
+        ),
+      child: CompleteDeliveryPage(),
+    );
+  }
+}
 
 class CompleteDeliveryPage extends StatelessWidget {
   final List<Map<String, dynamic>> orders = List.generate(2, (index) => {
@@ -22,25 +43,32 @@ class CompleteDeliveryPage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Padding(
+      body:  BlocConsumer<OrderBloc, OrderState>(
+        listener: (context, state) {
+      // TODO: implement listener
+    },
+    builder: (context, state) {
+    if (state is OrderLoading) {
+    return Center(child: Loading_Widget());
+    } else if (state is Orderfailerror) {
+    return Text(state.error.toString());
+    } else if (state is Ordersloaded) {
+      if (state.Orders.isEmpty) {
+        // Return "No data found" if txhe list is empty
+        return Center(
+          child: Text(
+            "No data found",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        );
+      }
+      return Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListView.builder(
-          itemCount: orders.length,
+          itemCount: state.Orders.length,
           itemBuilder: (context, index) {
-            return DeliveryCard(order: orders[index]);
-          },
-        ),
-      ),
-    );
-  }
-}
+            final Order = state.Orders[index];
 
-class DeliveryCard extends StatelessWidget {
-  final Map<String, dynamic> order;
-  const DeliveryCard({required this.order});
-
-  @override
-  Widget build(BuildContext context) {
     return Card(
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -65,10 +93,11 @@ class DeliveryCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Order ID ${order['orderId']}",
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
+              Text(
+              "${Order.orderid.toString()}",
+              style:
+              TextStyle(fontWeight: FontWeight.bold),
+            ),
                       TextButton(
                         onPressed: () {},
                         child: Text(
@@ -82,16 +111,18 @@ class DeliveryCard extends StatelessWidget {
 
                   /// **Rider ID**
                   Text(
-                    "Rider ID ${order['riderId']}",
-                    style: const TextStyle(fontSize: 14, color: Colors.black),
+                    "${Order.riderid.toString()}",
+                    style:
+                    TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
 
                   /// **Customer Name**
-                  Text(
-                    order['customerName'],
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ), SizedBox(height: 20),
+                Text(
+                  "${Order.Ownername.toString()}",
+                  style:
+                  TextStyle(fontWeight: FontWeight.bold),
+                ), SizedBox(height: 20),
 
                   /// **Delivery Status (Right Aligned)**
                   Align(
@@ -102,9 +133,10 @@ class DeliveryCard extends StatelessWidget {
                         color: Colors.green.shade50,border: Border.all(color: Colors.green,width: 2),
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: const Text(
-                        "Status : Delivered",
-                        style: TextStyle(color: Colors.green, fontSize: 14, fontWeight: FontWeight.bold),
+                      child:   Text(
+                        "Status : ${Order.status}",
+                        style: TextStyle(
+                            color: Colors.red, fontSize: 12),
                       ),
                     ),
                   ),
@@ -113,6 +145,14 @@ class DeliveryCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+          },
+        ),
+      );
+    }
+    return SizedBox();
+    },
       ),
     );
   }
