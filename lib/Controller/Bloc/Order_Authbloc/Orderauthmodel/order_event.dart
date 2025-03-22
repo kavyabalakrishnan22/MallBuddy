@@ -7,3 +7,29 @@ class PlaceorderEvent extends OrderEvent {
   final OrderModel order;
   PlaceorderEvent({required this.order});
 }
+class FetchPlaceorderEvent extends OrderEvent {
+  final String? searchQuery;
+  final String? status;
+  FetchPlaceorderEvent({required this.searchQuery, required this.status});
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

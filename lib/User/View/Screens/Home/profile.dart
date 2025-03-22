@@ -9,6 +9,18 @@ import '../notification.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+class userprofileavwrapper extends StatelessWidget {
+  const userprofileavwrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AuthBloc()..add(FetchUserDetailsById()),
+      child: ProfilePage(),
+    );
+  }
+}
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 

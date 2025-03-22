@@ -1,4 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
+import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
+import '../../../../Widgets/Constants/Loading.dart';
+
+class Shopwrapper extends StatelessWidget {
+  const Shopwrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<ShopAuthBloc>(
+      create: (context) => ShopAuthBloc()
+        ..add(FetchShopesDetailsEvent(
+          searchQuery: null,status: '0'
+        )),
+      child: Shop(),
+    );
+  }
+}
 
 class Shop extends StatefulWidget {
   const Shop({super.key});
@@ -8,28 +30,9 @@ class Shop extends StatefulWidget {
 }
 
 class _ShopState extends State<Shop> {
-  List<Map<String, dynamic>> shopList = [
-    {
-      "icon": "assets/adidas.png",
-      "name": "Adidas",
-      "subtitle": "Sportswear",
-    },
-    {
-      "icon": "assets/nesto.png",
-      "name": "Nesto",
-      "subtitle": "Supermarket",
-    },
-    {
-      "icon": "assets/zara.png",
-      "name": "Zara",
-      "subtitle": "Fashion",
-    },
-    {
-      "icon": "assets/adidas.png",
-      "name": "Adidas",
-      "subtitle": "Sportswear",
-    },
-  ];
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +44,11 @@ class _ShopState extends State<Shop> {
               child: TextFormField(
                 decoration: InputDecoration(
                   hintText: "Search here...",
-                  prefixIcon: Icon(Icons.search, color: Colors.black), // Search Icon inside TextFormField
+                  prefixIcon: Icon(Icons.search, color: Colors.black),
+                  // Search Icon inside TextFormField
                   filled: true,
-                  fillColor: Colors.grey[200], // Background color
+                  fillColor: Colors.grey[200],
+                  // Background color
                   contentPadding: EdgeInsets.symmetric(vertical: 10),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -77,21 +82,46 @@ class _ShopState extends State<Shop> {
       body: Column(
         children: [
           Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.all(8),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
-                childAspectRatio: 0.7, // Adjusted for subtitle
-              ),
-              itemCount: shopList.length,
-              itemBuilder: (context, index) {
-                return ShopGridViewItem(
-                  icon: shopList[index]["icon"],
-                  name: shopList[index]["name"],
-                  subtitle: shopList[index]["subtitle"],
-                );
+            child: BlocConsumer<ShopAuthBloc, ShopAuthState>(
+              listener: (context, state) {
+                // TODO: implement listener
+              },
+              builder: (context, state) {
+                if (state is ShopgetLoading) {
+                  return Center(child: Loading_Widget());
+                } else if (state is Shopesfailerror) {
+                  return Text(state.error.toString());
+                } else if (state is Shopesloaded) {
+                  if (state.Shopes.isEmpty) {
+                    // Return "No data found" if txhe list is empty
+                    return Center(
+                      child: Text(
+                        "No data found",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }
+                  return GridView.builder(
+                    padding: EdgeInsets.all(8),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 15,
+                      childAspectRatio: 0.7, // Adjusted for subtitle
+                    ),
+                    itemCount: state.Shopes.length,
+                    itemBuilder: (context, index) {
+                      final shop=state.Shopes[index];
+                      return ShopGridViewItem(
+
+                        name: shop.Shopname.toString(),
+                        subtitle: shop.Selectfloor.toString(),
+                      );
+                    },
+                  );
+                }
+                return SizedBox();
               },
             ),
           ),
@@ -102,13 +132,13 @@ class _ShopState extends State<Shop> {
 }
 
 class ShopGridViewItem extends StatelessWidget {
-  final String icon;
+
   final String name;
   final String subtitle;
 
   const ShopGridViewItem({
     Key? key,
-    required this.icon,
+
     required this.name,
     required this.subtitle,
   }) : super(key: key);
@@ -136,8 +166,8 @@ class ShopGridViewItem extends StatelessWidget {
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Image.asset(
-                  icon,
+                child: Image.network(
+                  "",
                   fit: BoxFit.contain, // Keeps image centered
                   width: double.infinity, // Adjusted width
                   height: double.infinity,

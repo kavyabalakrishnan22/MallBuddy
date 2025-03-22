@@ -31,9 +31,9 @@ class _BottomNavBarExampleState extends State<BottomNavBarExample> {
 
   final List<Widget> _screens = [
     UserHomePage(),
-    Shop(),
+    Shopwrapper(),
     QRScanPage(),
-    ProfilePage(),
+    userprofileavwrapper(),
   ];
 
   void _onItemTapped(int index) {

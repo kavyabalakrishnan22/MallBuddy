@@ -14,3 +14,11 @@ final class Orderfailerror extends OrderState {
 
   Orderfailerror(this.error);
 }
+
+class Ordersloaded extends OrderState {
+  final List<OrderModel> Orders;
+
+  Ordersloaded(
+      this.Orders,
+      );
+}

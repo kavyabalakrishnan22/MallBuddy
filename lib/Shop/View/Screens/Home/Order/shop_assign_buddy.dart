@@ -92,7 +92,7 @@ class AssignRidersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Assign Rider"),
+        title: Text("${Userid}"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -200,7 +200,8 @@ class AssignRidersPage extends StatelessWidget {
                                                           ownerMobile:
                                                               ownerContact,
                                                           Userid: Userid,
-                                                          Riderid: rider.uid.toString());
+                                                          Riderid: rider.uid
+                                                              .toString());
                                                     },
                                                   ),
                                                 );

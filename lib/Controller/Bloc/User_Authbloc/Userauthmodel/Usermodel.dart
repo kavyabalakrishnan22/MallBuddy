@@ -5,6 +5,8 @@ class UserModel {
   String? name;
   String? phone;
   String? status;
+  String? Shopname;
+  String? Subtitle;
   String? Ban;
   String? Image;
 
@@ -19,7 +21,9 @@ class UserModel {
       this.phone,
       this.status,
       this.Ban,
-      this.Image
+      this.Image,
+        this.Shopname,
+        this.Subtitle,
 
       });
 
@@ -32,6 +36,9 @@ class UserModel {
       status: data['status'],
       Ban: data['ban'],
       Image: data['imagepath'],
+      Shopname: data['Shopname'],
+      Subtitle: data['subtitle'],
+
     );
   }
 }

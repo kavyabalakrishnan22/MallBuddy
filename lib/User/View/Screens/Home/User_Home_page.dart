@@ -4,9 +4,27 @@ import 'package:mall_bud/User/View/Screens/Home/scan.dart';
 import 'package:mall_bud/Widgets/Constants/Loading.dart';
 import 'dart:async';
 
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../myorders.dart';
 import 'User_shop.dart';
+
+// class UserHomePagewrapper extends StatelessWidget {
+//   const UserHomePagewrapper({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider<ShopAuthBloc>(
+//       create: (context) => ShopAuthBloc()
+//         ..add(FetchShopesDetailsEvent(
+//             searchQuery: null,status: '0'
+//         )),
+//       child: UserHomePage(),
+//     );
+//   }
+// }
 
 class UserHomePage extends StatefulWidget {
   @override
@@ -59,7 +77,7 @@ class _UserHomePageState extends State<UserHomePage> {
     switch (title) {
       case "Shop":
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Shop()));
+            context, MaterialPageRoute(builder: (context) => Shopwrapper()));
         break;
       case "Scan":
         Navigator.push(
@@ -104,16 +122,17 @@ class _UserHomePageState extends State<UserHomePage> {
                       Text("Hello!", style: TextStyle(fontSize: 18)),
                       BlocBuilder<AuthBloc, AuthState>(
                           builder: (context, state) {
-                        if (state is loading) {
-                          return Center(child: Loading_Widget());
-                        } else if (state is UserByidLoaded) {
-                          final user = state.Userdata;
-                          return Text(' ${user.name ?? ''}',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold));
-                        }
-                        return SizedBox();
-                      })
+                            if (state is loading) {
+                              return Center(child: Loading_Widget());
+                            } else if (state is UserByidLoaded) {
+                              final user = state.Userdata;
+                              return Text(' ${user.name ?? ''}',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold));
+                            }
+                            return SizedBox();
+                          })
                     ],
                   ),
                   Spacer(),
@@ -202,18 +221,47 @@ class _UserHomePageState extends State<UserHomePage> {
               // **Service Grid**
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 0.75,
-                  ),
-                  itemCount: serviceList.length,
-                  itemBuilder: (context, index) {
-                    return _buildServiceCard(serviceList[index]);
+                child: BlocConsumer<ShopAuthBloc, ShopAuthState>(
+                    listener: (context, state) {
+                    // TODO: implement listener
+                    },
+                    builder: (context, state) {
+                    if (state is ShopgetLoading) {
+                    return Center(child: Loading_Widget());
+                    } else if (state is Shopesfailerror) {
+                    return Text(state.error.toString());
+                    } else if (state is Shopesloaded) {
+                    if (state.Shopes.isEmpty) {
+                    // Return "No data found" if txhe list is empty
+                    return Center(
+                    child: Text(
+                    "No data found",
+                    style: TextStyle(
+                    fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    );
+                    }
+                    return GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 0.75,
+                      ),
+                      itemCount: state.Shopes.length,
+                      itemBuilder: (context, index) {
+                        final shop=state.Shopes[index];
+                        return ShopGridViewItem(
+
+                          name: shop.Shopname.toString(),
+                          subtitle: shop.Selectfloor.toString(),
+                        );
+                      },
+                    );
+                    }
+                    return SizedBox();
                   },
                 ),
               ),

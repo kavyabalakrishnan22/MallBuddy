@@ -249,18 +249,19 @@ class ShopCheckoutPage extends StatefulWidget {
 class _ShopCheckoutPageState extends State<ShopCheckoutPage> {
   void _registerUser() {
     OrderModel order = OrderModel(
-      conatctrider: widget.riderContact,
-      Ridername: widget.riderName,
-      useremail: widget.useremail,
-      invoiceid: widget.invoiceId,
-      Ownername: widget.ownerName,
-      userphone: widget.ownerMobile,
-      Shopname: widget.ownerName,
-      Selectfloor: widget.parkingFloor,
-      vehicle_name: widget.vehicleName,
-      vehicle_color: widget.vehicleColor,
-      vehicle_number: widget.vehicleNumber,
-    );
+        conatctrider: widget.riderContact,
+        Ridername: widget.riderName,
+        useremail: widget.useremail,
+        invoiceid: widget.invoiceId,
+        Ownername: widget.ownerName,
+        userphone: widget.ownerMobile,
+        Shopname: widget.ownerName,
+        Selectfloor: widget.parkingFloor,
+        vehicle_name: widget.vehicleName,
+        vehicle_color: widget.vehicleColor,
+        vehicle_number: widget.vehicleNumber,
+        userid: widget.Userid,
+        riderid: widget.Riderid);
     context.read<OrderBloc>().add(PlaceorderEvent(order: order));
   }
 

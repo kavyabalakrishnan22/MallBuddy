@@ -8,7 +8,7 @@ import 'package:mall_bud/Widgets/Constants/colors.dart';
 
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
 import 'BuddyActiveDeliveryPage.dart';
-import 'BuddyProfile.dart';
+import 'Buddy_Assigntime.dart';
 import 'Buddy_completedeliveryfirstpage.dart';
 
 class BuddyHomeScreen extends StatefulWidget {
@@ -52,22 +52,21 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
     });
 
     switch (title) {
-      case "Assign":
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => BuddyActiveDeliveryPage()));
-        break;
-      case "Active":
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => BuddyActiveDeliveryPage()));
-        break;
-      case "Completed":
+      case "Assign\nDelivery":
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => BuddyCompleteDeliveryFirstScreen()));
+            context, MaterialPageRoute(builder: (context) => BuddyassigntimeScreen())); // Use the correct page
+        break;
+      case "Active\nDelivery":
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => BuddyActiveDeliveryPage()));
+        break;
+      case "Completed\nDelivery":
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => BuddyCompleteDeliveryFirstScreen()));
         break;
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -211,11 +210,11 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildActionButton("Assign", Icons.shopping_cart, context),
+          _buildActionButton("Assign\nDelivery", Icons.more_time, context),
           SizedBox(width: 20),
-          _buildActionButton("Completed", Icons.done_all, context),
+          _buildActionButton("Completed\nDelivery", Icons.done_all, context),
           SizedBox(width: 20),
-          _buildActionButton("Active", Icons.info, context),
+          _buildActionButton("Active\nDelivery", Icons.info, context),
         ],
       ),
       Row(

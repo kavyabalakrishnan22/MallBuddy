@@ -46,5 +46,34 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         }
       },
     );
+
+    on<FetchPlaceorderEvent>((event, emit) async {
+      emit(OrderLoading());
+      try {
+        CollectionReference OrderCollection =
+            FirebaseFirestore.instance.collection('Orders');
+
+        Query query = OrderCollection;
+        query = query.where("status", isEqualTo: event.status);
+
+        QuerySnapshot snapshot = await query.get();
+
+        List<OrderModel> Orders = snapshot.docs.map((doc) {
+          return OrderModel.fromMap(doc.data() as Map<String, dynamic>);
+        }).toList();
+
+        if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
+          Orders = Orders.where((driver) {
+            return driver.Ownername!
+                .toLowerCase()
+                .contains(event.searchQuery!.toLowerCase());
+          }).toList();
+        }
+
+        emit(Ordersloaded(Orders));
+      } catch (e) {
+        emit(Orderfailerror(e.toString()));
+      }
+    });
   }
 }
