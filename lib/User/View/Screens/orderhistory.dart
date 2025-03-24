@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+
 
 
 
@@ -39,11 +39,7 @@ class Orderhistory extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // QR Code
-            QrImageView(
-              data: "ORDER #kavya01234", // Order ID or encoded data
-              version: QrVersions.auto,
-              size: 200,
-            ),
+
             const SizedBox(height: 20),
             // Order Details
             const Text(

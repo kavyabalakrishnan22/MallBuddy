@@ -97,6 +97,8 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
       }
     });
 
+
+
     on<ShopSigOutEvent>(
       (event, emit) async {
         try {
@@ -119,6 +121,21 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
           }
         } catch (e) {
           emit(ShopAuthenticatedError(message: e.toString()));
+        }
+      },
+    );
+    on<ShopAcceptRejectbuddyevent>(
+          (event, emit) async {
+        try {
+          emit(ShopAcceptloading());
+
+          await FirebaseFirestore.instance
+              .collection("MallBuddyShops")
+              .doc(event.id)
+              .update({"status": event.status});
+          emit(ShopRefresh());
+        } catch (e) {
+          print(e);
         }
       },
     );

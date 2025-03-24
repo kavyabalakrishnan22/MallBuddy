@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 
 
@@ -30,11 +29,7 @@ class BuddyCompleteDeliveryScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             // QR Code
-            QrImageView(
-              data: "12345", // Order ID or some encoded data
-              version: QrVersions.auto,
-              size: 150,
-            ),
+
             const SizedBox(height: 10),
             const Text(
               "Order ID #12345",

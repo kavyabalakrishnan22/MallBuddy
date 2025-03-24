@@ -28,28 +28,7 @@ class UserListSelectparking extends StatefulWidget {
 }
 
 class _UserListSelectparkingState extends State<UserListSelectparking> {
-  final List<Map<String, String>> users = [
-    {
-      "name": "Kavya",
-      "email": "kavyabalakrishnan2018@gmail.com",
-      "contact": "8921669037",
-      "image": "assets/profile/girl.png",
-    },
-    {
-      "name": "Theertha",
-      "email": "theertha@gmail.com",
-      "contact": "8921669037",
-      "image": "assets/profile/girl.png",
-    },
-    {
-      "name": "Anusree",
-      "email": "anusree@gmail.com",
-      "contact": "8921669037",
-      "image": "assets/profile/girl.png",
-    },
-  ];
 
-  String searchQuery = "";
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +62,7 @@ class _UserListSelectparkingState extends State<UserListSelectparking> {
       ),
       child: TextField(
         onChanged: (value) {
-          setState(() {
-            searchQuery = value.toLowerCase();
-          });
+
         },
         decoration: const InputDecoration(
           hintText: "Search here...",
@@ -97,11 +74,6 @@ class _UserListSelectparkingState extends State<UserListSelectparking> {
   }
 
   Widget _buildUserList() {
-    List<Map<String, String>> filteredUsers = users
-        .where((user) =>
-            user["name"]!.toLowerCase().contains(searchQuery) ||
-            user["email"]!.toLowerCase().contains(searchQuery))
-        .toList();
 
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
@@ -161,7 +133,7 @@ class _UserListSelectparkingState extends State<UserListSelectparking> {
                                   ),
                                 ),
                                 Text("Email: ${user.email}"),
-                                Text("Contact: ${user.password}"),
+                                Text("Contact: ${user.phone}"),
                               ],
                             ),
                           ),

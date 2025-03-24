@@ -53,6 +53,12 @@ class Buddyloaded extends BuddyAuthState {
   final List<BuddyModel> Buddys;
 
   Buddyloaded(
-      this.Buddys,
-      );
+    this.Buddys,
+  );
 }
+
+// Acept reject
+
+final class Acceptloading extends BuddyAuthState {}
+
+final class Refresh extends BuddyAuthState {}

@@ -38,3 +38,10 @@ class FetchShopesDetailsEvent extends ShopAuthEvent {
   final String? status;
   FetchShopesDetailsEvent({required this.searchQuery, required this.status});
 }
+
+class ShopAcceptRejectbuddyevent extends ShopAuthEvent{
+  final String? id;
+  final String? status;
+  ShopAcceptRejectbuddyevent({required this.id, required this.status});
+
+}

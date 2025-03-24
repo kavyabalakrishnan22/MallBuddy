@@ -94,11 +94,11 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
               decoration: const BoxDecoration(color: Colors.white),
               columns: [
                 _buildColumn('SL NO'),
+                _buildColumn('Date and Time'),
+                _buildColumn('Shop Details'),
                 _buildColumn('Owner Details'),
-                _buildColumn('Shop Name'),
                 _buildColumn('Floor'),
-                _buildColumn('Edit'),
-                _buildColumn('Delete'),
+                _buildColumn('Rejected Shop'),
               ],
               rows: List.generate(
                 state.Shopes.length,
@@ -108,6 +108,31 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
                     cells: [
                       DataCell(Text((index + 1).toString(),
                           style: const TextStyle(fontWeight: FontWeight.bold))),
+                      DataCell(Text("")),
+                      DataCell(
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text("Shop_ID:"),
+                              Text(shop.uid.toString(),
+                                style:
+                                const TextStyle(fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text("Shop_Name"),
+                              Text(shop.Shopname.toString(),style:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                                overflow: TextOverflow.ellipsis,),
+                            ],
+                          )
+                        ],
+                      )),
                       DataCell(
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -126,12 +151,37 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
                           ],
                         ),
                       ),
-                      DataCell(Text(shop.Shopname.toString())),
                       DataCell(Text(shop.Selectfloor.toString())),
-                      DataCell(IconButton(
-                          onPressed: () {}, icon: Icon(Icons.delete))),
-                      DataCell(IconButton(
-                          onPressed: () {}, icon: Icon(Icons.delete))),
+                      DataCell(
+                        Container(
+                          height: 40,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            border:
+                            Border.all(color: Colors.red, width: 1.5),
+                            borderRadius:
+                            BorderRadius.circular(12), // Rounded corners
+                            color: Colors.white, // Background color
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/admin/Rejected.png', // Replace with your actual asset path
+                                height: 25,
+                                width: 25,
+                              ),
+                              SizedBox(width: 5), // Spacing
+                              Text(
+                                "Rejected",
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 },

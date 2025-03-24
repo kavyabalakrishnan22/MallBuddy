@@ -14,7 +14,9 @@ class AdminAcceptedwrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<BuddyAuthBloc>(
       create: (context) => BuddyAuthBloc()
-        ..add(FetchBuddyDetailsEvent(searchQuery: null, status: "1"),),
+        ..add(
+          FetchBuddyDetailsEvent(searchQuery: null, status: "1"),
+        ),
       child: AdminAcceptedShop(),
     );
   }
@@ -89,7 +91,6 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
               }).toList(),
               onChanged: (String? newValue) {
                 setState(() {
-
                   selectedValue = newValue!;
                 });
               },
@@ -140,28 +141,28 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                   _buildColumn('Accept/Reject'),
                 ],
                 rows: List.generate(
-                  Buddys.length,
+                  state.Buddys.length,
                   (index) {
-                    final Buddy = Buddys[index];
+                    final Buddy = state.Buddys[index];
                     return DataRow(
                       cells: [
                         DataCell(Text(
                           (index + 1).toString(),
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         )),
-                        DataCell(Text(Buddy.Rider_ID)),
+                        DataCell(Text(Buddy.uid.toString())),
                         DataCell(Column(
                           children: [
                             Text(
-                              Buddy.Rider_Name,
+                              Buddy.name.toString(),
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            Text(Buddy.Phone_Number),
-                            Text(Buddy.Email)
+                            Text(Buddy.phone.toString()),
+                            Text(Buddy.email.toString())
                           ],
                         )),
-                        DataCell(Text(Buddy.Gender)),
+                        DataCell(Text(Buddy.Gender.toString())),
                         DataCell(
                           Container(
                             height: 40,

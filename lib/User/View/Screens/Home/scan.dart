@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../../../Widgets/Constants/colors.dart';
 
@@ -15,23 +14,8 @@ class QRScanPage extends StatefulWidget {
 
 class _QRScanPageState extends State<QRScanPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? controller;
+
   String scannedData = "";
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        scannedData = scanData.code ?? "";
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +101,7 @@ class _QRScanPageState extends State<QRScanPage> {
                 // Scan Button
                 ElevatedButton.icon(
                   onPressed: () {
-                    controller?.resumeCamera();
+
                   },
                   icon: const Icon(Icons.qr_code_scanner_rounded),
                   label: const Text("Scan"),

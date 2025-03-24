@@ -54,7 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               "ban": "1",
               "status": "1",
               "imagepath":
-                  "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                  "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small/Basic_Ui__28186_29.jpg"
             });
             emit(Authenticated(user));
           } else {

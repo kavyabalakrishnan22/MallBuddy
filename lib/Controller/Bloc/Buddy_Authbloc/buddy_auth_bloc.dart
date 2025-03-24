@@ -96,6 +96,8 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
       }
     });
 
+    // accept
+
     on<BuddySigOutEvent>(
       (event, emit) async {
         try {
@@ -118,6 +120,22 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
           }
         } catch (e) {
           emit(BuddyAuthenticatedError(message: e.toString()));
+        }
+      },
+    );
+
+    on<AcceptRejectbuddyevent>(
+      (event, emit) async {
+        try {
+          emit(Acceptloading());
+
+          await FirebaseFirestore.instance
+              .collection("MallBuddyRiders")
+              .doc(event.id)
+              .update({"status": event.status});
+          emit(Refresh());
+        } catch (e) {
+          print(e);
         }
       },
     );
@@ -187,7 +205,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
             FirebaseFirestore.instance.collection('MallBuddyRiders');
 
         Query query = BuddyCollection;
-        query = query.where("status", isEqualTo: event.floor);
+        query = query.where("status", isEqualTo: event.status);
 
         QuerySnapshot snapshot = await query.get();
 

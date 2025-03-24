@@ -58,3 +58,9 @@ class Shopesloaded extends ShopAuthState {
     this.Shopes,
   );
 }
+
+// Acept reject
+
+final class ShopAcceptloading extends ShopAuthState {}
+
+final class ShopRefresh extends ShopAuthState {}
