@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,8 @@ import '../../../../Widgets/Constants/Loading.dart';
 import '../notification.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'Editprofile.dart';
 
 class userprofileavwrapper extends StatelessWidget {
   const userprofileavwrapper({super.key});
@@ -29,147 +32,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int selectedContactIndex = -1;
-  int selectedIndex = -1;
-  List<TextEditingController> controllers = [];
-
-  final List<Map<String, String>> contactDetails = [
-    {"label": "Email", "value": "kavyabalakrishnan2018@gmail.com"},
-    {"label": "Mobile", "value": "8921689037"},
-  ];
-
-  File? _profileImage;
-  final ImagePicker _picker = ImagePicker();
-
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source);
-    if (pickedFile != null) {
-      setState(() {
-        _profileImage = File(pickedFile.path);
-      });
-    }
-  }
-
-  void _showImagePickerOptions() {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (context) => CupertinoActionSheet(
-        title: const Text("Choose an option"),
-        actions: [
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-              _pickImage(ImageSource.gallery);
-            },
-            child: const Text("Upload Photo"),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-              _pickImage(ImageSource.camera);
-            },
-            child: const Text("Take Photo"),
-          ),
-          CupertinoActionSheetAction(
-            isDestructiveAction: true,
-            onPressed: () {
-              setState(() {
-                _profileImage = null;
-              });
-              Navigator.pop(context);
-            },
-            child: const Text("Remove Photo"),
-          ),
-        ],
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () => Navigator.pop(context),
-          child: const Text("Cancel"),
-        ),
-      ),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    controllers = List.generate(contactDetails.length, (index) {
-      return TextEditingController(text: contactDetails[index]["value"]);
-    });
-  }
-
-  @override
-  void dispose() {
-    for (var controller in controllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-  Widget _buildSelectableContactRow(String label, int index) {
-    bool isEditing = selectedContactIndex == index;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedContactIndex = isEditing ? -1 : index;
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Text(label,
-                        style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold))),
-                Expanded(
-                  flex: 3,
-                  child: isEditing
-                      ? TextField(
-                          controller: controllers[index],
-                          decoration:
-                              const InputDecoration(border: InputBorder.none),
-                          style: const TextStyle(
-                              fontSize: 14, color: Colors.black),
-                          onSubmitted: (newValue) {
-                            setState(() {
-                              contactDetails[index]["value"] = newValue;
-                              selectedContactIndex = -1;
-                            });
-                          },
-                        )
-                      : Text(contactDetails[index]["value"]!,
-                          textAlign: TextAlign.right,
-                          style: const TextStyle(
-                              fontSize: 14, color: Colors.black)),
-                ),
-                IconButton(
-                  icon: Icon(isEditing ? Icons.check : Icons.edit,
-                      size: 16, color: Colors.blue),
-                  onPressed: () {
-                    setState(() {
-                      if (isEditing) {
-                        contactDetails[index]["value"] =
-                            controllers[index].text;
-                        selectedContactIndex = -1;
-                      } else {
-                        selectedContactIndex = index;
-                      }
-                    });
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            const Divider(color: Colors.black, thickness: 0.3),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -187,15 +49,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.white)),
-                  IconButton(
-                    icon: const Icon(Icons.notifications, color: Colors.white),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NotificationScreen()));
-                    },
-                  ),
+                  // IconButton(
+                  //   icon: const Icon(Icons.notifications, color: Colors.white),
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => NotificationScreen()));
+                  //   },
+                  // ),
                 ],
               ),
             ),
@@ -222,42 +84,56 @@ class _ProfilePageState extends State<ProfilePage> {
                                 height: 200,
                                 child: Loading_Widget(),
                               );
-                              Center(child: CircularProgressIndicator());
                             } else if (state is UserByidLoaded) {
                               final user = state.Userdata;
                               return Column(
                                 children: [
                                   Stack(
                                     children: [
-                                      CircleAvatar(
-                                        radius: 70,
-                                        backgroundImage: _profileImage != null
-                                            ? FileImage(_profileImage!)
-                                            : AssetImage(
-                                                    "assets/profile/girl.png")
-                                                as ImageProvider,
-                                      ),
-                                      Positioned(
-                                        right: 0,
-                                        bottom: 0,
-                                        child: GestureDetector(
-                                          onTap: _showImagePickerOptions,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: defaultBlue,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            padding: const EdgeInsets.all(8),
-                                            child: const Icon(
-                                              CupertinoIcons.camera,
-                                              color: Colors.white,
-                                              size: 20,
-                                            ),
-                                          ),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            60), // Ensures a rectangular shape
+                                        child: Image.network(
+                                          user.Image.toString(),
+                                          width: 100, // Adjusted width
+                                          height: 100, // Adjusted height
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return state is ProfileImageLoading
+                                                ? Loading_Widget()
+                                                : Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey[
+                                                          300], // Placeholder background
+                                                      borderRadius: BorderRadius
+                                                          .zero, // Ensures rectangle shape
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.image_not_supported,
+                                                      size: 50,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                  );
+                                          },
                                         ),
                                       ),
                                     ],
                                   ),
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return EditProfilePage(
+                                              image: user.Image,
+                                            );
+                                          },
+                                        ));
+                                      },
+                                      icon: Icon(Icons.edit)),
                                   const SizedBox(height: 8),
                                   Text('${user.name ?? ''}',
                                       style: TextStyle(

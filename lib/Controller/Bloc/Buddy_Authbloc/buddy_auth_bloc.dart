@@ -143,7 +143,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
     //ban//
 
     on<BanBuddyrevent>(
-          (event, emit) async {
+      (event, emit) async {
         try {
           emit(Buddybanloading());
 

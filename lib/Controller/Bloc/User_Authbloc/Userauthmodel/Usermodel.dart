@@ -5,27 +5,22 @@ class UserModel {
   String? name;
   String? phone;
   String? status;
-  String? Shopname;
+
   String? Subtitle;
   String? Ban;
   String? Image;
 
-
-
-
-  UserModel(
-      {this.email,
-      this.password,
-      this.name,
-      this.uid,
-      this.phone,
-      this.status,
-      this.Ban,
-      this.Image,
-        this.Shopname,
-        this.Subtitle,
-
-      });
+  UserModel({
+    this.email,
+    this.password,
+    this.name,
+    this.uid,
+    this.phone,
+    this.status,
+    this.Ban,
+    this.Image,
+    this.Subtitle,
+  });
 
   factory UserModel.fromMap(Map<String, dynamic> data) {
     return UserModel(
@@ -36,9 +31,7 @@ class UserModel {
       status: data['status'],
       Ban: data['ban'],
       Image: data['imagepath'],
-      Shopname: data['Shopname'],
       Subtitle: data['subtitle'],
-
     );
   }
 }
