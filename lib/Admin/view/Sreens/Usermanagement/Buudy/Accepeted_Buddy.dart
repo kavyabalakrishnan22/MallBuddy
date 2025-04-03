@@ -4,8 +4,7 @@ import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
 import '../../../../../Widgets/Constants/Loading.dart';
-import '../../../../Model/User_Management/Buddy_model.dart';
-import '../../../../Model/User_Management/shop_model.dart';
+
 
 class AdminAcceptedwrapper extends StatelessWidget {
   const AdminAcceptedwrapper({super.key});
@@ -105,8 +104,11 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
   Widget _buildShopTable(String title) {
     return BlocConsumer<BuddyAuthBloc, BuddyAuthState>(
       listener: (context, state) {
-        // TODO: implement listener
-      },
+        if (state is BuddyBanRefresh) {
+          context
+              .read<BuddyAuthBloc>()
+              .add(FetchBuddyDetailsEvent(searchQuery: null, status: ''));
+        }       },
       builder: (context, state) {
         if (state is BuddygetLoading) {
           return Center(child: Loading_Widget());
@@ -133,12 +135,13 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
-                  _buildColumn('Rider ID '),
+                  _buildColumn('Date and Time'),
                   _buildColumn('Rider Details'),
                   _buildColumn('Gender'),
                   // _buildColumn('Phone Number'),
                   // _buildColumn('Email'),
-                  _buildColumn('Accept/Reject'),
+                  _buildColumn('Accepted'),
+                  _buildColumn('Ban Buddy'),
                 ],
                 rows: List.generate(
                   state.Buddys.length,
@@ -150,18 +153,48 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                           (index + 1).toString(),
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         )),
-                        DataCell(Text(Buddy.uid.toString())),
-                        DataCell(Column(
-                          children: [
-                            Text(
-                              Buddy.name.toString(),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(Buddy.phone.toString()),
-                            Text(Buddy.email.toString())
-                          ],
-                        )),
+                        // DataCell(Text(Buddy.uid.toString())),
+                        DataCell(Text("")),
+                        DataCell(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text("Rider_ID:"),
+                                    Text(Buddy.uid.toString(),
+                                      style:
+                                      const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Name:"),
+                                    Text(Buddy.name.toString(),style:
+                                    const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Email:"),
+                                    Text(Buddy.email.toString(),style:
+                                    const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Ph:"),
+                                    Text(Buddy.phone.toString(),style:
+                                    const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                )
+                              ],
+                            )),
                         DataCell(Text(Buddy.Gender.toString())),
                         DataCell(
                           Container(
@@ -191,6 +224,16 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                                 ),
                               ],
                             ),
+                          ),
+                        ),
+                        DataCell(
+                          ElevatedButton(
+                            onPressed: () {
+                              context.read<BuddyAuthBloc>().add(
+                                  BanBuddyrevent(
+                                      Ban: "1", id: Buddy.uid));
+                            },
+                            child: Text("Ban",style: TextStyle(color: Colors.red),),
                           ),
                         ),
 

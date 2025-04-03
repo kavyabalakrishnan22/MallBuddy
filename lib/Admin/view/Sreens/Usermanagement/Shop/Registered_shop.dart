@@ -88,7 +88,7 @@ class _RegisteredBuddyState extends State<RegisteredShop> {
                 ],
                 rows: List.generate(
                   state.Shopes.length,
-                      (index) {
+                  (index) {
                     final shop = state.Shopes[index];
                     return DataRow(
                       cells: [
@@ -97,30 +97,34 @@ class _RegisteredBuddyState extends State<RegisteredShop> {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         )),
                         DataCell(Text("")),
-                        DataCell(
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        DataCell(Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Text("Shop_ID:"),
-                                    Text(shop.uid.toString(),
-                                      style:
-                                      const TextStyle(fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,),
-                                  ],
+                                Text("Shop_ID:"),
+                                Text(
+                                  shop.uid.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                Row(
-                                  children: [
-                                    Text("Shop_Name"),
-                                    Text(shop.Shopname.toString(),style:
-                                    const TextStyle(fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,),
-                                  ],
-                                )
                               ],
-                            )),
+                            ),
+                            Row(
+                              children: [
+                                Text("Shop_Name"),
+                                Text(
+                                  shop.Shopname.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            )
+                          ],
+                        )),
                         DataCell(
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -140,20 +144,22 @@ class _RegisteredBuddyState extends State<RegisteredShop> {
                           ),
                         ),
                         DataCell(Text(shop.Selectfloor.toString())),
-                        DataCell(Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  context.read<ShopAuthBloc>().add(
-                                      ShopAcceptRejectbuddyevent(
-                                          status: "1", id: shop.uid));
-                                },
-                                icon: Icon(
-                                  Icons.done,
-                                  color: Colors.green,
-                                )),
-                          ],
-                        )),
+                        DataCell(
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    context.read<ShopAuthBloc>().add(
+                                        ShopAcceptRejectbuddyevent(
+                                            status: "1", id: shop.uid));
+                                  },
+                                  icon: Icon(
+                                    Icons.done,
+                                    color: Colors.green,
+                                  )),
+                            ],
+                          ),
+                        ),
                         DataCell(Row(
                           children: [
                             IconButton(

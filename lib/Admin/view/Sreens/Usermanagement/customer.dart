@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import 'package:mall_bud/Widgets/Constants/Loading.dart';
-import '../../../Model/User_Management/Customer_model.dart';
 
 class AdminCustomer extends StatefulWidget {
   const AdminCustomer({super.key});
@@ -139,8 +138,11 @@ class _AdminCustomerState extends State<AdminCustomer>
   Widget _buildShopTable(String title) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        // TODO: implement listener
-      },
+        if (state is BanRefresh) {
+          context
+              .read<AuthBloc>()
+              .add(FetchUsers(searchQuery: null,));
+        }      },
       builder: (context, state) {
         if (state is UsersLoading) {
           return Center(child: Loading_Widget());
@@ -166,10 +168,11 @@ class _AdminCustomerState extends State<AdminCustomer>
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
+                  _buildColumn('Date and Time'),
                   _buildColumn('Customer Details'),
-                  _buildColumn('Invoice ID'),
-                  _buildColumn('Edit'),
-                  _buildColumn('Delete'),
+                  // _buildColumn('Invoice ID'),
+                  _buildColumn('Status'),
+                  _buildColumn('Ban User'),
                 ],
                 rows: List.generate(
                   state.Users.length,
@@ -180,6 +183,7 @@ class _AdminCustomerState extends State<AdminCustomer>
                         DataCell(Text((index + 1).toString(),
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold))),
+                        DataCell(Text("")),
                         DataCell(
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -198,9 +202,18 @@ class _AdminCustomerState extends State<AdminCustomer>
                             ],
                           ),
                         ),
+                        // DataCell(Text(User.uid.toString())),
                         DataCell(Text(User.status.toString())),
-                        DataCell(_buildToggleButton("Edit", index, true)),
-                        DataCell(_buildToggleButton("Delete", index, false)),
+                        DataCell(
+                          ElevatedButton(
+                            onPressed: () {
+                              context.read<AuthBloc>().add(
+                                  BanUserevent(
+                                      Ban: "1", id: User.uid));
+                            },
+                            child: Text("Ban",style: TextStyle(color: Colors.red),),
+                          ),
+                        ),
                       ],
                     );
                   },
@@ -226,82 +239,6 @@ class _AdminCustomerState extends State<AdminCustomer>
     );
   }
 
-  // Widget _buildToggleButton(String text, int index, bool isEdit) {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(8.0),
-  //     child: ElevatedButton(
-  //       onPressed: () {
-  //         if (isEdit) {
-  //           setState(() {
-  //             selectedEdit[index] = !(selectedEdit[index] ?? false);
-  //           });
-  //         } else {
-  //           _showDeleteDialog(index);
-  //         }
-  //       },
-  //       child: SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
-  //     ),
-  //   );
-  // }
-  Widget _buildToggleButton(String text, int index, bool isEdit) {
-    bool isSelected = isEdit
-        ? (selectedEdit[index] ?? false)
-        : (selectedDelete[index] ?? false);
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(
-              isSelected ? Colors.blue : Colors.white),
-          foregroundColor: MaterialStateProperty.all(
-              isSelected ? Colors.white : Colors.black),
-          padding: MaterialStateProperty.all(
-              const EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-              side: BorderSide(color: isSelected ? Colors.blue : Colors.black),
-            ),
-          ),
-        ),
-        onPressed: () {
-          setState(() {
-            if (isEdit) {
-              selectedEdit[index] = !(selectedEdit[index] ?? false);
-            } else {
-              selectedDelete[index] = !(selectedDelete[index] ?? false);
-              _showDeleteDialog(index);
-            }
-          });
-        },
-        child:
-            SizedBox(width: 90, height: 50, child: Center(child: Text(text))),
-      ),
-    );
-  }
 
-  void _showDeleteDialog(int index) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Confirm Delete"),
-          content: const Text("Are you sure you want to delete this customer?"),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text("Cancel")),
-            TextButton(
-              onPressed: () {
-                setState(() {});
-                Navigator.of(context).pop();
-              },
-              child: const Text("Delete", style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        );
-      },
-    );
-  }
 }

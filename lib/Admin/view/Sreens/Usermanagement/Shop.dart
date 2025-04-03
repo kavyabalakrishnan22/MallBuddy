@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mall_bud/Widgets/Constants/colors.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
@@ -20,6 +21,7 @@ class AdminShop extends StatefulWidget {
 
 class _AdminShopState extends State<AdminShop>
     with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   Map<int, bool> selectedEdit = {};
   Map<int, bool> selectedDelete = {};
 
@@ -89,12 +91,12 @@ class _AdminShopState extends State<AdminShop>
             TabBar(
               controller: _tabController, // FIXED: Using only one TabController
               isScrollable: true,
-              indicatorColor: Colors.blue,
+              indicatorColor: defaultBlue,
               indicatorWeight: 3,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
+              labelColor: defaultBlue,
+              unselectedLabelColor: Colors.black,
               tabs: const [
-                Tab(text: "pending"),
+                Tab(text: "Registered Shop"),
                 Tab(text: "Accepted Shop"),
                 Tab(text: "Rejected Shop"),
               ],
@@ -111,7 +113,7 @@ class _AdminShopState extends State<AdminShop>
                 children: [
                   PegisterdShopwrapper(),
                   AdminAcceptedwrapper(),
-                  AdminRejectedtedwrapper(),
+                  AdminRejectedWrapper(),
                 ],
               ),
             ),

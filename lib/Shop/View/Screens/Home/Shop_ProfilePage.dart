@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import '../../../../Widgets/Constants/Loading.dart';
-import '../shoporderhistory.dart';
+import '../ordersstatus/shoporderhistory.dart';
 
 class Shopprofileavwrapper extends StatelessWidget {
   const Shopprofileavwrapper({super.key});
@@ -220,7 +220,7 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                         ),
                         const SizedBox(height: 4),
                         GestureDetector(
-                          onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ShopOrderhistory(),));
+                          onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ShopOrderHistoryScreen(),));
                             print("object");
                           },
                           child: Container(

@@ -64,3 +64,30 @@ class Shopesloaded extends ShopAuthState {
 final class ShopAcceptloading extends ShopAuthState {}
 
 final class ShopRefresh extends ShopAuthState {}
+
+//editshop//
+
+final class EditshopLoading extends ShopAuthState {}
+
+final class EditshopSuccess extends ShopAuthState {}
+
+final class Editshopfailerror extends ShopAuthState {
+  final String error;
+  Editshopfailerror(this.error);
+}
+
+//banshop//
+
+final class Shopbanloading extends ShopAuthState {}
+
+final class ShopBanRefresh extends ShopAuthState {}
+
+
+class Editshoploaded extends ShopAuthState {
+  final List<ShopModel> Shop;
+
+  Editshoploaded(
+  this.Shop,
+);
+
+}

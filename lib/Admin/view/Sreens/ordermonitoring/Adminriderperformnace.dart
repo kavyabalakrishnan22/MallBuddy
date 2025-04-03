@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../Model/User_Management/shop_model.dart';
 import '../../../Model/ordermonitoring_model/Rider_performance_model.dart';
-import 'AdminAllorders.dart';
 
 
 class AdminRidrPerformnace extends StatefulWidget {
@@ -148,7 +146,6 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
             _buildColumn('Total Delivery'),
             _buildColumn('Total Amount'),
             _buildColumn('Rating'),
-            _buildColumn('Delete'),
 
           ],
           rows: List.generate(
@@ -178,12 +175,7 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
                   DataCell(Text(rider.Total_Delivery)),
                   DataCell(Text(rider.Total_Amount)),
                   DataCell(Text(rider.Rating)),
-                  DataCell(Row(
-                  children: [
-                  _buildOutlinedButton("Delete", Colors.red, Colors.red, () {
-                  print("Delete button pressed!");
-                  }), ],
-                  )),             ],
+                ],
               );
             },
           ),
@@ -200,86 +192,6 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
             color: Colors.grey.shade900,
             fontWeight: FontWeight.bold,
             fontSize: 16),
-      ),
-    );
-  }
-
-  Widget _buildToggleButton(String text, int index, bool isEdit) {
-    bool isSelected = isEdit
-        ? (selectedEdit[index] ?? false)
-        : (selectedDelete[index] ?? false);
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(
-                isSelected ? Colors.blue : Colors.white),
-            foregroundColor: MaterialStateProperty.all(
-                isSelected ? Colors.white : Colors.black),
-            padding: MaterialStateProperty.all(
-                const EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-                side: BorderSide(color: isSelected ? Colors.blue : Colors.black),
-              ),
-            ),
-          ),
-          onPressed: () {
-            setState(() {
-              if (isEdit) {
-                selectedEdit[index] = !(selectedEdit[index] ?? false);
-              } else {
-                selectedDelete[index] = !(selectedDelete[index] ?? false);
-                _showDeleteDialog(index);
-              }
-            });
-          },
-          child: SizedBox(width: 90, height: 50, child: Center(child: Text(text)))),
-    );
-  }
-  void _showDeleteDialog(int index) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Confirm Delete"),
-          content: const Text("Are you sure you want to delete this shop?"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  shops.removeAt(index);
-                });
-                Navigator.of(context).pop();
-              },
-              child: const Text("Delete", style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-  Widget _buildOutlinedButton(String text, Color textColor, Color borderColor, VoidCallback onPressed) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: textColor, // Text color
-          side: BorderSide(color: borderColor), // Border color
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12), // Button padding
-        ),
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
       ),
     );
   }

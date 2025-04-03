@@ -13,10 +13,7 @@ class Orderhistory extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
-        ),
+
         title: const Text(
           "Order History",
           style: TextStyle(

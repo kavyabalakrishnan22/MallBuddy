@@ -36,8 +36,9 @@ class FetchBuddyDetailsEvent extends BuddyAuthEvent {
   final String? searchQuery;
   final String? status;
   final String? floor;
+  final String? ban;
   FetchBuddyDetailsEvent(
-      {required this.searchQuery, required this.status, this.floor});
+      {required this.searchQuery, required this.status, this.floor,this.ban});
 }
 
 
@@ -45,5 +46,13 @@ class AcceptRejectbuddyevent extends BuddyAuthEvent{
   final String? id;
   final String? status;
   AcceptRejectbuddyevent({required this.id, required this.status});
+
+}
+
+class BanBuddyrevent extends BuddyAuthEvent{
+  final String? id;
+  final String? Ban;
+  BanBuddyrevent(
+      {required this.id, required this.Ban});
 
 }

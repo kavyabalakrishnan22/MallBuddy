@@ -180,7 +180,8 @@ class ActiveDeliveryPage extends StatelessWidget {
                                     ),
                                   ]),
                           ));
-                        })));
+                        })
+                ));
           }
           return SizedBox();
         },

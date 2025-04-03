@@ -45,3 +45,19 @@ class ShopAcceptRejectbuddyevent extends ShopAuthEvent{
   ShopAcceptRejectbuddyevent({required this.id, required this.status});
 
 }
+
+//editshop//
+
+class EditShop extends ShopAuthEvent {
+  final ShopModel Shop;
+  EditShop({required this.Shop});
+}
+
+//ban shop//
+class BanShoprevent extends ShopAuthEvent{
+  final String? id;
+  final String? Ban;
+  BanShoprevent(
+      {required this.id, required this.Ban});
+
+}

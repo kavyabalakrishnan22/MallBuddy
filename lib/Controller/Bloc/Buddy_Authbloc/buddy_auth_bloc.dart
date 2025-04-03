@@ -140,6 +140,23 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
       },
     );
 
+    //ban//
+
+    on<BanBuddyrevent>(
+          (event, emit) async {
+        try {
+          emit(Buddybanloading());
+
+          await FirebaseFirestore.instance
+              .collection("MallBuddyUsers")
+              .doc(event.id)
+              .update({"Ban": event.Ban});
+        } catch (e) {
+          print(e);
+        }
+      },
+    );
+
     on<BuddyLoginEvent>(
       (event, emit) async {
         emit(BuddyAuthloading());
@@ -196,7 +213,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
       },
     );
 
-    //   get all shopes
+    //   get all Buddy
 
     on<FetchBuddyDetailsEvent>((event, emit) async {
       emit(BuddygetLoading());
@@ -206,6 +223,9 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
 
         Query query = BuddyCollection;
         query = query.where("status", isEqualTo: event.status);
+
+        Query banquery = BuddyCollection;
+        banquery = banquery.where("ban", isEqualTo: event.ban);
 
         QuerySnapshot snapshot = await query.get();
 

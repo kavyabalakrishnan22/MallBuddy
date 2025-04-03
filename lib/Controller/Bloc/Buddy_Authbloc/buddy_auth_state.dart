@@ -62,3 +62,10 @@ class Buddyloaded extends BuddyAuthState {
 final class Acceptloading extends BuddyAuthState {}
 
 final class Refresh extends BuddyAuthState {}
+
+//ban
+
+
+final class Buddybanloading extends BuddyAuthState {}
+
+final class BuddyBanRefresh extends BuddyAuthState {}

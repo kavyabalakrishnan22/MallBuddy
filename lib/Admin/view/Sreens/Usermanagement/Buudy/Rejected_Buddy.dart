@@ -71,12 +71,12 @@ class _AdminRejectedBuddyState extends State<AdminRejectedBuddy> {
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
-                  _buildColumn('Rider ID '),
+                  _buildColumn('Date and Time'),
                   _buildColumn('Rider Details'),
                   _buildColumn('Gender'),
                   // _buildColumn('Phone Number'),
                   // _buildColumn('Email'),
-                  _buildColumn('Accept/Reject'),
+                  _buildColumn('Reject'),
                 ],
                 rows: List.generate(
                   state.Buddys.length,
@@ -88,18 +88,47 @@ class _AdminRejectedBuddyState extends State<AdminRejectedBuddy> {
                           (index + 1).toString(),
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         )),
-                        DataCell(Text(Buddy.uid.toString())),
-                        DataCell(Column(
-                          children: [
-                            Text(
-                              Buddy.name.toString(),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(Buddy.phone.toString()),
-                            Text(Buddy.email.toString())
-                          ],
-                        )),
+                        DataCell(Text("")),
+                        DataCell(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text("Rider_ID:"),
+                                    Text(Buddy.uid.toString(),
+                                      style:
+                                      const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Name:"),
+                                    Text(Buddy.name.toString(),style:
+                                    const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Email:"),
+                                    Text(Buddy.email.toString(),style:
+                                    const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Ph:"),
+                                    Text(Buddy.phone.toString(),style:
+                                    const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                )
+                              ],
+                            )),
                         DataCell(Text(Buddy.Gender.toString())),
                         DataCell(
                           Container(

@@ -184,7 +184,6 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                   _buildColumn('Vehicle Details'),
                   _buildColumn('Total Amount'),
                   _buildColumn('Status'),
-                  _buildColumn(''),
                 ],
                 rows: List.generate(
                   state.Orders.length,
@@ -370,14 +369,6 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                         ),
                         DataCell(Text("1000")),
                         DataCell(Text(allorder.status.toString())),
-                        DataCell(Row(
-                          children: [
-                            _buildOutlinedButton(
-                                "Delete", Colors.red, Colors.red, () {
-                              print("Delete button pressed!");
-                            }),
-                          ],
-                        )),
                       ],
                     );
                   },

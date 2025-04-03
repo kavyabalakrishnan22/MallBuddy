@@ -4,13 +4,14 @@ import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../../Widgets/Constants/Loading.dart';
+import 'Edit_accepted_shop.dart';
 
-class AdminRejectedtedwrapper extends StatelessWidget {
-  const AdminRejectedtedwrapper({super.key});
+class AdminRejectedWrapper extends StatelessWidget {
+  const AdminRejectedWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ShopAuthBloc>(
+    return BlocProvider(
       create: (context) => ShopAuthBloc()
         ..add(FetchShopesDetailsEvent(searchQuery: null, status: "2")),
       child: AdminRejectedShop(),
@@ -29,167 +30,178 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   // title: const Text("Registered Shops"),
-      //   // backgroundColor: Colors.blue,
-      // ),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                width: 250,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 0.5, color: Colors.grey)),
-                child: TextField(
-                  onChanged: (value) {
-                    context.read<ShopAuthBloc>().add(FetchShopesDetailsEvent(
-                        searchQuery: value, status: "2")); // Pass search query
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Search',
-                    prefixIcon: Icon(Icons.search, color: Colors.black),
-                    border: InputBorder.none,
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  width: 250,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(width: 0.5, color: Colors.grey)),
+                  child: TextField(
+                    onChanged: (value) {
+                      context.read<ShopAuthBloc>().add(FetchShopesDetailsEvent(
+                          searchQuery: value, status: "2"));
+                    },
+                    decoration: const InputDecoration(
+                      hintText: 'Search',
+                      prefixIcon: Icon(Icons.search, color: Colors.black),
+                      border: InputBorder.none,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 20),
-            ],
+              ],
+            ),
           ),
-          _buildShopTable("Registered Shops"),
+          Expanded(child: _buildShopTable()),
         ],
       ),
     );
   }
 
-  // Function to build shop tables for each tab
-  Widget _buildShopTable(String title) {
+  Widget _buildShopTable() {
     return BlocConsumer<ShopAuthBloc, ShopAuthState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state is ShopgetLoading) {
-          return Center(child: Loading_Widget());
+          return const Center(child: Loading_Widget());
         } else if (state is Shopesfailerror) {
-          return Text(state.error.toString());
+          return Center(child: Text(state.error.toString()));
         } else if (state is Shopesloaded) {
           if (state.Shopes.isEmpty) {
-            // Return "No data found" if txhe list is empty
-            return Center(
+            return const Center(
               child: Text(
                 "No data found",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             );
           }
-          return ConstrainedBox(
-            constraints:
-                BoxConstraints(minWidth: MediaQuery.of(context).size.width),
-            child: DataTable(
-              dataRowMaxHeight: 100,
-              decoration: const BoxDecoration(color: Colors.white),
-              columns: [
-                _buildColumn('SL NO'),
-                _buildColumn('Date and Time'),
-                _buildColumn('Shop Details'),
-                _buildColumn('Owner Details'),
-                _buildColumn('Floor'),
-                _buildColumn('Rejected Shop'),
-              ],
-              rows: List.generate(
-                state.Shopes.length,
-                (index) {
-                  final shop = state.Shopes[index];
-                  return DataRow(
-                    cells: [
-                      DataCell(Text((index + 1).toString(),
-                          style: const TextStyle(fontWeight: FontWeight.bold))),
-                      DataCell(Text("")),
-                      DataCell(
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  minWidth: MediaQuery.of(context).size.width),
+              child: DataTable(
+                columnSpacing: 15,
+                dataRowHeight: 80,
+                decoration: const BoxDecoration(color: Colors.white),
+                columns: [
+                  _buildColumn('SL NO'),
+                  _buildColumn('Date and Time'),
+                  _buildColumn('Shop Details'),
+                  _buildColumn('Owner Details'),
+                  _buildColumn('Floor'),
+                  _buildColumn('Rejected Shop'),
+                  _buildColumn('Edit Shop'),
+                ],
+                rows: List.generate(
+                  state.Shopes.length,
+                      (index) {
+                    final shop = state.Shopes[index];
+                    return DataRow(
+                      cells: [
+                        DataCell(Text((index + 1).toString(),
+                            style: const TextStyle(fontWeight: FontWeight.bold))),
+                        const DataCell(Text("")),
+                        DataCell(
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
                             children: [
-                              Text("Shop_ID:"),
-                              Text(shop.uid.toString(),
-                                style:
-                                const TextStyle(fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.ellipsis,),
+                              Text("Shop ID: ${shop.uid}",
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1),
+                              Text("Shop Name: ${shop.Shopname}",
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1),
                             ],
                           ),
-                          Row(
-                            children: [
-                              Text("Shop_Name"),
-                              Text(shop.Shopname.toString(),style:
-                              const TextStyle(fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.ellipsis,),
-                            ],
-                          )
-                        ],
-                      )),
-                      DataCell(
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              shop.Ownername.toString(),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(shop.phone.toString(),
-                                overflow: TextOverflow.ellipsis),
-                            Text(shop.email.toString(),
-                                overflow: TextOverflow.ellipsis),
-                          ],
                         ),
-                      ),
-                      DataCell(Text(shop.Selectfloor.toString())),
-                      DataCell(
-                        Container(
-                          height: 40,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            border:
-                            Border.all(color: Colors.red, width: 1.5),
-                            borderRadius:
-                            BorderRadius.circular(12), // Rounded corners
-                            color: Colors.white, // Background color
-                          ),
-                          child: Row(
+                        DataCell(
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset(
-                                'assets/admin/Rejected.png', // Replace with your actual asset path
-                                height: 25,
-                                width: 25,
-                              ),
-                              SizedBox(width: 5), // Spacing
-                              Text(
-                                "Rejected",
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                              Text(shop.Ownername.toString(),
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1),
+                              Text(shop.phone.toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1),
+                              Text(shop.email.toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1),
                             ],
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                },
+                        DataCell(Text(shop.Selectfloor.toString())),
+                        DataCell(
+                          Container(
+                            height: 40,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.red, width: 1.5),
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/admin/Rejected.png',
+                                  height: 25,
+                                  width: 25,
+                                ),
+                                const SizedBox(width: 5),
+                                const Text("Rejected",
+                                    style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              side: const BorderSide(color: Colors.black, width: 1.5),
+                              backgroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ShopEditPage(
+                                    shopId: shop.uid.toString(),
+                                    shopName: shop.Shopname.toString(),
+                                    ownerName: shop.Ownername.toString(),
+                                    phone: shop.phone.toString(),
+                                    email: shop.email.toString(),
+                                    floor: shop.Selectfloor.toString(),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: const Text("Edit"),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           );
         }
-        return SizedBox();
+        return const SizedBox();
       },
     );
   }
@@ -206,23 +218,4 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
       ),
     );
   }
-
-// Widget _buildOutlinedButton(String text, Color textColor, Color borderColor, VoidCallback onPressed) {
-//   return Padding(
-//     padding: const EdgeInsets.all(4.0),
-//     child: OutlinedButton(
-//       style: OutlinedButton.styleFrom(
-//         foregroundColor: textColor, // Text color
-//         side: BorderSide(color: borderColor), // Border color
-//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-//         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12), // Button padding
-//       ),
-//       onPressed: onPressed,
-//       child: Text(
-//         text,
-//         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-//       ),
-//     ),
-//   );
-// }
 }

@@ -97,6 +97,21 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
       }
     });
 
+    on<BanShoprevent>(
+          (event, emit) async {
+        try {
+          emit(Shopbanloading());
+
+          await FirebaseFirestore.instance
+              .collection("MallBuddyUsers")
+              .doc(event.id)
+              .update({"Ban": event.Ban});
+        } catch (e) {
+          print(e);
+        }
+      },
+    );
+
 
 
     on<ShopSigOutEvent>(
@@ -139,6 +154,26 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
         }
       },
     );
+
+    //editshop//
+    on<EditShop>((event, emit) async {
+      emit(EditshopLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Service_Category")
+            .doc(event.Shop.uid)
+            .update({
+          "Shopname": event.Shop.Shopname,
+          "Ownername": event.Shop.Ownername,
+          "phone_number": event.Shop.phone,
+          "email": event.Shop.email,
+        });
+        emit(ShopRefresh());
+      } catch (e) {
+        emit(Editshopfailerror(e.toString()));
+      }
+    });
+
 
     on<ShopLoginEvent>(
       (event, emit) async {

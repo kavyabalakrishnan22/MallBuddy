@@ -4,27 +4,46 @@ import 'package:mall_bud/User/View/Screens/status/Allordersscreen.dart';
 import 'package:mall_bud/User/View/Screens/status/canceledorders.dart';
 import 'package:mall_bud/User/View/Screens/status/deliveredorders.dart';
 import 'package:mall_bud/User/View/Screens/status/inprogress.dart';
-import '../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
-import '../../../Widgets/Constants/Loading.dart';
-import '../../../Widgets/Constants/colors.dart';
-import 'orderhistory.dart';
+import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../Widgets/Constants/Loading.dart';
+import '../../../../Widgets/Constants/colors.dart';
+import 'ShopAllOrdersstatus.dart';
+import 'ShopCanceledstatus.dart';
+import 'ShopDeliveredsstatus.dart';
+import 'Shopinprogressstatus.dart';
 
-
-class OrderHistoryScreen extends StatefulWidget {
-  const OrderHistoryScreen({super.key});
+// class InProgressScreenwrapper extends StatelessWidget {
+//   const InProgressScreenwrapper({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider<OrderBloc>(
+//       create: (context) => OrderBloc()
+//         ..add(
+//           FetchPlaceorderEvent(
+//             searchQuery: null,
+//             status: '0',
+//           ),
+//         ),
+//       child: ShopOrderHistoryScreen(),
+//     );
+//   }
+// }
+class ShopOrderHistoryScreen extends StatefulWidget {
+  const ShopOrderHistoryScreen({super.key});
 
   @override
-  State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
+  State<ShopOrderHistoryScreen> createState() => _ShopOrderHistoryScreenState();
 }
 
-class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
+class _ShopOrderHistoryScreenState extends State<ShopOrderHistoryScreen> {
   int activeTabIndex = 0;
 
   final List<Widget> tabs = [
-    allordersScreenwrapper(),
-    InProgressScreenwrapper(),
-    deliverdordersscreenwrapper(),
-    cancelledordersscreenwrapper(),
+    Shop4allordersScreenwrapper(),
+    ShopInProgressScreenwrapper(),
+    Shopdeliverdordersscreenwrapper(),
+    ShopcancelledordersscreenWrapper(),
   ];
 
 

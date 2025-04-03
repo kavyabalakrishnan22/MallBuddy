@@ -9,7 +9,8 @@ import 'Order/Shop_Userselectparking.dart';
 import '../shop_active_delivery.dart';
 import '../shop_complete_delivery.dart';
 import 'Order/shop_select_parking.dart';
-import '../shoporderhistory.dart';
+import '../ordersstatus/shoporderhistory.dart';
+import 'Shop_Notification.dart';
 import 'Shop_ProfilePage.dart';
 
 class ShopHomeScreen extends StatelessWidget {
@@ -65,7 +66,16 @@ class ShopHomeScreen extends StatelessWidget {
           ),
           Spacer(),
           SizedBox(width: 10),
-          Icon(Icons.notifications_on_sharp, size: 30, color: Colors.black45),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ShopNotificationScreen()), // Navigate to ProfilePage
+              );
+            },
+          child: Icon(Icons.notifications_on_sharp, size: 30, color: Colors.black45),),
           SizedBox(width: 10),
           GestureDetector(
             onTap: () {
@@ -403,7 +413,7 @@ class ShopHomeScreen extends StatelessWidget {
       case "Complete\nDelivery":
         return CompleteDeliverywrapper();
       case "Order\nStatus":
-        return Shoporderstatuswrapper();
+        return ShopOrderHistoryScreen();
       default:
         return ShopHomeScreen(); // Default to home if no match found
     }

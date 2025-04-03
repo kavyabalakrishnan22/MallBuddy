@@ -52,3 +52,22 @@ class Usersloaded extends AuthState {
     this.Users,
   );
 }
+
+final class banloading extends AuthState {}
+
+final class BanRefresh extends AuthState {}
+
+class ProfileImageInitial extends AuthState {}
+
+class ProfileImageLoading extends AuthState {}
+
+class ProfileImageSuccess extends AuthState {
+}
+
+class ProfileImageFailure extends AuthState {
+  final String error;
+  ProfileImageFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}

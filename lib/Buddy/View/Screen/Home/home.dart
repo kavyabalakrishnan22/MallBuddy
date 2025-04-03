@@ -7,6 +7,8 @@ import 'package:mall_bud/Widgets/Constants/Loading.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
+import '../../../../Shop/View/Screens/Home/Shop_Notification.dart';
+import '../../../../Shop/View/Screens/Home/Shop_ProfilePage.dart';
 import 'BuddyActiveDeliveryPage.dart';
 import 'Buddy_Assigntime.dart';
 import 'Buddy_completedeliveryfirstpage.dart';
@@ -111,8 +113,40 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
             ],
           ),
           Spacer(),
-          SizedBox(width: 8),
-          Icon(Icons.notifications_on_sharp, size: 30, color: Colors.black45),
+          SizedBox(width: 10),
+
+          Row(
+            children: [
+              SizedBox(width: 10,),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ShopNotificationScreen()), // Navigate to ProfilePage
+                  );
+                },
+              child: Icon(Icons.notifications_on_sharp, size: 30, color: Colors.black45)),
+            ],
+          ),
+          SizedBox(width: 10),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Shopprofileavwrapper()), // Navigate to ProfilePage
+              );
+            },
+            child: CircleAvatar(
+              radius: 20, // Adjust size as needed
+              backgroundImage: AssetImage("assets/profile/girl.png"),
+              backgroundColor: Colors
+                  .transparent, // Optional: Make the background transparent
+            ),
+          ),
         ],
       ),
       SizedBox(height: 20),

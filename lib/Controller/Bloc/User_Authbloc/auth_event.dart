@@ -31,5 +31,16 @@ class FetchUserDetailsById extends AuthEvent {}
 
 class FetchUsers extends AuthEvent {
   final String? searchQuery;
-  FetchUsers({required this.searchQuery});
+  FetchUsers(
+      {required this.searchQuery});
 }
+
+class BanUserevent extends AuthEvent{
+  final String? id;
+  final String? Ban;
+  BanUserevent(
+      {required this.id, required this.Ban});
+
+}
+
+class PickAndUploadImageEvent extends AuthEvent {}

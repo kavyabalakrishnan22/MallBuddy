@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'Userauthmodel/Usermodel.dart';
 part 'auth_event.dart';
@@ -8,6 +12,8 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final ImagePicker _imagePicker = ImagePicker();
   AuthBloc() : super(AuthInitial()) {
     // check Auth or Not
     on<checkloginstateevent>(
@@ -26,6 +32,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             message:
                 e.toString().split('] ').last, // Extracts only the message part
           ));
+        }
+      },
+    );
+//ban//
+
+    on<BanUserevent>(
+      (event, emit) async {
+        try {
+          emit(banloading());
+
+          await FirebaseFirestore.instance
+              .collection("MallBuddyUsers")
+              .doc(event.id)
+              .update({"ban": event.Ban});
+          emit(BanRefresh());
+        } catch (e) {
+          print(e);
         }
       },
     );
@@ -121,12 +144,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(Usersfailerror(e.toString()));
       }
     });
-
+    User? user = _auth.currentUser;
     on<SigOutEvent>(
       (event, emit) async {
         try {
-          User? user = _auth.currentUser;
-
           if (user != null) {
             // Get the Player ID from OneSignalService
 
@@ -201,5 +222,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
+
+    on<PickAndUploadImageEvent>((event, emit) async {
+      try {
+        // Pick Image from Gallery
+        final pickedFile =
+            await _imagePicker.pickImage(source: ImageSource.gallery);
+        if (pickedFile == null) {
+          return; // User canceled image selection
+        }
+
+        emit(ProfileImageLoading());
+
+        File imageFile = File(pickedFile.path);
+        String fileName =
+            "Userprofile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+
+        // Upload to Firebase Storage
+        UploadTask uploadTask =
+            _firebaseStorage.ref(fileName).putFile(imageFile);
+        TaskSnapshot snapshot = await uploadTask;
+
+        // Get Download URL
+        String downloadUrl = await snapshot.ref.getDownloadURL();
+        print(downloadUrl);
+        if (user != null) {
+          FirebaseFirestore.instance
+              .collection("Laundry_Users")
+              .doc(user.uid)
+              .update({"imageUrl": downloadUrl});
+        }
+        emit(ProfileImageSuccess());
+      } catch (e) {
+        print(e);
+        emit(ProfileImageFailure("Failed to upload image"));
+      }
+    });
   }
 }
