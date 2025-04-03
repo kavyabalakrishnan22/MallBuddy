@@ -31,7 +31,7 @@ class _BuddyBottomNavState extends State<BuddyBottomNav> {
   final List<Widget> _screens = [
     BuddyHomeScreen(),
     BuddyQRScanPage(),
-    BuddyProfilePage(),
+    Buddyprofileavwrapper(),
   ];
 
   void _onItemTapped(int index) {

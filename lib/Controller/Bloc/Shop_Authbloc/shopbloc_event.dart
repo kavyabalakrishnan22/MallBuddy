@@ -61,3 +61,5 @@ class BanShoprevent extends ShopAuthEvent{
       {required this.id, required this.Ban});
 
 }
+
+class ShopPickAndUploadImageEvent extends ShopAuthEvent {}

@@ -1,12 +1,19 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+import '../User_Authbloc/auth_bloc.dart';
 import 'Buddyauthmodel/Buddyauthmodel.dart';
 import 'buddy_auth_event.dart';
 import 'buddy_auth_state.dart';
 
 class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   BuddyAuthBloc() : super(BuddyAuthInitial()) {
     // check Auth or Not
     on<checkBuddyloginstateevent>(
@@ -23,7 +30,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
         } catch (e) {
           emit(BuddyAuthenticatedError(
             message:
-                e.toString().split('] ').last, // Extracts only the message part
+                e.toString().split(' ').last, // Extracts only the message part
           ));
         }
       },
@@ -97,12 +104,11 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
     });
 
     // accept
+    User? user = _auth.currentUser;
 
     on<BuddySigOutEvent>(
       (event, emit) async {
         try {
-          User? user = _auth.currentUser;
-
           if (user != null) {
             // Get the Player ID from OneSignalService
 
@@ -212,6 +218,57 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
         }
       },
     );
+
+    on<BuddyPickAndUploadImageEvent>((event, emit) async {
+      try {
+        emit(BuddyProfileImageLoading());
+
+        // ✅ Open file picker
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.image, // Pick only image files
+          withData: true, // Required for web
+        );
+
+        if (result == null) {
+          print("No image selected.");
+          emit(BuddyProfileImageFailure("No image selected."));
+          return; // User canceled selection
+        }
+
+        String fileName =
+            "Buddyprofile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+        Reference storageRef = _firebaseStorage.ref().child(fileName);
+        UploadTask uploadTask;
+
+        if (kIsWeb) {
+          // ✅ Web: Upload image as bytes
+          Uint8List imageData = result.files.first.bytes!;
+          uploadTask = storageRef.putData(imageData);
+        } else {
+          // ✅ Mobile: Upload image as a File
+          File imageFile = File(result.files.first.path!);
+          uploadTask = storageRef.putFile(imageFile);
+        }
+
+        // ✅ Wait for the upload to complete
+        TaskSnapshot snapshot = await uploadTask;
+        String downloadUrl = await snapshot.ref.getDownloadURL();
+        print("Uploaded Image URL: $downloadUrl");
+
+        // ✅ Update Firestore with the image URL
+        if (user != null) {
+          await FirebaseFirestore.instance
+              .collection("MallBuddyRiders")
+              .doc(user.uid)
+              .update({"imagepath": downloadUrl});
+        }
+
+        emit(BuddyProfileImageSuccess());
+      } catch (e) {
+        print("Error: $e");
+        emit(BuddyProfileImageFailure("Failed to upload image"));
+      }
+    });
 
     //   get all Buddy
 

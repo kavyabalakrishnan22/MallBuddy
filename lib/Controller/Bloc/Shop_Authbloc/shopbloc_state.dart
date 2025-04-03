@@ -82,7 +82,6 @@ final class Shopbanloading extends ShopAuthState {}
 
 final class ShopBanRefresh extends ShopAuthState {}
 
-
 class Editshoploaded extends ShopAuthState {
   final List<ShopModel> Shop;
 
@@ -90,4 +89,20 @@ class Editshoploaded extends ShopAuthState {
   this.Shop,
 );
 
+}
+
+
+class ShopProfileImageInitial extends ShopAuthState {}
+
+class ShopProfileImageLoading extends ShopAuthState {}
+
+class ShopProfileImageSuccess extends ShopAuthState {
+}
+
+class ShopProfileImageFailure extends ShopAuthState {
+  final String error;
+  ShopProfileImageFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
 }

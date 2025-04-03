@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 
@@ -8,6 +13,7 @@ import 'Shopauthmodel/Shopauthmodel.dart';
 
 class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   ShopAuthBloc() : super(ShopAuthInitial()) {
     // check Auth or Not
     on<checkShoploginstateevent>(
@@ -113,11 +119,11 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
     );
 
 
+    User? user = _auth.currentUser;
 
     on<ShopSigOutEvent>(
       (event, emit) async {
         try {
-          User? user = _auth.currentUser;
 
           if (user != null) {
             // Get the Player ID from OneSignalService
@@ -171,6 +177,57 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
         emit(ShopRefresh());
       } catch (e) {
         emit(Editshopfailerror(e.toString()));
+      }
+    });
+
+    on<ShopPickAndUploadImageEvent>((event, emit) async {
+      try {
+        emit(ShopProfileImageLoading());
+
+        // ✅ Open file picker
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.image, // Pick only image files
+          withData: true, // Required for web
+        );
+
+        if (result == null) {
+          print("No image selected.");
+          emit(ShopProfileImageFailure("No image selected."));
+          return; // User canceled selection
+        }
+
+        String fileName =
+            "Shoprofile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+        Reference storageRef = _firebaseStorage.ref().child(fileName);
+        UploadTask uploadTask;
+
+        if (kIsWeb) {
+          // ✅ Web: Upload image as bytes
+          Uint8List imageData = result.files.first.bytes!;
+          uploadTask = storageRef.putData(imageData);
+        } else {
+          // ✅ Mobile: Upload image as a File
+          File imageFile = File(result.files.first.path!);
+          uploadTask = storageRef.putFile(imageFile);
+        }
+
+        // ✅ Wait for the upload to complete
+        TaskSnapshot snapshot = await uploadTask;
+        String downloadUrl = await snapshot.ref.getDownloadURL();
+        print("Uploaded Image URL: $downloadUrl");
+
+        // ✅ Update Firestore with the image URL
+        if (user != null) {
+          await FirebaseFirestore.instance
+              .collection("MallBuddyRiders")
+              .doc(user.uid)
+              .update({"imagepath": downloadUrl});
+        }
+
+        emit(ShopProfileImageSuccess());
+      } catch (e) {
+        print("Error: $e");
+        emit(ShopProfileImageFailure("Failed to upload image"));
       }
     });
 

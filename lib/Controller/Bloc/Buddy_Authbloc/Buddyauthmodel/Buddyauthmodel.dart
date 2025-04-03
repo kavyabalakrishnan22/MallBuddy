@@ -31,7 +31,7 @@ class BuddyModel {
       phone: data['phone_number'],
       status: data['status'],
       Ban: data['ban'],
-      Image: data['image'],
+      Image: data['imagepath'],
       Dob: data['Dateodbirth'],
       Gender: data['Gender'],
     );

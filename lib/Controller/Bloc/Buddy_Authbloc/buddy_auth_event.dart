@@ -56,3 +56,5 @@ class BanBuddyrevent extends BuddyAuthEvent{
       {required this.id, required this.Ban});
 
 }
+
+class BuddyPickAndUploadImageEvent extends BuddyAuthEvent {}

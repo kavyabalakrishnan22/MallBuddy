@@ -11,6 +11,21 @@ import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import '../../../../User/View/Screens/Home/Editprofile.dart';
+import 'BuddyEditpprofile.dart';
+
+class Buddyprofileavwrapper extends StatelessWidget {
+  const Buddyprofileavwrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => BuddyAuthBloc()..add(FetchBuddyDetailsById()),
+      child: BuddyProfilePage(),
+    );
+  }
+}
+
 class BuddyProfilePage extends StatefulWidget {
   const BuddyProfilePage({super.key});
 
@@ -19,66 +34,6 @@ class BuddyProfilePage extends StatefulWidget {
 }
 
 class _BuddyProfilePageState extends State<BuddyProfilePage> {
-  int selectedContactIndex = -1;
-  int selectedIndex = -1;
-  List<TextEditingController> controllers = [];
-
-  final List<Map<String, String>> contactDetails = [
-    {"label": "Email", "value": "kavyabalakrishnan2018@gmail.com"},
-    {"label": "Mobile", "value": "8921689037"},
-  ];
-
-  File? _profileImage;
-  final ImagePicker _picker = ImagePicker();
-
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source);
-    if (pickedFile != null) {
-      setState(() {
-        _profileImage = File(pickedFile.path);
-      });
-    }
-  }
-
-  void _showImagePickerOptions() {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (context) => CupertinoActionSheet(
-        title: const Text("Choose an option"),
-        actions: [
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-              _pickImage(ImageSource.gallery);
-            },
-            child: const Text("Upload Photo"),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-              _pickImage(ImageSource.camera);
-            },
-            child: const Text("Take Photo"),
-          ),
-          CupertinoActionSheetAction(
-            isDestructiveAction: true,
-            onPressed: () {
-              setState(() {
-                _profileImage = null;
-              });
-              Navigator.pop(context);
-            },
-            child: const Text("Remove Photo"),
-          ),
-        ],
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () => Navigator.pop(context),
-          child: const Text("Cancel"),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +79,13 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        BlocBuilder<BuddyAuthBloc, BuddyAuthState>(
+                        BlocConsumer<BuddyAuthBloc, BuddyAuthState>(
+                          listener: (context, state) {
+                            if (state is BuddyProfileImageSuccess) {
+                              context.read<BuddyAuthBloc>()
+                                ..add(FetchBuddyDetailsById());
+                            }
+                          },
                           builder: (context, state) {
                             if (state is Buddyloading) {
                               return SizedBox(
@@ -138,36 +99,58 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                                 children: [
                                   Stack(
                                     children: [
-                                      CircleAvatar(
-                                        radius: 70,
-                                        backgroundImage: _profileImage != null
-                                            ? FileImage(_profileImage!)
-                                            :  AssetImage(
-                                                    "assets/profile/girl.png")
-                                                as ImageProvider,
-                                      ),
-                                      Positioned(
-                                        right: 0,
-                                        bottom: 0,
-                                        child: GestureDetector(
-                                          onTap: _showImagePickerOptions,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: defaultBlue,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            padding: const EdgeInsets.all(8),
-                                            child: const Icon(
-                                              CupertinoIcons.camera,
-                                              color: Colors.white,
-                                              size: 20,
-                                            ),
-                                          ),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            60), // Ensures a rectangular shape
+                                        child: Image.network(
+                                          user.Image.toString(),
+                                          width: 100, // Adjusted width
+                                          height: 100, // Adjusted height
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return state
+                                                    is BuddyProfileImageLoading
+                                                ? Loading_Widget()
+                                                : Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey[
+                                                          300], // Placeholder background
+                                                      borderRadius: BorderRadius
+                                                          .zero, // Ensures rectangle shape
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.image_not_supported,
+                                                      size: 50,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                  );
+                                          },
                                         ),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 8),
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return BuddyEditProfilePage(
+                                              image: user.Image,
+                                            );
+                                          },
+                                        )).then(
+                                          (value) {
+                                            context
+                                                .read<BuddyAuthBloc>()
+                                                .add(FetchBuddyDetailsById());
+                                          },
+                                        );
+                                      },
+                                      icon: Icon(Icons.edit)),
+                                  const SizedBox(height: 12),
                                   Text('${user.name ?? ''}',
                                       style: TextStyle(
                                           fontSize: 18,
@@ -182,11 +165,17 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                                   ListTile(
                                     title: Text("Email"),
                                     subtitle: Text('${user.email ?? ''}'),
-                                  ),Divider(color: Colors.black54,),
+                                  ),
+                                  Divider(
+                                    color: Colors.black54,
+                                  ),
                                   ListTile(
                                     title: Text("Mobile"),
                                     subtitle: Text('Name: ${user.phone ?? ''}'),
-                                  ),Divider(color: Colors.black54,),
+                                  ),
+                                  Divider(
+                                    color: Colors.black54,
+                                  ),
                                 ],
                               );
                             }
@@ -201,11 +190,13 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),border: Border.all(width: 1,color: Colors.black)
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.shopping_bag, color: Colors.grey),
@@ -229,11 +220,13 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),border: Border.all(width: 1,color: Colors.black)
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.lock, color: Colors.grey),
@@ -257,11 +250,13 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),border: Border.all(width: 1,color: Colors.black)
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.article, color: Colors.grey),
@@ -292,11 +287,13 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),border: Border.all(width: 1,color: Colors.black)
-                              // border: Border.all(
-                              //     color: isSelected ? Colors.blue : Colors.grey.shade300),
-                            ),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
                             child: Row(
                               children: [
                                 Icon(Icons.login, color: Colors.red),
