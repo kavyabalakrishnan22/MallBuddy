@@ -104,7 +104,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
     });
 
     on<BanShoprevent>(
-          (event, emit) async {
+      (event, emit) async {
         try {
           emit(Shopbanloading());
 
@@ -118,13 +118,11 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
       },
     );
 
-
     User? user = _auth.currentUser;
 
     on<ShopSigOutEvent>(
       (event, emit) async {
         try {
-
           if (user != null) {
             // Get the Player ID from OneSignalService
 
@@ -146,7 +144,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
       },
     );
     on<ShopAcceptRejectbuddyevent>(
-          (event, emit) async {
+      (event, emit) async {
         try {
           emit(ShopAcceptloading());
 
@@ -230,7 +228,6 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
         emit(ShopProfileImageFailure("Failed to upload image"));
       }
     });
-
 
     on<ShopLoginEvent>(
       (event, emit) async {

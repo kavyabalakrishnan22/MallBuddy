@@ -11,20 +11,18 @@ import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../myorders.dart';
 import 'User_shop.dart';
 
-// class UserHomePagewrapper extends StatelessWidget {
-//   const UserHomePagewrapper({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider<ShopAuthBloc>(
-//       create: (context) => ShopAuthBloc()
-//         ..add(FetchShopesDetailsEvent(
-//             searchQuery: null,status: '0'
-//         )),
-//       child: UserHomePage(),
-//     );
-//   }
-// }
+class UserHomePagewrapper extends StatelessWidget {
+  const UserHomePagewrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<ShopAuthBloc>(
+      create: (context) => ShopAuthBloc()
+        ..add(FetchShopesDetailsEvent(searchQuery: null, status: '0')),
+      child: UserHomePage(),
+    );
+  }
+}
 
 class UserHomePage extends StatefulWidget {
   @override
@@ -224,9 +222,7 @@ class _UserHomePageState extends State<UserHomePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: BlocConsumer<ShopAuthBloc, ShopAuthState>(
-                  listener: (context, state) {
-                    // TODO: implement listener
-                  },
+                  listener: (context, state) {},
                   builder: (context, state) {
                     if (state is ShopgetLoading) {
                       return Center(child: Loading_Widget());
@@ -256,6 +252,7 @@ class _UserHomePageState extends State<UserHomePage> {
                         itemBuilder: (context, index) {
                           final shop = state.Shopes[index];
                           return ShopGridViewItem(
+                            image: shop.Image.toString(),
                             name: shop.Shopname.toString(),
                             subtitle: shop.Selectfloor.toString(),
                           );
@@ -329,7 +326,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 height: 200, width: double.infinity, fit: BoxFit.cover),
           ),
           SizedBox(height: 8),
-          Text(data["name"],
+          Text("suni",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           SizedBox(height: 4),
           Text(data["subtitle"],

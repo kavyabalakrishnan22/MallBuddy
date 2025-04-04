@@ -32,13 +32,16 @@ class MyApp extends StatelessWidget {
             ..add(FetchUsers(
               searchQuery: null,
             )),
-        ),BlocProvider<ShopAuthBloc>(
-    create: (context) => ShopAuthBloc()..add(FetchShopDetailsById()),
-    ),BlocProvider<ShopAuthBloc>(
-    create: (context) => ShopAuthBloc()
-    ..add(FetchShopesDetailsEvent(
-    searchQuery: null,status: '0'
-    )),)
+        ),
+        BlocProvider<ShopAuthBloc>(
+          create: (context) => ShopAuthBloc()..add(FetchShopDetailsById()),
+        ),
+        BlocProvider<ShopAuthBloc>(
+          create: (context) => ShopAuthBloc()
+            ..add(FetchShopesDetailsEvent(searchQuery: null, status: '1')),
+        ),
+
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

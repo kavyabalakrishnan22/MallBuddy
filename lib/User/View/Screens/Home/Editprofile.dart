@@ -1,4 +1,4 @@
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,11 +16,11 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController nameController =
-  TextEditingController(text: "Charlotte King");
+      TextEditingController(text: "Charlotte King");
   TextEditingController emailController =
-  TextEditingController(text: "johnkinggraphics@gmail.com");
+      TextEditingController(text: "johnkinggraphics@gmail.com");
   TextEditingController phoneController =
-  TextEditingController(text: "+91 6895312");
+      TextEditingController(text: "+91 6895312");
 
   bool isPasswordVisible = false;
 
@@ -69,31 +69,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(
-                            60), // Ensures a rectangular shape
-                        child: Image.network(
-                          widget.image,
-                          width: 100, // Adjusted width
-                          height: 100, // Adjusted height
+                            50), // Half of width/height to form a circle
+                        child: CachedNetworkImage(
+                          imageUrl: widget.image.toString(),
+                          width: 100,
+                          height: 100,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return state is ProfileImageLoading
-                                ? Loading_Widget()
-                                : Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                color: Colors
-                                    .grey[300], // Placeholder background
-                                borderRadius: BorderRadius
-                                    .zero, // Ensures rectangle shape
-                              ),
-                              child: Icon(
-                                Icons.image_not_supported,
-                                size: 50,
-                                color: Colors.grey[600],
-                              ),
-                            );
-                          },
+                          placeholder: (context, url) => Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.white,
+                            child: Center(child: Loading_Widget()),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.grey[300],
+                            child: Icon(
+                              Icons.image_not_supported,
+                              size: 50,
+                              color: Colors.grey[600],
+                            ),
+                          ),
                         ),
                       ),
                       Positioned(
@@ -119,11 +116,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 SizedBox(
                   child: state is ProfileImageLoading
                       ? Column(
-                    children: [
-                      Loading_Widget(),
-                      Text("Profile Updating.....")
-                    ],
-                  )
+                          children: [
+                            Loading_Widget(),
+                            Text("Profile Updating.....")
+                          ],
+                        )
                       : Text(""),
                 ),
                 SizedBox(height: 20),
@@ -164,15 +161,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
           border: InputBorder.none,
           suffixIcon: isPassword
               ? IconButton(
-            icon: Icon(isPasswordVisible
-                ? Icons.visibility
-                : Icons.visibility_off),
-            onPressed: () {
-              setState(() {
-                isPasswordVisible = !isPasswordVisible;
-              });
-            },
-          )
+                  icon: Icon(isPasswordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordVisible = !isPasswordVisible;
+                    });
+                  },
+                )
               : null,
         ),
       ),

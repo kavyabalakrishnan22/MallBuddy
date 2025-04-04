@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,9 +15,7 @@ class Shopwrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<ShopAuthBloc>(
       create: (context) => ShopAuthBloc()
-        ..add(FetchShopesDetailsEvent(
-          searchQuery: null,status: '0'
-        )),
+        ..add(FetchShopesDetailsEvent(searchQuery: null, status: '1')),
       child: Shop(),
     );
   }
@@ -30,10 +29,6 @@ class Shop extends StatefulWidget {
 }
 
 class _ShopState extends State<Shop> {
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,9 +107,9 @@ class _ShopState extends State<Shop> {
                     ),
                     itemCount: state.Shopes.length,
                     itemBuilder: (context, index) {
-                      final shop=state.Shopes[index];
+                      final shop = state.Shopes[index];
                       return ShopGridViewItem(
-
+                        image: shop.Image.toString(),
                         name: shop.Shopname.toString(),
                         subtitle: shop.Selectfloor.toString(),
                       );
@@ -132,13 +127,13 @@ class _ShopState extends State<Shop> {
 }
 
 class ShopGridViewItem extends StatelessWidget {
-
   final String name;
   final String subtitle;
+  final String image;
 
   const ShopGridViewItem({
     Key? key,
-
+    required this.image,
     required this.name,
     required this.subtitle,
   }) : super(key: key);
@@ -164,13 +159,35 @@ class ShopGridViewItem extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Image.network(
-                  "",
-                  fit: BoxFit.contain, // Keeps image centered
-                  width: double.infinity, // Adjusted width
-                  height: double.infinity,
+              child:  ClipRRect(
+                borderRadius: BorderRadius.circular(
+                    12), // Rounded corners for image
+                child: CachedNetworkImage(
+                  imageUrl:image.toString(),
+                  width: 130, // Adjusted width
+                  height: 100, // Adjusted height
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    width: 100,
+                    height: 100,
+                    color: Colors.grey[300], // Placeholder background
+                    child: Center(
+                      child: Loading_Widget(), // Loading indicator
+                    ),
+                  ),
+                  errorWidget: (context, error, stackTrace) {
+                    return Container(
+                      width: 130,
+                      height: 100,
+                      color: Colors
+                          .grey[300], // Placeholder background
+                      child: Icon(
+                        Icons.image_not_supported,
+                        size: 50,
+                        color: Colors.grey[600],
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
