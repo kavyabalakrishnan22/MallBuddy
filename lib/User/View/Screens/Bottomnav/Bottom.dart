@@ -6,7 +6,7 @@ import 'package:mall_bud/Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../Home/User_Home_page.dart';
 import '../Home/User_shop.dart';
 import '../Home/listinvoices.dart';
-import '../Home/profile.dart';
+import '../Home/Profile/profile.dart';
 import '../Home/scan.dart';
 
 class UserBottomnavwrapper extends StatelessWidget {

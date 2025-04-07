@@ -4,6 +4,7 @@ import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
 import '../../../../../Widgets/Constants/Loading.dart';
+import 'Edit_accepted_buddy.dart';
 
 
 class AdminAcceptedwrapper extends StatelessWidget {
@@ -141,6 +142,7 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                   // _buildColumn('Phone Number'),
                   // _buildColumn('Email'),
                   _buildColumn('Accepted'),
+                  _buildColumn('Edit Buddy'),
                   _buildColumn('Ban Buddy'),
                 ],
                 rows: List.generate(
@@ -226,6 +228,39 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                             ),
                           ),
                         ),
+                        DataCell(
+                          ElevatedButton(
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              side: BorderSide(
+                                  color: Colors.black, width: 1.5),
+                              backgroundColor: Colors.white,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 12),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BuddyEditPage(
+                                    BId: Buddy.uid.toString(),
+                                    Buddyname: Buddy.name.toString(),
+                                    phone: Buddy.phone.toString(),
+                                    Gender: Buddy.Gender.toString(),
+                                  ),
+                                ),
+                              ).then(
+                                    (value) {
+                                  context.read<BuddyAuthBloc>()
+                                    ..add(FetchBuddyDetailsEvent(
+                                        searchQuery: null, status: "1"));
+                                },
+                              );
+                            },
+                            child: Text("Edit"),
+                          ),
+                        ),
+
                         DataCell(
                           ElevatedButton(
                             onPressed: () {

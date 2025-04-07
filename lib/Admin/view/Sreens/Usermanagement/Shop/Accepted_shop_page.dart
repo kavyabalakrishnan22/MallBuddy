@@ -107,13 +107,13 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                       _buildColumn('Shop Details'),
                       _buildColumn('Owner Details'),
                       _buildColumn('Floor'),
-                      _buildColumn('Accepted Shop'),
-                      _buildColumn('Ban Shop'),
+                      _buildColumn('Action'),
                       _buildColumn('Edit'),
+                      _buildColumn('Ban Shop'),
                     ],
                     rows: List.generate(
                       state.Shopes.length,
-                          (index) {
+                      (index) {
                         final shop = state.Shopes[index];
                         return DataRow(
                           cells: [
@@ -177,8 +177,8 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                                 height: 40,
                                 width: 120,
                                 decoration: BoxDecoration(
-                                  border:
-                                  Border.all(color: Colors.green, width: 1.5),
+                                  border: Border.all(
+                                      color: Colors.green, width: 1.5),
                                   borderRadius: BorderRadius.circular(12),
                                   color: Colors.white,
                                 ),
@@ -205,7 +205,8 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                               ElevatedButton(
                                 style: OutlinedButton.styleFrom(
                                   foregroundColor: Colors.black,
-                                  side: BorderSide(color: Colors.black, width: 1.5),
+                                  side: BorderSide(
+                                      color: Colors.black, width: 1.5),
                                   backgroundColor: Colors.white,
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 12),
@@ -216,13 +217,18 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                                     MaterialPageRoute(
                                       builder: (context) => ShopEditPage(
                                         shopId: shop.uid.toString(),
-                                        shopName: shop.Shopname.toString(),
+                                        Shopname: shop.Shopname.toString(),
                                         ownerName: shop.Ownername.toString(),
                                         phone: shop.phone.toString(),
-                                        email: shop.email.toString(),
                                         floor: shop.Selectfloor.toString(),
                                       ),
                                     ),
+                                  ).then(
+                                    (value) {
+                                      context.read<ShopAuthBloc>()
+                                        ..add(FetchShopesDetailsEvent(
+                                            searchQuery: null, status: "1"));
+                                    },
                                   );
                                 },
                                 child: Text("Edit"),

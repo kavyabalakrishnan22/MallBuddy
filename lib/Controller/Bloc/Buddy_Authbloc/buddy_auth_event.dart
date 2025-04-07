@@ -56,5 +56,14 @@ class BanBuddyrevent extends BuddyAuthEvent{
       {required this.id, required this.Ban});
 
 }
+class EditBuddy extends BuddyAuthEvent {
+  final BuddyModel Buddy;
+  EditBuddy({required this.Buddy});
+}
+
+class EditBuddyProfile extends BuddyAuthEvent {
+  final BuddyModel Buddy;
+  EditBuddyProfile({required this.Buddy});
+}
 
 class BuddyPickAndUploadImageEvent extends BuddyAuthEvent {}

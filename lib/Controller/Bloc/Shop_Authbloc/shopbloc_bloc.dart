@@ -30,7 +30,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
         } catch (e) {
           emit(ShopAuthenticatedError(
             message:
-                e.toString().split('] ').last, // Extracts only the message part
+                e.toString().split('').last, // Extracts only the message part
           ));
         }
       },
@@ -62,7 +62,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
               "ban": "0",
               "status": "0",
               "imagepath":
-                  "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                  "https://firebasestorage.googleapis.com/v0/b/mallbuddy-51690.firebasestorage.app/o/Userprofile%2F1743759394608.jpg?alt=media&token=853902c2-4c05-4ada-be1b-aeaf78095437"
             });
             emit(ShopAuthenticated(user));
           } else {
@@ -109,7 +109,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
           emit(Shopbanloading());
 
           await FirebaseFirestore.instance
-              .collection("MallBuddyUsers")
+              .collection("MallBuddyShops")
               .doc(event.id)
               .update({"Ban": event.Ban});
         } catch (e) {
@@ -159,18 +159,36 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
       },
     );
 
+    //editprofile//
+    on<EditShopProfile>((event, emit) async {
+      emit(EditshopLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("MallBuddyShops")
+            .doc(event.Shop.uid)
+            .update({
+          "Image": event.Shop.Image,
+          "Ownername": event.Shop.Ownername,
+          "phone_number": event.Shop.phone,
+        });
+        emit(ShopRefresh());
+      } catch (e) {
+        emit(Editshopfailerror(e.toString()));
+      }
+    });
+
     //editshop//
     on<EditShop>((event, emit) async {
       emit(EditshopLoading());
       try {
         FirebaseFirestore.instance
-            .collection("Service_Category")
+            .collection("MallBuddyShops")
             .doc(event.Shop.uid)
             .update({
           "Shopname": event.Shop.Shopname,
           "Ownername": event.Shop.Ownername,
           "phone_number": event.Shop.phone,
-          "email": event.Shop.email,
+          "selecfloor": event.Shop.Selectfloor,
         });
         emit(ShopRefresh());
       } catch (e) {
@@ -195,7 +213,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
         }
 
         String fileName =
-            "Shoprofile/${DateTime.now().millisecondsSinceEpoch}.jpg";
+            "Shopprofile/${DateTime.now().millisecondsSinceEpoch}.jpg";
         Reference storageRef = _firebaseStorage.ref().child(fileName);
         UploadTask uploadTask;
 
@@ -217,7 +235,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
         // ✅ Update Firestore with the image URL
         if (user != null) {
           await FirebaseFirestore.instance
-              .collection("MallBuddyRiders")
+              .collection("MallBuddyShops")
               .doc(user.uid)
               .update({"imagepath": downloadUrl});
         }
@@ -316,7 +334,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
 
         if (event.searchQuery != null && event.searchQuery!.isNotEmpty) {
           shopes = shopes.where((driver) {
-            return driver.Ownername!
+            return driver.Shopname!
                 .toLowerCase()
                 .contains(event.searchQuery!.toLowerCase());
           }).toList();

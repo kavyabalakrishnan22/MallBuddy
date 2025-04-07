@@ -9,6 +9,8 @@ final class OrderLoading extends OrderState {}
 
 final class OrderSuccess extends OrderState {}
 
+final class OrderRefresh extends OrderState {}
+
 final class Orderfailerror extends OrderState {
   final String error;
 

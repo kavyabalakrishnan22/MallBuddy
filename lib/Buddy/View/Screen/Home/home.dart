@@ -54,9 +54,9 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
     });
 
     switch (title) {
-      case "Assign\nDelivery":
+      case "Availability\nStatus":
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BuddyassigntimeScreen())); // Use the correct page
+            context, MaterialPageRoute(builder: (context) => DeliveryBoyAvailabilityPage())); // Use the correct page
         break;
       case "Active\nDelivery":
         Navigator.push(
@@ -244,7 +244,7 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildActionButton("Assign\nDelivery", Icons.more_time, context),
+          _buildActionButton("Availability\nStatus", Icons.more_time, context),
           SizedBox(width: 20),
           _buildActionButton("Completed\nDelivery", Icons.done_all, context),
           SizedBox(width: 20),

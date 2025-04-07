@@ -92,6 +92,8 @@ class Editshoploaded extends ShopAuthState {
 }
 
 
+
+
 class ShopProfileImageInitial extends ShopAuthState {}
 
 class ShopProfileImageLoading extends ShopAuthState {}

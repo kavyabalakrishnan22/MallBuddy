@@ -65,7 +65,6 @@ final class Refresh extends BuddyAuthState {}
 
 //ban
 
-
 final class Buddybanloading extends BuddyAuthState {}
 
 final class BuddyBanRefresh extends BuddyAuthState {}
@@ -74,8 +73,7 @@ class BuddyProfileImageInitial extends BuddyAuthState {}
 
 class BuddyProfileImageLoading extends BuddyAuthState {}
 
-class BuddyProfileImageSuccess extends BuddyAuthState {
-}
+class BuddyProfileImageSuccess extends BuddyAuthState {}
 
 class BuddyProfileImageFailure extends BuddyAuthState {
   final String error;
@@ -84,3 +82,15 @@ class BuddyProfileImageFailure extends BuddyAuthState {
   @override
   List<Object?> get props => [error];
 }
+
+final class BuddyRefresh extends BuddyAuthState {}
+
+final class EditBuddyLoading extends BuddyAuthState {}
+
+final class EditBuddySuccess extends BuddyAuthState {}
+
+final class EditBuddyfailerror extends BuddyAuthState {
+  final String error;
+  EditBuddyfailerror(this.error);
+}
+

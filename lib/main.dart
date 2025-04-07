@@ -8,6 +8,7 @@ import 'Buddy/View/Screen/Home/Buddy_completedelivery.dart';
 import 'Buddy/View/Screen/Home/Buddy_completedeliveryfirstpage.dart';
 import 'Buddy/View/Screen/Home/Buddy_scan.dart';
 import 'Buddy/View/Screen/Auth/buddy_signup_page.dart';
+import 'Buddy/View/Screen/Home/Profile/Ridertermsandconditions.dart';
 import 'Buddy/View/Screen/Home/home.dart';
 import 'Shop/Bottomnav/Shop_Bottom.dart';
 import 'Shop/View/Screens/Home/Order/Checkout.dart';
@@ -25,11 +26,13 @@ import 'Shop/View/Screens/Home/Order/shop_select_parking.dart';
 import 'Shop/View/Screens/ordersstatus/shoporderhistory.dart';
 import 'User/View/Screens/Bottomnav/Bottom.dart';
 import 'User/View/Screens/Bottomnav/Bottomnav.dart';
+import 'User/View/Screens/Home/Profile/Termsandconditions.dart';
+import 'User/View/Screens/Home/Profile/privacyandpolicy.dart';
 import 'User/View/Screens/Home/User_Home_page.dart';
 import 'User/View/Screens/Home/User_shop.dart';
 import 'User/View/Screens/Home/listinvoices.dart';
 import 'User/View/Screens/Home/paymentsuccess.dart';
-import 'User/View/Screens/Home/profile.dart';
+import 'User/View/Screens/Home/Profile/profile.dart';
 import 'User/View/Screens/Home/scan.dart';
 import 'User/View/Screens/Splash/onboardingpage_one.dart';
 import 'User/View/Screens/Splash/onboardingpage_three.dart';
@@ -60,7 +63,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ShopEditPage(shopId: '', shopName: '', ownerName: '', phone: '', email: '', floor: '',),
+      home: RiderTermsScreen(),
     );
   }
 }

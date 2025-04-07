@@ -1,57 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../Controller/Bloc/Buddy_Authbloc/Buddyauthmodel/Buddyauthmodel.dart';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../../../../../Controller/Bloc/Shop_Authbloc/Shopauthmodel/Shopauthmodel.dart';
 import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../../Widgets/Constants/Loading.dart';
 
-class ShopEditPage extends StatefulWidget {
-  final String shopId;
-  final String Shopname;
-  final String ownerName;
+class BuddyEditPage extends StatefulWidget {
+  final String BId;
+  final String Buddyname;
   final String phone;
-  final String floor;
+  final String Gender;
 
-  const ShopEditPage({
+  const BuddyEditPage({
     super.key,
-    required this.shopId,
-    required this.Shopname,
-    required this.ownerName,
+    required this.BId,
+    required this.Buddyname,
     required this.phone,
-    required this.floor,
+    required this.Gender,
   });
 
   @override
-  _ShopEditPageState createState() => _ShopEditPageState();
+  _BuddyEditPageState createState() => _BuddyEditPageState();
 }
 
-class _ShopEditPageState extends State<ShopEditPage> {
+class _BuddyEditPageState extends State<BuddyEditPage> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController shopNameController;
-  late TextEditingController ownerNameController;
+  late TextEditingController BuddyNameController;
   late TextEditingController phoneController;
-  String? selectedFloor; // Holds selected floor value
-  String? selectedAction; // Holds selected action (Accept/Reject)
+  String? selectedGender; // Holds selected floor value
 
-  final List<String> floors = [
-    'Ground Floor',
-    '1st Floor',
-    '2nd Floor',
-    '3rd Floor',
-    '4th Floor',
-    '5th Floor'
+  final List<String> Gender = [
+    'Male',
+    'Female',
+    'Other',
+
   ]; // List of floor options
 
   @override
   void initState() {
     super.initState();
-    shopNameController = TextEditingController(text: widget.Shopname);
-    ownerNameController = TextEditingController(text: widget.ownerName);
+    BuddyNameController = TextEditingController(text: widget.Buddyname);
     phoneController = TextEditingController(text: widget.phone);
-    selectedFloor = floors.contains(widget.floor) ? widget.floor : floors[0];
-    selectedAction = null; // No button is selected initially
+    selectedGender = Gender.contains(widget.Gender) ? widget.Gender : Gender[0];
   }
 
   // @override
@@ -106,20 +101,20 @@ class _ShopEditPageState extends State<ShopEditPage> {
         ],
       ),
       child: DropdownButtonFormField<String>(
-        value: selectedFloor,
+        value: selectedGender,
         decoration: const InputDecoration(
-          labelText: "Select Floor",
+          labelText: "Select Gender",
           border: InputBorder.none,
         ),
-        items: floors.map((floor) {
+        items: Gender.map((Gender) {
           return DropdownMenuItem(
-            value: floor,
-            child: Text(floor),
+            value: Gender,
+            child: Text(Gender),
           );
         }).toList(),
         onChanged: (value) {
           setState(() {
-            selectedFloor = value!;
+            selectedGender = value!;
           });
         },
       ),
@@ -136,30 +131,30 @@ class _ShopEditPageState extends State<ShopEditPage> {
   //   );
   // }
 
-  Widget _buildActionButton(String action) {
-    bool isSelected = selectedAction == action;
-
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedAction = action;
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? Colors.blue : Colors.white,
-        side: const BorderSide(color: Colors.grey),
-        padding: const EdgeInsets.symmetric(horizontal: 275, vertical: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-      child: Text(
-        action,
-        style: TextStyle(
-          color: isSelected ? Colors.white : Colors.black,
-          fontSize: 16,
-        ),
-      ),
-    );
-  }
+  // Widget _buildActionButton(String action) {
+  //   bool isSelected = selectedAction == action;
+  //
+  //   return ElevatedButton(
+  //     onPressed: () {
+  //       setState(() {
+  //         selectedAction = action;
+  //       });
+  //     },
+  //     style: ElevatedButton.styleFrom(
+  //       backgroundColor: isSelected ? Colors.blue : Colors.white,
+  //       side: const BorderSide(color: Colors.grey),
+  //       padding: const EdgeInsets.symmetric(horizontal: 275, vertical: 12),
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  //     ),
+  //     child: Text(
+  //       action,
+  //       style: TextStyle(
+  //         color: isSelected ? Colors.white : Colors.black,
+  //         fontSize: 16,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -181,16 +176,14 @@ class _ShopEditPageState extends State<ShopEditPage> {
                         color: Colors.grey.shade100,
                         borderRadius: BorderRadius.circular(12),
                         border:
-                            Border.all(color: Colors.grey.shade300, width: 1.5),
+                        Border.all(color: Colors.grey.shade300, width: 1.5),
                       ),
                       child: Column(
                         mainAxisSize:
-                            MainAxisSize.min, // Reduce unnecessary height
+                        MainAxisSize.min, // Reduce unnecessary height
                         children: [
                           _buildTextField(
-                              "Enter Shop Name", shopNameController),
-                          _buildTextField(
-                              "Enter Owner's Name", ownerNameController),
+                              "Enter Buddy Name", BuddyNameController),
                           _buildTextField(
                               "Enter Contact Number", phoneController),
                           _buildFloorDropdown(),
@@ -207,19 +200,16 @@ class _ShopEditPageState extends State<ShopEditPage> {
                                   duration: Duration(seconds: 1),
                                 ),
                               );
-                              ShopModel shop = ShopModel(
-                                  uid: widget.shopId,
-                                  Ownername: ownerNameController.text,
-                                  Shopname: shopNameController.text,
+                              BuddyModel Buddy = BuddyModel(
+                                  uid: widget.BId,
+                                  name: BuddyNameController.text,
                                   phone: phoneController.text,
-                                  Selectfloor: selectedFloor!,
-                                  status:
-                                      selectedAction // Ensure selectedFloor is updated
-                                  );
+                                  Gender: selectedGender!,
+                              );
 
                               context
-                                  .read<ShopAuthBloc>()
-                                  .add(EditShop(Shop: shop));
+                                  .read<BuddyAuthBloc>()
+                                  .add(EditBuddy(Buddy: Buddy));
                               // Show success alert box
                               showDialog(
                                 context: context,
@@ -252,7 +242,7 @@ class _ShopEditPageState extends State<ShopEditPage> {
                             child: const Text(
                               "Update Shop Details",
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
+                              TextStyle(color: Colors.white, fontSize: 16),
                             ),
                           ),
                         ],

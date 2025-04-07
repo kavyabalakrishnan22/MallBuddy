@@ -141,7 +141,7 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Column(
+                        child: ListView(
                           children: [
                             const SizedBox(height: 10),
                             const Text(
@@ -153,7 +153,7 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                                 color: Colors.black,
                               ),
                             ),
-                            const SizedBox(height: 35),
+                            const SizedBox(height: 30),
                             CustomTextForm(
                               hintText: "User name",
                               controller: _usernameController,
@@ -234,7 +234,7 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                             ),
                             const SizedBox(height: 10),
                             SizedBox(
-                                height:30 ,
+                                height:50,
                                 child: Column(
                                   children: [
                                     state is BuddyAuthloading

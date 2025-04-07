@@ -53,6 +53,11 @@ class EditShop extends ShopAuthEvent {
   EditShop({required this.Shop});
 }
 
+class EditShopProfile extends ShopAuthEvent {
+  final ShopModel Shop;
+  EditShopProfile({required this.Shop});
+}
+
 //ban shop//
 class BanShoprevent extends ShopAuthEvent{
   final String? id;

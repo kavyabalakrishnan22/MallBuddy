@@ -47,6 +47,19 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       },
     );
 
+    on<OrderDelete>((event, emit) async {
+      emit(OrderLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Orders")
+            .doc(event.orderid)
+            .delete();
+        emit(OrderRefresh());
+      } catch (e) {
+        emit(Orderfailerror(e.toString()));
+      }
+    });
+
     on<FetchPlaceorderEvent>((event, emit) async {
       emit(OrderLoading());
       try {
@@ -77,3 +90,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     });
   }
 }
+
+
+
+
+
+
+

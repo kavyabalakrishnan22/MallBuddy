@@ -6,11 +6,10 @@ import 'package:mall_bud/Widgets/Constants/colors.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 import '../../../../Widgets/Constants/Loading.dart';
 import '../ordersstatus/shoporderhistory.dart';
+import 'Shopeditprofile.dart';
 
 class Shopprofileavwrapper extends StatelessWidget {
   const Shopprofileavwrapper({super.key});
@@ -32,66 +31,6 @@ class ShopProfilePage extends StatefulWidget {
 }
 
 class _ShopProfilePageState extends State<ShopProfilePage> {
-  int selectedContactIndex = -1;
-  int selectedIndex = -1;
-  List<TextEditingController> controllers = [];
-
-  final List<Map<String, String>> contactDetails = [
-    {"label": "Email", "value": "kavyabalakrishnan2018@gmail.com"},
-    {"label": "Mobile", "value": "8921689037"},
-  ];
-
-  File? _profileImage;
-  final ImagePicker _picker = ImagePicker();
-
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source);
-    if (pickedFile != null) {
-      setState(() {
-        _profileImage = File(pickedFile.path);
-      });
-    }
-  }
-
-  void _showImagePickerOptions() {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (context) => CupertinoActionSheet(
-        title: const Text("Choose an option"),
-        actions: [
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-              _pickImage(ImageSource.gallery);
-            },
-            child: const Text("Upload Photo"),
-          ),
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Navigator.pop(context);
-              _pickImage(ImageSource.camera);
-            },
-            child: const Text("Take Photo"),
-          ),
-          CupertinoActionSheetAction(
-            isDestructiveAction: true,
-            onPressed: () {
-              setState(() {
-                _profileImage = null;
-              });
-              Navigator.pop(context);
-            },
-            child: const Text("Remove Photo"),
-          ),
-        ],
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () => Navigator.pop(context),
-          child: const Text("Cancel"),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,7 +76,13 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        BlocBuilder<ShopAuthBloc, ShopAuthState>(
+                        BlocConsumer<ShopAuthBloc, ShopAuthState>(
+                          listener: (context, state) {
+                            if (state is ShopProfileImageSuccess) {
+                              context.read<ShopAuthBloc>()
+                                ..add(FetchShopDetailsById());
+                            }
+                          },
                           builder: (context, state) {
                             if (state is Shoploading) {
                               return SizedBox(
@@ -151,34 +96,73 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                                 children: [
                                   Stack(
                                     children: [
-                                      CircleAvatar(
-                                        radius: 70,
-                                        backgroundImage: _profileImage != null
-                                            ? FileImage(_profileImage!)
-                                            : AssetImage(
-                                                    "assets/profile/girl.png")
-                                                as ImageProvider,
-                                      ),
-                                      Positioned(
-                                        right: 0,
-                                        bottom: 0,
-                                        child: GestureDetector(
-                                          onTap: _showImagePickerOptions,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: defaultBlue,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            padding: const EdgeInsets.all(8),
-                                            child: const Icon(
-                                              CupertinoIcons.camera,
-                                              color: Colors.white,
-                                              size: 20,
-                                            ),
-                                          ),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            60), // Ensures a rectangular shape
+                                        child: Image.network(
+                                          user.Image.toString(),
+                                          width: 100, // Adjusted width
+                                          height: 100, // Adjusted height
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return state
+                                                    is ShopProfileImageLoading
+                                                ? Loading_Widget()
+                                                : Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey[
+                                                          300], // Placeholder background
+                                                      borderRadius: BorderRadius
+                                                          .zero, // Ensures rectangle shape
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.image_not_supported,
+                                                      size: 50,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                  );
+                                          },
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ShopEditProfilePage(
+                                            image: user.Image,
+                                                name: user.Ownername.toString(),
+                                            email: user.email.toString(),
+                                            contact: user.phone.toString(),
+                                            uid: user.uid.toString(),
+                                          ),
+                                        ),
+                                      ).then((_) {
+                                        // This block runs when BuddyEditProfilePage is popped
+                                        context
+                                            .read<ShopAuthBloc>()
+                                            .add(FetchShopDetailsById());
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      foregroundColor: Colors.white,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 12),
+                                      textStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: Text("Edit Profile"),
                                   ),
                                   const SizedBox(height: 8),
                                   Text('${user.Ownername ?? ''}',
@@ -194,24 +178,36 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                                               fontWeight: FontWeight.bold))),
                                   ListTile(
                                     title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text("Email"), // Left side label
-                                        Text('${user.email ?? ''}', style: TextStyle(fontWeight: FontWeight.w500)), // Right side email text
+                                        Text('${user.email ?? ''}',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight
+                                                    .w500)), // Right side email text
                                       ],
                                     ),
                                   ),
-                                  Divider(color: Colors.black54,),
+                                  Divider(
+                                    color: Colors.black54,
+                                  ),
                                   ListTile(
                                     title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text("Mobile"), // Left side label
-                                        Text('${user.phone ?? ''}', style: TextStyle(fontWeight: FontWeight.w500)), // Right side email text
+                                        Text('${user.phone ?? ''}',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight
+                                                    .w500)), // Right side email text
                                       ],
                                     ),
                                   ),
-                                  Divider(color: Colors.black54,),
+                                  Divider(
+                                    color: Colors.black54,
+                                  ),
                                 ],
                               );
                             }
@@ -220,7 +216,13 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                         ),
                         const SizedBox(height: 4),
                         GestureDetector(
-                          onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ShopOrderHistoryScreen(),));
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShopOrderHistoryScreen(),
+                                ));
                             print("object");
                           },
                           child: Container(

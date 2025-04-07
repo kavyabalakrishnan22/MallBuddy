@@ -37,6 +37,11 @@ class _ShopState extends State<Shop> {
           children: [
             Expanded(
               child: TextFormField(
+                onChanged: (value) {
+                  context.read<ShopAuthBloc>()
+                    ..add(FetchShopesDetailsEvent(
+                        searchQuery: value, status: '1'));
+                },
                 decoration: InputDecoration(
                   hintText: "Search here...",
                   prefixIcon: Icon(Icons.search, color: Colors.black),
@@ -159,18 +164,18 @@ class ShopGridViewItem extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Center(
-              child:  ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    12), // Rounded corners for image
+              child: ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(12), // Rounded corners for image
                 child: CachedNetworkImage(
-                  imageUrl:image.toString(),
-                  width: 130, // Adjusted width
-                  height: 100, // Adjusted height
+                  imageUrl: image.toString(),
+                  width: 200, // Adjusted width
+                  height: 200, // Adjusted height
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
                     width: 100,
                     height: 100,
-                    color: Colors.grey[300], // Placeholder background
+                    color: Colors.grey[50], // Placeholder background
                     child: Center(
                       child: Loading_Widget(), // Loading indicator
                     ),
@@ -179,8 +184,7 @@ class ShopGridViewItem extends StatelessWidget {
                     return Container(
                       width: 130,
                       height: 100,
-                      color: Colors
-                          .grey[300], // Placeholder background
+                      color: Colors.grey[300], // Placeholder background
                       child: Icon(
                         Icons.image_not_supported,
                         size: 50,

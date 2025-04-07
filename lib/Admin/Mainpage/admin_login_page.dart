@@ -171,7 +171,7 @@ class _AdminPageState extends State<AdminPage> {
                   title: 'Order Monitoring',
                   icon: Icons.monitor_heart_outlined,
                   children: [
-                    SubListTile("All Order", AdminAllOrders()),
+                    SubListTile("All Order", Adminallorderswrapper()),
                     SubListTile("Completed order", AdminCompleteOrders()),
                     SubListTile("Rider Performance", AdminRidrPerformnace()),
                     // SubListTile("Customer Feedback", AdminAllOrders()),

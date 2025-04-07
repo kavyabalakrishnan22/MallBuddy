@@ -1,37 +1,36 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mall_bud/Widgets/Constants/Loading.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
-import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
-import '../../../../Widgets/Constants/Loading.dart';
-import '../notification.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
+import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
+import 'BuddyEditpprofile.dart';
+import 'Privacyandpolicy.dart';
+import 'Ridertermsandconditions.dart';
 
-import 'Editprofile.dart';
-
-class userprofileavwrapper extends StatelessWidget {
-  const userprofileavwrapper({super.key});
+class Buddyprofileavwrapper extends StatelessWidget {
+  const Buddyprofileavwrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthBloc()..add(FetchUserDetailsById()),
-      child: ProfilePage(),
+      create: (context) => BuddyAuthBloc()..add(FetchBuddyDetailsById()),
+      child: BuddyProfilePage(),
     );
   }
 }
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class BuddyProfilePage extends StatefulWidget {
+  const BuddyProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<BuddyProfilePage> createState() => _BuddyProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _BuddyProfilePageState extends State<BuddyProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,14 +76,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(
                       children: [
                         const SizedBox(height: 10),
-                        BlocBuilder<AuthBloc, AuthState>(
+                        BlocConsumer<BuddyAuthBloc, BuddyAuthState>(
+                          listener: (context, state) {
+                            if (state is BuddyProfileImageSuccess) {
+                              context.read<BuddyAuthBloc>()
+                                ..add(FetchBuddyDetailsById());
+                            }
+                          },
                           builder: (context, state) {
-                            if (state is loading) {
+                            if (state is Buddyloading) {
                               return SizedBox(
                                 height: 200,
                                 child: Loading_Widget(),
                               );
-                            } else if (state is UserByidLoaded) {
+                              Center(child: CircularProgressIndicator());
+                            } else if (state is BuddyByidLoaded) {
                               final user = state.Userdata;
                               return Column(
                                 children: [
@@ -92,48 +98,73 @@ class _ProfilePageState extends State<ProfilePage> {
                                     children: [
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(
-                                            50), // Half of width/height to form a circle
-                                        child: CachedNetworkImage(
-                                          imageUrl: user.Image.toString(),
-                                          width: 100,
-                                          height: 100,
+                                            60), // Ensures a rectangular shape
+                                        child: Image.network(
+                                          user.Image.toString(),
+                                          width: 100, // Adjusted width
+                                          height: 100, // Adjusted height
                                           fit: BoxFit.cover,
-                                          placeholder: (context, url) =>
-                                              Container(
-                                            width: 100,
-                                            height: 100,
-                                            color: Colors.white,
-                                            child:
-                                                Center(child: Loading_Widget()),
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              Container(
-                                            width: 100,
-                                            height: 100,
-                                            color: Colors.grey[300],
-                                            child: Icon(
-                                              Icons.image_not_supported,
-                                              size: 50,
-                                              color: Colors.grey[600],
-                                            ),
-                                          ),
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return state
+                                                    is BuddyProfileImageLoading
+                                                ? Loading_Widget()
+                                                : Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey[
+                                                          300], // Placeholder background
+                                                      borderRadius: BorderRadius
+                                                          .zero, // Ensures rectangle shape
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.image_not_supported,
+                                                      size: 50,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                  );
+                                          },
                                         ),
                                       ),
                                     ],
                                   ),
-                                  IconButton(
-                                      onPressed: () {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                          builder: (context) {
-                                            return EditProfilePage(
-                                              image: user.Image,
-                                            );
-                                          },
-                                        ));
-                                      },
-                                      icon: Icon(Icons.edit)),
-                                  const SizedBox(height: 8),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              BuddyEditProfilePage(
+                                            image: user.Image,
+                                            name: user.name.toString(),
+                                            email: user.email.toString(),
+                                            contact: user.phone.toString(),
+                                            uid: user.uid.toString(),
+                                          ),
+                                        ),
+                                      ).then((_) {
+                                        // This block runs when BuddyEditProfilePage is popped
+                                        context
+                                            .read<BuddyAuthBloc>()
+                                            .add(FetchBuddyDetailsById());
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blue,
+                                      foregroundColor: Colors.white,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 12),
+                                      textStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: Text("Edit Profile"),
+                                  ),
+                                  const SizedBox(height: 12),
                                   Text('${user.name ?? ''}',
                                       style: TextStyle(
                                           fontSize: 18,
@@ -165,15 +196,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             return SizedBox();
                           },
                         ),
-                        // ...List.generate(
-                        //     contactDetails.length,
-                        //     (index) => _buildSelectableContactRow(
-                        //         contactDetails[index]["label"]!, index)),
                         const SizedBox(height: 4),
                         GestureDetector(
-                          onTap: () {
-                            print("object");
-                          },
+                          onTap: () {},
                           child: Container(
                             margin: const EdgeInsets.symmetric(vertical: 6),
                             padding: const EdgeInsets.symmetric(
@@ -199,10 +224,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      RiderPrivacyPolicyPage(),
+                                ));
                             print("object");
                           },
                           child: Container(
@@ -230,10 +260,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RiderTermsScreen(),
+                                ));
                             print("object");
                           },
                           child: Container(
@@ -264,8 +298,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
-                            final Authbloc = BlocProvider.of<AuthBloc>(context);
-                            Authbloc.add(SigOutEvent());
+                            final BuddyAuthbloc =
+                                BlocProvider.of<BuddyAuthBloc>(context);
+                            BuddyAuthbloc.add(BuddySigOutEvent());
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               "/login",
@@ -297,7 +332,27 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                         ),
-
+                        // BlocBuilder<BuddyAuthBloc, BuddyAuthState>(
+                        //   builder: (context, state) {
+                        //     if (state is Buddyloading) {
+                        //       return const Center(
+                        //           child: CircularProgressIndicator());
+                        //     } else if (state is BuddyByidLoaded) {
+                        //       final user = state.Userdata;
+                        //       return Column(
+                        //         children: [
+                        //           Text('Name: ${user.name ?? ''}'),
+                        //           Text('Email: ${user.email ?? ''}'),
+                        //           Text('Phone: ${user.phone ?? ''}'),
+                        //           Text('Status: ${user.status ?? ''}'),
+                        //         ],
+                        //       );
+                        //     } else if (state is Buddyerror) {
+                        //       return Center(child: Text(state.error));
+                        //     }
+                        //     return const SizedBox.shrink();
+                        //   },
+                        // ),
                         const SizedBox(height: 4),
                         const SizedBox(height: 20),
                       ],

@@ -5,7 +5,7 @@ import 'package:mall_bud/Buddy/View/Screen/Home/home.dart';
 
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
-import '../Home/BuddyProfile.dart';
+import '../Home/Profile/BuddyProfile.dart';
 import '../Home/Buddy_scan.dart';
 
 class BottomNavwrapper extends StatelessWidget {

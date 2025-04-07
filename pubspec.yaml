@@ -81,6 +81,7 @@ flutter:
     - assets/scanner/
     - assets/profile/
     - assets/admin/
+    - assets/Buddy/
 
 
   #   - images/a_dot_ham.jpeg

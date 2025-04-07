@@ -146,6 +146,41 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
       },
     );
 
+
+    //editBuddy//
+    on<EditBuddy>((event, emit) async {
+      emit(EditBuddyLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("MallBuddyRiders")
+            .doc(event.Buddy.uid)
+            .update({
+          "Customername": event.Buddy.name,
+          "phone_number": event.Buddy.phone,
+          "Gender": event.Buddy.Gender,
+        });
+        emit(BuddyRefresh());
+      } catch (e) {
+        emit(EditBuddyfailerror(e.toString()));
+      }
+    });
+
+    on<EditBuddyProfile>((event, emit) async {
+      emit(EditBuddyLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("MallBuddyRiders")
+            .doc(event.Buddy.uid)
+            .update({
+          "Customername": event.Buddy.name,
+          "phone_number": event.Buddy.phone,
+        });
+        emit(BuddyRefresh());
+      } catch (e) {
+        emit(EditBuddyfailerror(e.toString()));
+      }
+    });
+
     //ban//
 
     on<BanBuddyrevent>(
@@ -154,7 +189,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
           emit(Buddybanloading());
 
           await FirebaseFirestore.instance
-              .collection("MallBuddyUsers")
+              .collection("MallBuddyRiders")
               .doc(event.id)
               .update({"Ban": event.Ban});
         } catch (e) {

@@ -2,27 +2,48 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/Shopauthmodel/Shopauthmodel.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 
-class EditProfilePage extends StatefulWidget {
-  EditProfilePage({required this.image});
+class ShopEditProfilePage extends StatefulWidget {
+  ShopEditProfilePage(
+      {required this.image,
+      required this.name,
+      required this.email,
+      required this.contact,
+        required this.uid,
+      });
 
   final image;
+  final String name;
+  final String email;
+  final String contact;
+  final String uid;
+
 
   @override
-  _EditProfilePageState createState() => _EditProfilePageState();
+  _ShopEditProfilePageState createState() => _ShopEditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
-  TextEditingController nameController =
-      TextEditingController(text: "Charlotte King");
-  TextEditingController emailController =
-      TextEditingController(text: "johnkinggraphics@gmail.com");
-  TextEditingController phoneController =
-      TextEditingController(text: "+91 6895312");
+class _ShopEditProfilePageState extends State<ShopEditProfilePage> {
+
+  final _formKey = GlobalKey<FormState>();
+  late TextEditingController nameController;
+  late TextEditingController contactController;
+  String? image;
+
 
   bool isPasswordVisible = false;
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(text: widget.name);
+    contactController = TextEditingController(text: widget.contact);
+    image = widget.image;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,21 +67,33 @@ class _EditProfilePageState extends State<EditProfilePage> {
           IconButton(
             icon: Icon(Icons.check, color: Colors.green),
             onPressed: () {
-              // Save profile changes
-              Navigator.pop(context);
+              if (_formKey.currentState!.validate()) {
+                ShopModel Shop = ShopModel(
+                  uid: widget.uid,
+                  Ownername: nameController.text.toString(),
+                  phone: contactController.text.toString(),
+                  Image: image ?? "",
+                );
+
+                context.read<ShopAuthBloc>().add(EditShopProfile(Shop: Shop));
+                Navigator.of(context).pop();
+              }
             },
           ),
+
         ],
       ),
-      body: BlocConsumer<AuthBloc, AuthState>(
+      body: BlocConsumer<ShopAuthBloc, ShopAuthState>(
         listener: (context, state) {
-          if (state is ProfileImageSuccess) {
+          if (state is ShopProfileImageSuccess) {
             Navigator.of(context).pop();
           }
         },
         builder: (context, state) {
           return Padding(
             padding: EdgeInsets.all(16.0),
+            child:Form(
+          key: _formKey,
             child: ListView(
               children: [
                 // Profile Picture with Edit Icon
@@ -69,22 +102,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(
-                            50), // Half of width/height to form a circle
+                            12), // Rounded corners for image
                         child: CachedNetworkImage(
-                          imageUrl: widget.image.toString(),
-                          width: 100,
-                          height: 100,
+                          imageUrl:widget.image,
+                          width: 100, // Adjusted width
+                          height: 100, // Adjusted height
                           fit: BoxFit.cover,
                           placeholder: (context, url) => Container(
                             width: 100,
                             height: 100,
-                            color: Colors.white,
-                            child: Center(child: Loading_Widget()),
+                            color: Colors.grey[300], // Placeholder background
+                            child: Center(
+                              child: Loading_Widget(), // Loading indicator
+                            ),
                           ),
                           errorWidget: (context, url, error) => Container(
                             width: 100,
                             height: 100,
-                            color: Colors.grey[300],
+                            color: Colors.grey[300], // Placeholder background
                             child: Icon(
                               Icons.image_not_supported,
                               size: 50,
@@ -98,8 +133,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         right: 0,
                         child: GestureDetector(
                           onTap: () {
-                            context.read<AuthBloc>()
-                              ..add(PickAndUploadImageEvent());
+                            context.read<ShopAuthBloc>()
+                              ..add(ShopPickAndUploadImageEvent());
                           },
                           child: CircleAvatar(
                             radius: 15,
@@ -114,7 +149,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
 
                 SizedBox(
-                  child: state is ProfileImageLoading
+                  child: state is ShopProfileImageLoading
                       ? Column(
                           children: [
                             Loading_Widget(),
@@ -124,19 +159,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       : Text(""),
                 ),
                 SizedBox(height: 20),
-
                 // Editable Fields inside Containers
                 buildEditableField("Name", nameController, false),
-                buildEditableField("E-mail Address", emailController, false),
-                buildEditableField("Phone Number", phoneController, false),
+                buildEditableField("Phone Number", contactController, false),
               ],
             ),
-          );
+            ));
         },
       ),
     );
   }
 
+  // Custom Widget for Editable Fields
   // Custom Widget for Editable Fields
   Widget buildEditableField(
       String label, TextEditingController controller, bool isPassword) {
@@ -148,31 +182,35 @@ class _EditProfilePageState extends State<EditProfilePage> {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.grey.shade300),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         obscureText: isPassword && !isPasswordVisible,
-        onTap: () {
-          if (controller.text != "") {
-            controller.clear();
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return '$label cannot be empty';
           }
+          return null;
         },
         decoration: InputDecoration(
           labelText: label,
           border: InputBorder.none,
           suffixIcon: isPassword
               ? IconButton(
-                  icon: Icon(isPasswordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off),
-                  onPressed: () {
-                    setState(() {
-                      isPasswordVisible = !isPasswordVisible;
-                    });
-                  },
-                )
+            icon: Icon(
+              isPasswordVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off,
+            ),
+            onPressed: () {
+              setState(() {
+                isPasswordVisible = !isPasswordVisible;
+              });
+            },
+          )
               : null,
         ),
       ),
     );
   }
+
 }

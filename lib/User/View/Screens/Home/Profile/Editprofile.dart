@@ -1,22 +1,20 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
-import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
-import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
-import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
-import '../../../../Widgets/Constants/Loading.dart';
+import '../../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
+import '../../../../../Widgets/Constants/Loading.dart';
 
-class BuddyEditProfilePage extends StatefulWidget {
-  BuddyEditProfilePage({required this.image});
+class EditProfilePage extends StatefulWidget {
+  EditProfilePage({required this.image});
 
   final image;
 
   @override
-  _BuddyEditProfilePageState createState() => _BuddyEditProfilePageState();
+  _EditProfilePageState createState() => _EditProfilePageState();
 }
 
-class _BuddyEditProfilePageState extends State<BuddyEditProfilePage> {
+class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController nameController =
       TextEditingController(text: "Charlotte King");
   TextEditingController emailController =
@@ -54,9 +52,9 @@ class _BuddyEditProfilePageState extends State<BuddyEditProfilePage> {
           ),
         ],
       ),
-      body: BlocConsumer<BuddyAuthBloc, BuddyAuthState>(
+      body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is BuddyProfileImageSuccess) {
+          if (state is ProfileImageSuccess) {
             Navigator.of(context).pop();
           }
         },
@@ -71,31 +69,28 @@ class _BuddyEditProfilePageState extends State<BuddyEditProfilePage> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(
-                            60), // Ensures a rectangular shape
-                        child: Image.network(
-                          widget.image,
-                          width: 100, // Adjusted width
-                          height: 100, // Adjusted height
+                            50), // Half of width/height to form a circle
+                        child: CachedNetworkImage(
+                          imageUrl: widget.image.toString(),
+                          width: 100,
+                          height: 100,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return state is BuddyProfileImageLoading
-                                ? Loading_Widget()
-                                : Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      color: Colors
-                                          .grey[300], // Placeholder background
-                                      borderRadius: BorderRadius
-                                          .zero, // Ensures rectangle shape
-                                    ),
-                                    child: Icon(
-                                      Icons.image_not_supported,
-                                      size: 50,
-                                      color: Colors.grey[600],
-                                    ),
-                                  );
-                          },
+                          placeholder: (context, url) => Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.white,
+                            child: Center(child: Loading_Widget()),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            width: 100,
+                            height: 100,
+                            color: Colors.grey[300],
+                            child: Icon(
+                              Icons.image_not_supported,
+                              size: 50,
+                              color: Colors.grey[600],
+                            ),
+                          ),
                         ),
                       ),
                       Positioned(
@@ -103,8 +98,8 @@ class _BuddyEditProfilePageState extends State<BuddyEditProfilePage> {
                         right: 0,
                         child: GestureDetector(
                           onTap: () {
-                            context.read<BuddyAuthBloc>()
-                              ..add(BuddyPickAndUploadImageEvent());
+                            context.read<AuthBloc>()
+                              ..add(PickAndUploadImageEvent());
                           },
                           child: CircleAvatar(
                             radius: 15,
@@ -119,7 +114,7 @@ class _BuddyEditProfilePageState extends State<BuddyEditProfilePage> {
                 ),
 
                 SizedBox(
-                  child: state is BuddyProfileImageLoading
+                  child: state is ProfileImageLoading
                       ? Column(
                           children: [
                             Loading_Widget(),

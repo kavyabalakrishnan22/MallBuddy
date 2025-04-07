@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Admin/Model/ordermonitoring_model/All_order_model.dart';
@@ -6,18 +7,18 @@ import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../Model/User_Management/shop_model.dart';
 
-// class Adminallorderswrapper extends StatelessWidget {
-//   const Adminallorderswrapper({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider<OrderBloc>(
-//       create: (context) => OrderBloc()
-//         ..add(FetchPlaceorderEvent(searchQuery: null, status: '0',),),
-//       child: AdminAllOrders(),
-//     );
-//   }
-// }
+class Adminallorderswrapper extends StatelessWidget {
+  const Adminallorderswrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<OrderBloc>(
+      create: (context) => OrderBloc()
+        ..add(FetchPlaceorderEvent(searchQuery: null, status: '0',),),
+      child: AdminAllOrders(),
+    );
+  }
+}
 
 class AdminAllOrders extends StatefulWidget {
   const AdminAllOrders({super.key});
@@ -150,7 +151,12 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
   Widget _buildShopTable(String title) {
     return BlocConsumer<OrderBloc, OrderState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is OrderRefresh) {
+          context
+              .read<OrderBloc>()
+              .add(FetchPlaceorderEvent(searchQuery: null, status: ''));
+        }
+
       },
       builder: (context, state) {
         if (state is OrderLoading) {
@@ -184,6 +190,7 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                   _buildColumn('Vehicle Details'),
                   _buildColumn('Total Amount'),
                   _buildColumn('Status'),
+                  _buildColumn('Delete'),
                 ],
                 rows: List.generate(
                   state.Orders.length,
@@ -204,43 +211,51 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [Row(
-                              children: [
-                                Text("Order_ID:"),Text(
-                                  allorder.orderid.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("Invoice_ID:"),Text(
-                                  allorder.invoiceid.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("Floor:"),Text(
-                                  allorder.Selectfloor.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("DelieryTime:"),Text(
-                                  allorder.time.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
+                            children: [
+                              Row(
+                                children: [
+                                  Text("Order_ID:"),
+                                  Text(
+                                    allorder.orderid.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Invoice_ID:"),
+                                  Text(
+                                    allorder.invoiceid.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Floor:"),
+                                  Text(
+                                    allorder.Selectfloor.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("DelieryTime:"),
+                                  Text(
+                                    allorder.time.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -250,39 +265,46 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [Row(
-                              children: [
-                                Text("Rider_ID:"),Text(
-                                  allorder.riderid.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("Rider_Name:"),Text(
-                                  allorder.Ridername.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("Mobile:"),Text(
-                                  allorder.conatctrider.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("Email:"),Text("rideremail@gmail.com"
-                                ),
-                              ],
-                            ),
+                            children: [
+                              Row(
+                                children: [
+                                  Text("Rider_ID:"),
+                                  Text(
+                                    allorder.riderid.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Rider_Name:"),
+                                  Text(
+                                    allorder.Ridername.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Mobile:"),
+                                  Text(
+                                    allorder.conatctrider.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Email:"),
+                                  Text("rideremail@gmail.com"),
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -291,43 +313,51 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [Row(
-                              children: [
-                                Text("User_ID:"),Text(
-                                  allorder.userid.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("User_Name:"),Text(
-                                  allorder.Ownername.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("Mobile:"),Text(
-                                  allorder.userphone.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("Email:"),Text(
-                                  allorder.useremail.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
+                            children: [
+                              Row(
+                                children: [
+                                  Text("User_ID:"),
+                                  Text(
+                                    allorder.userid.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("User_Name:"),
+                                  Text(
+                                    allorder.Ownername.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Mobile:"),
+                                  Text(
+                                    allorder.userphone.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Email:"),
+                                  Text(
+                                    allorder.useremail.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -336,39 +366,87 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [Row(
-                              children: [
-                                Text("Vehicle_Number:"),Text(
-                                  allorder.vehicle_number.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("Vehicle_Name:"),Text(
-                                  allorder.vehicle_name.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),Row(
-                              children: [
-                                Text("Vehicle_Color:"),Text(
-                                  allorder.vehicle_color.toString(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
+                            children: [
+                              Row(
+                                children: [
+                                  Text("Vehicle_Number:"),
+                                  Text(
+                                    allorder.vehicle_number.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Vehicle_Name:"),
+                                  Text(
+                                    allorder.vehicle_name.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text("Vehicle_Color:"),
+                                  Text(
+                                    allorder.vehicle_color.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
                         DataCell(Text("1000")),
                         DataCell(Text(allorder.status.toString())),
+                        DataCell(
+                          ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Confirm Delete"),
+                                    content: Text("Are you sure you want to delete this item?"),
+                                    actions: [
+                                      TextButton(
+                                        child: Text("Cancel"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(); // Close dialog
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text(
+                                          "Delete",
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                        onPressed: () {
+                                          context.read<OrderBloc>().add(
+                                            OrderDelete(orderid: allorder.orderid ?? ''),
+                                          );
+                                          Navigator.of(context).pop(); // Close dialog
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.red,
+                              side: BorderSide(color: Colors.red, width: 1.5),
+                              backgroundColor: Colors.white,
+                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            ),
+                            child: Text('Delete'),
+                          ),
+                        ),
                       ],
                     );
                   },
@@ -394,89 +472,89 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
     );
   }
 
-  Widget _buildToggleButton(String text, int index, bool isEdit) {
-    bool isSelected = isEdit
-        ? (selectedEdit[index] ?? false)
-        : (selectedDelete[index] ?? false);
+  // Widget _buildToggleButton(String text, int index, bool isEdit) {
+  //   bool isSelected = isEdit
+  //       ? (selectedEdit[index] ?? false)
+  //       : (selectedDelete[index] ?? false);
+  //
+  //   return Padding(
+  //     padding: const EdgeInsets.all(8.0),
+  //     child: ElevatedButton(
+  //         style: ButtonStyle(
+  //           backgroundColor: MaterialStateProperty.all(
+  //               isSelected ? Colors.blue : Colors.white),
+  //           foregroundColor: MaterialStateProperty.all(
+  //               isSelected ? Colors.white : Colors.black),
+  //           padding: MaterialStateProperty.all(
+  //               const EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
+  //           shape: MaterialStateProperty.all(
+  //             RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.circular(8),
+  //               side:
+  //                   BorderSide(color: isSelected ? Colors.blue : Colors.black),
+  //             ),
+  //           ),
+  //         ),
+  //         onPressed: () {
+  //           setState(() {
+  //             if (isEdit) {
+  //               selectedEdit[index] = !(selectedEdit[index] ?? false);
+  //             } else {
+  //               selectedDelete[index] = !(selectedDelete[index] ?? false);
+  //               _showDeleteDialog(index);
+  //             }
+  //           });
+  //         },
+  //         child: SizedBox(
+  //             width: 90, height: 50, child: Center(child: Text(text)))),
+  //   );
+  // }
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(
-                isSelected ? Colors.blue : Colors.white),
-            foregroundColor: MaterialStateProperty.all(
-                isSelected ? Colors.white : Colors.black),
-            padding: MaterialStateProperty.all(
-                const EdgeInsets.symmetric(horizontal: 0, vertical: 0)),
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-                side:
-                    BorderSide(color: isSelected ? Colors.blue : Colors.black),
-              ),
-            ),
-          ),
-          onPressed: () {
-            setState(() {
-              if (isEdit) {
-                selectedEdit[index] = !(selectedEdit[index] ?? false);
-              } else {
-                selectedDelete[index] = !(selectedDelete[index] ?? false);
-                _showDeleteDialog(index);
-              }
-            });
-          },
-          child: SizedBox(
-              width: 90, height: 50, child: Center(child: Text(text)))),
-    );
-  }
+  // void _showDeleteDialog(int index) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text("Confirm Delete"),
+  //         content: const Text("Are you sure you want to delete this shop?"),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () => Navigator.of(context).pop(),
+  //             child: const Text("Cancel"),
+  //           ),
+  //           TextButton(
+  //             onPressed: () {
+  //               setState(() {
+  //                 shops.removeAt(index);
+  //               });
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: const Text("Delete", style: TextStyle(color: Colors.red)),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  void _showDeleteDialog(int index) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Confirm Delete"),
-          content: const Text("Are you sure you want to delete this shop?"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  shops.removeAt(index);
-                });
-                Navigator.of(context).pop();
-              },
-              child: const Text("Delete", style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildOutlinedButton(
-      String text, Color textColor, Color borderColor, VoidCallback onPressed) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: textColor, // Text color
-          side: BorderSide(color: borderColor), // Border color
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          padding: const EdgeInsets.symmetric(
-              horizontal: 20, vertical: 12), // Button padding
-        ),
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
+  // Widget _buildOutlinedButton(
+  //     String text, Color textColor, Color borderColor, VoidCallback onPressed) {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(4.0),
+  //     child: OutlinedButton(
+  //       style: OutlinedButton.styleFrom(
+  //         foregroundColor: textColor, // Text color
+  //         side: BorderSide(color: borderColor), // Border color
+  //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  //         padding: const EdgeInsets.symmetric(
+  //             horizontal: 20, vertical: 12), // Button padding
+  //       ),
+  //       onPressed: onPressed,
+  //       child: Text(
+  //         text,
+  //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

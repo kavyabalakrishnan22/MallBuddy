@@ -181,10 +181,9 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
                                 MaterialPageRoute(
                                   builder: (context) => ShopEditPage(
                                     shopId: shop.uid.toString(),
-                                    shopName: shop.Shopname.toString(),
+                                    Shopname: shop.Shopname.toString(),
                                     ownerName: shop.Ownername.toString(),
                                     phone: shop.phone.toString(),
-                                    email: shop.email.toString(),
                                     floor: shop.Selectfloor.toString(),
                                   ),
                                 ),
