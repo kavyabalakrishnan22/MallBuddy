@@ -16,7 +16,6 @@ import '../view/Sreens/Usermanagement/Shop.dart';
 import '../view/Sreens/Usermanagement/buddy.dart';
 import '../view/Sreens/Usermanagement/customer.dart';
 import '../view/Sreens/ordermonitoring/Orders/AdminAllorders.dart';
-import '../view/Sreens/ordermonitoring/Orders/AdminCompleteOrder.dart';
 import '../view/Sreens/ordermonitoring/Adminriderperformnace.dart';
 import '../view/Sreens/ordermonitoring/Orders/Adminorders.dart';
 import '../view/Sreens/servicecustomization/admin_Delivery_fees.dart';
@@ -37,20 +36,29 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc()..add(FetchUsers(searchQuery: null,)),
+          create: (context) => AuthBloc()
+            ..add(FetchUsers(
+              searchQuery: null,
+            )),
         ),
         BlocProvider<ShopAuthBloc>(
           create: (context) => ShopAuthBloc()
             ..add(FetchShopesDetailsEvent(searchQuery: null, status: "0")),
-        ),BlocProvider<BuddyAuthBloc>(
+        ),
+        BlocProvider<BuddyAuthBloc>(
           create: (context) => BuddyAuthBloc()
             ..add(FetchBuddyDetailsEvent(searchQuery: null, status: "0")),
         ),
-     BlocProvider<OrderBloc>(
-    create: (context) => OrderBloc()
-    ..add(FetchPlaceorderEvent(searchQuery: null, status: '0',),),
-    child: AdminAllOrders(),
-    ),
+        BlocProvider<OrderBloc>(
+          create: (context) => OrderBloc()
+            ..add(
+              FetchPlaceorderEvent(
+                searchQuery: null,
+                status: '0',
+              ),
+            ),
+          child: AdminAllOrders(),
+        ),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -130,27 +138,6 @@ class _AdminPageState extends State<AdminPage> {
                         width: 200,
                         height: 200,
                       ),
-                      //SizedBox(width: 8,),
-                      // Column(
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   children: [
-                      //     Text(
-                      //       "Welcome to,",
-                      //       style: TextStyle(fontSize: 13, color: Colors.black),
-                      //     ),
-                      //     Row(
-                      //       children: [
-                      //         Text(
-                      //           "Laundry Mate",
-                      //           style: TextStyle(
-                      //               fontSize: 28,
-                      //               color: defaultBlue,
-                      //               fontWeight: FontWeight.bold),
-                      //         ),
-                      //       ],
-                      //     )
-                      //   ],
-                      // )
                     ],
                   ),
                 ),

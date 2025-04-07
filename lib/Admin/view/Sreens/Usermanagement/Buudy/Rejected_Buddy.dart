@@ -47,7 +47,12 @@ class _AdminRejectedBuddyState extends State<AdminRejectedBuddy> {
       },
       builder: (context, state) {
         if (state is BuddygetLoading) {
-          return Center(child: Loading_Widget());
+          return   Column(
+            children: [
+              SizedBox(height: 200,),
+              Center(child: Loading_Widget()),
+            ],
+          );
         } else if (state is Buddyfailerror) {
           return Text(state.error.toString());
         } else if (state is Buddyloaded) {

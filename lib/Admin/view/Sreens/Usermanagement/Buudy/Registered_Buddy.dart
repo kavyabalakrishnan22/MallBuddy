@@ -23,7 +23,6 @@ class RegisterdBuddywrapper extends StatelessWidget {
 class RegisteredBuddy extends StatefulWidget {
   const RegisteredBuddy({super.key});
 
-
   @override
   State<RegisteredBuddy> createState() => _RegisteredBuddyState();
 }
@@ -54,7 +53,14 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
       },
       builder: (context, state) {
         if (state is BuddygetLoading) {
-          return Center(child: Loading_Widget());
+          return Column(
+            children: [
+              SizedBox(
+                height: 200,
+              ),
+              Center(child: Loading_Widget()),
+            ],
+          );
         } else if (state is Buddyfailerror) {
           return Text(state.error.toString());
         } else if (state is Buddyloaded) {
@@ -68,7 +74,6 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
             );
           }
           return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 minWidth: MediaQuery.of(context).size.width,
@@ -79,8 +84,6 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                 columns: [
                   _buildColumn('SL NO'),
                   _buildColumn('Rider Details'),
-                  // _buildColumn('Phone Number'),
-                  // _buildColumn('Email'),
                   _buildColumn('Accept'),
                   _buildColumn('Reject'),
                 ],
@@ -101,26 +104,30 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                                 Text("Rider_ID:"),
                                 Text(
                                   Buddy.uid.toString(),
-                                  style:
-                                      const TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ],
-                            ),Row(
+                            ),
+                            Row(
                               children: [
                                 Text("Name:"),
                                 Text(
                                   Buddy.name.toString(),
-                                  style:
-                                      const TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
                             Row(
                               children: [
                                 Text("Gender:"),
-                                Text(Buddy.Gender.toString(),style:
-                                const TextStyle(fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,),
+                                Text(
+                                  Buddy.Gender.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ],
                             ),
                             Row(
@@ -148,8 +155,8 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       String? selectedFloor;
-
-
+                                      amountController.text =
+                                          Buddy.amount.toString();
                                       return AlertDialog(
                                         title: Text('Accept Request'),
                                         content: Column(
@@ -157,12 +164,19 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                                           children: [
                                             // Floor dropdown
                                             DropdownButtonFormField<String>(
-                                              decoration: InputDecoration(labelText: 'Select Floor'),
-                                              items: ['1st', '2nd', '3rd', '4th']
-                                                  .map((floor) => DropdownMenuItem<String>(
-                                                value: floor,
-                                                child: Text(floor),
-                                              ))
+                                              decoration: InputDecoration(
+                                                  labelText: 'Select Floor'),
+                                              items: [
+                                                '1st',
+                                                '2nd',
+                                                '3rd',
+                                                '4th'
+                                              ]
+                                                  .map((floor) =>
+                                                      DropdownMenuItem<String>(
+                                                        value: floor,
+                                                        child: Text(floor),
+                                                      ))
                                                   .toList(),
                                               onChanged: (value) {
                                                 selectedFloor = value;
@@ -172,31 +186,39 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                                             // Amount input
                                             TextField(
                                               controller: amountController,
-                                              keyboardType: TextInputType.number,
-                                              decoration: InputDecoration(labelText: 'Enter Amount'),
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              decoration: InputDecoration(
+                                                  labelText: 'Enter Amount'),
                                             ),
                                           ],
                                         ),
                                         actions: [
                                           TextButton(
                                             onPressed: () {
-                                              Navigator.of(context).pop(); // Close
+                                              Navigator.of(context)
+                                                  .pop(); // Close
                                             },
                                             child: Text('Cancel'),
                                           ),
                                           TextButton(
                                             onPressed: () {
                                               if (selectedFloor != null &&
-                                                  amountController.text.isNotEmpty) {
-                                                context.read<BuddyAuthBloc>().add(
-                                                  AcceptRejectbuddyevent(
-                                                    status: "1",
-                                                    id: Buddy.uid,
-                                                    amount:Buddy.amount,
-                                                    floor:selectedFloor!,
-                                                  ),
-                                                );
-                                                Navigator.of(context).pop(); // Close
+                                                  amountController
+                                                      .text.isNotEmpty) {
+                                                context
+                                                    .read<BuddyAuthBloc>()
+                                                    .add(
+                                                      AcceptRejectbuddyevent(
+                                                        status: "1",
+                                                        id: Buddy.uid,
+                                                        amount: amountController
+                                                            .text,
+                                                        floor: selectedFloor!,
+                                                      ),
+                                                    );
+                                                Navigator.of(context)
+                                                    .pop(); // Close
                                               } else {
                                                 // You can show an error or toast
                                               }
@@ -207,7 +229,7 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                                       );
                                     },
                                   ).then(
-                                        (value) {
+                                    (value) {
                                       context.read<BuddyAuthBloc>()
                                         ..add(FetchBuddyDetailsEvent(
                                             status: "0", searchQuery: null));
@@ -228,7 +250,10 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                                 onPressed: () {
                                   context.read<BuddyAuthBloc>().add(
                                       AcceptRejectbuddyevent(
-                                          status: "2", id: Buddy.uid, floor: '', amount: ''));
+                                          status: "2",
+                                          id: Buddy.uid,
+                                          floor: '',
+                                          amount: ''));
                                 },
                                 icon: Icon(
                                   Icons.close,
@@ -236,7 +261,6 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                                 )),
                           ],
                         )),
-
                       ],
                     );
                   },
