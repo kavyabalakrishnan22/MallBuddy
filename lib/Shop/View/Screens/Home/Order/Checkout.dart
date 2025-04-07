@@ -203,6 +203,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Controller/Bloc/Order_Authbloc/Orderauthmodel/order_model.dart';
 import 'package:mall_bud/Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import 'package:mall_bud/Shop/View/Screens/Home/Order/shop_payment_successfull.dart';
 import 'package:mall_bud/Widgets/Constants/Loading.dart';
 
@@ -255,7 +256,7 @@ class _ShopCheckoutPageState extends State<ShopCheckoutPage> {
         invoiceid: widget.invoiceId,
         Ownername: widget.ownerName,
         userphone: widget.ownerMobile,
-        Shopname: widget.ownerName,
+        shopid: shopid_global.toString(),
         Selectfloor: widget.parkingFloor,
         vehicle_name: widget.vehicleName,
         vehicle_color: widget.vehicleColor,

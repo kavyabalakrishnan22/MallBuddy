@@ -20,6 +20,8 @@ class Shopdeliverdordersscreenwrapper extends StatelessWidget {
           FetchPlaceorderEvent(
             searchQuery: null,
             status: '0',
+            Deliverd: "1"
+
           ),
         ),
       child: Shopdeliverdordersscreen(),

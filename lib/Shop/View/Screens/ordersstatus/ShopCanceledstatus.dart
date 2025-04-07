@@ -19,7 +19,7 @@ class ShopcancelledordersscreenWrapper extends StatelessWidget {
         ..add(
           FetchPlaceorderEvent(
             searchQuery: null,
-            status: '0',
+            status: '2',
           ),
         ),
       child: Shopcancelledordersscreen(),
@@ -169,8 +169,7 @@ class Shopcancelledordersscreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => OrderQRPage(
-                                   ),
+                                builder: (context) => OrderQRPage(),
                               ),
                             );
                           },

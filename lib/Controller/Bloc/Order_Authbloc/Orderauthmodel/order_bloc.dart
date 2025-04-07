@@ -28,7 +28,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             "ownername": event.order.Ownername,
             "userphone": event.order.userphone,
             "Timestamp": DateTime.now(),
-            "shopname": event.order.Shopname,
+            "shopid": event.order.shopid,
             "selectfloor": event.order.Selectfloor,
             "vehicle_name": event.order.vehicle_name,
             "vehicle_color": event.order.vehicle_color,
@@ -36,7 +36,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             "ridername": event.order.Ridername,
             "contact_rider": event.order.conatctrider,
             "status": "0",
-            "payment": "0"
+            "payment": "0",
+            "Deliverd": "0",
           });
 
           emit(OrderSuccess());
@@ -62,12 +63,14 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     on<FetchPlaceorderEvent>((event, emit) async {
       emit(OrderLoading());
+
       try {
         CollectionReference OrderCollection =
             FirebaseFirestore.instance.collection('Orders');
 
         Query query = OrderCollection;
         query = query.where("status", isEqualTo: event.status);
+        query = query.where("shopid", isEqualTo: event.shopid);
 
         QuerySnapshot snapshot = await query.get();
 
@@ -90,10 +93,3 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     });
   }
 }
-
-
-
-
-
-
-

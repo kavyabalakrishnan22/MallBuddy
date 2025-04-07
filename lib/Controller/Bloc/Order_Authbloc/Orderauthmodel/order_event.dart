@@ -7,32 +7,17 @@ class PlaceorderEvent extends OrderEvent {
   final OrderModel order;
   PlaceorderEvent({required this.order});
 }
+
 class FetchPlaceorderEvent extends OrderEvent {
   final String? searchQuery;
   final String? status;
-  FetchPlaceorderEvent({required this.searchQuery, required this.status});
+  final String? shopid;
+  final String? Deliverd;
+  FetchPlaceorderEvent(
+      {required this.searchQuery, required this.status, this.shopid,this.Deliverd});
 }
+
 class OrderDelete extends OrderEvent {
   final String? orderid;
   OrderDelete({required this.orderid});
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

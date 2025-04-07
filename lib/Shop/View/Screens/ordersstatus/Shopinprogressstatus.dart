@@ -8,7 +8,6 @@ import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
 import '../paymentsuccessful.dart';
 
-
 class ShopInProgressScreenwrapper extends StatelessWidget {
   const ShopInProgressScreenwrapper({super.key});
 
@@ -19,7 +18,7 @@ class ShopInProgressScreenwrapper extends StatelessWidget {
         ..add(
           FetchPlaceorderEvent(
             searchQuery: null,
-            status: '0',
+            status: '1',
           ),
         ),
       child: ShopInProgressScreen(),
@@ -99,14 +98,18 @@ class ShopInProgressScreen extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),SizedBox(height: 20,),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Column(
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Rider_ID"),
-                              Text(order.riderid.toString(),
+                              Text(
+                                order.riderid.toString(),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ],

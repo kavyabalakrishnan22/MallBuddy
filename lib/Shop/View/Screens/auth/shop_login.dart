@@ -107,7 +107,8 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
                             Text(
                               "Shop Login",
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w500),
                             ),
                             const SizedBox(height: 40),
 
@@ -160,18 +161,18 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
                             const SizedBox(height: 10),
 
                             // Login Button
-                            SizedBox(
-                                height: 70,
-                                child: Column(
-                                  children: [
-                                    state is ShopAuthloading
-                                        ? Text("Login...")
-                                        : Text(""),
-                                    state is ShopAuthloading
-                                        ? Loading_Widget()
-                                        : Text(""),
-                                  ],
-                                )),
+                            // SizedBox(
+                            //     height: 70,
+                            //     child: Column(
+                            //       children: [
+                            //         state is ShopAuthloading
+                            //             ? Text("Login...")
+                            //             : Text(""),
+                            //         state is ShopAuthloading
+                            //             ? Loading_Widget()
+                            //             : Text(""),
+                            //       ],
+                            //     )),
                             MaterialButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -192,14 +193,16 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
                                   ));
                                 }
                               },
-                              child: const Text(
-                                "Login",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
+                              child: state is ShopAuthloading
+                                  ? Loading_Widget()
+                                  : Text(
+                                      "Login",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
                             ),
 
                             const SizedBox(height: 10),

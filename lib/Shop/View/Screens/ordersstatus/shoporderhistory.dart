@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/User/View/Screens/status/Allordersscreen.dart';
@@ -5,6 +6,7 @@ import 'package:mall_bud/User/View/Screens/status/canceledorders.dart';
 import 'package:mall_bud/User/View/Screens/status/deliveredorders.dart';
 import 'package:mall_bud/User/View/Screens/status/inprogress.dart';
 import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
 import 'ShopAllOrdersstatus.dart';
@@ -12,8 +14,8 @@ import 'ShopCanceledstatus.dart';
 import 'ShopDeliveredsstatus.dart';
 import 'Shopinprogressstatus.dart';
 
-// class InProgressScreenwrapper extends StatelessWidget {
-//   const InProgressScreenwrapper({super.key});
+// class Shoporderwrapper extends StatelessWidget {
+//   const Shoporderwrapper({super.key});
 //
 //   @override
 //   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ import 'Shopinprogressstatus.dart';
 //     );
 //   }
 // }
+
 class ShopOrderHistoryScreen extends StatefulWidget {
   const ShopOrderHistoryScreen({super.key});
 
@@ -39,14 +42,20 @@ class ShopOrderHistoryScreen extends StatefulWidget {
 class _ShopOrderHistoryScreenState extends State<ShopOrderHistoryScreen> {
   int activeTabIndex = 0;
 
+  @override
+  void initState() {
+    print(shopid_global);
+    super.initState();
+  }
+
+
+
   final List<Widget> tabs = [
     Shop4allordersScreenwrapper(),
     ShopInProgressScreenwrapper(),
     Shopdeliverdordersscreenwrapper(),
     ShopcancelledordersscreenWrapper(),
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +126,3 @@ class _ShopOrderHistoryScreenState extends State<ShopOrderHistoryScreen> {
     );
   }
 }
-
-
-
-
-

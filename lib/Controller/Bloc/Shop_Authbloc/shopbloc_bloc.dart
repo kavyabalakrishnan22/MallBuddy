@@ -9,6 +9,8 @@ import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import 'Shopauthmodel/Shopauthmodel.dart';
 
+final shopid_global = FirebaseAuth.instance.currentUser!.uid;
+
 class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -52,7 +54,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
               "userId": user.uid,
               "email": user.email,
               "Ownername": event.user.Ownername,
-              "Shopname": event.user.Shopname,
+              "shopid": event.user.Shopname,
               "phone_number": event.user.phone,
               "selecfloor": event.user.Selectfloor,
               "timestamp": DateTime.now(),

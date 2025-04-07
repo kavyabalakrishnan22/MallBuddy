@@ -9,7 +9,7 @@ class OrderModel {
   String? userphone;
   String? status;
   String? time;
-  String? Shopname;
+  String? shopid;
   String? Selectfloor;
   String? vehicle_name;
   String? vehicle_color;
@@ -18,6 +18,7 @@ class OrderModel {
   String? conatctrider;
   String? rideremail;
   String? payment;
+  String? deliverd;
 
   OrderModel(
       {this.useremail,
@@ -27,17 +28,18 @@ class OrderModel {
       this.riderid,
       this.invoiceid,
       this.userphone,
-        this.time,
+      this.time,
       this.status,
-      this.Shopname,
+      this.shopid,
+      this.deliverd,
       this.Selectfloor,
       this.vehicle_name,
       this.vehicle_color,
       this.vehicle_number,
       this.Ridername,
       this.conatctrider,
-        this.payment,
-        this.rideremail,
+      this.payment,
+      this.rideremail,
       this.orderid});
 
   factory OrderModel.fromMap(Map<String, dynamic> data) {
@@ -47,7 +49,8 @@ class OrderModel {
       userid: data['uid'],
       riderid: data["riderid"],
       invoiceid: data['invoiceid'],
-      Shopname: data['shopname'],
+      shopid: data['shopname'],
+      deliverd: data["Deliverd"],
       Ownername: data['ownername'],
       userphone: data['userphone'],
       status: data['status'],
@@ -61,15 +64,6 @@ class OrderModel {
       payment: data['payment'],
       // Dateandtime: data['Timestamp'],
       time: data['time'],
-
     );
   }
 }
-
-
-
-
-
-
-
-

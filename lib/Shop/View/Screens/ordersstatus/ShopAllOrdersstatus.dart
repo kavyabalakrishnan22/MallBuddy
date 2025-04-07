@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Shop/View/Screens/ordersstatus/shoporderhistory.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
@@ -10,7 +11,9 @@ import '../paymentsuccessful.dart';
 import '../shop_complete_delivery.dart';
 
 class Shop4allordersScreenwrapper extends StatelessWidget {
-  const Shop4allordersScreenwrapper({super.key});
+  const Shop4allordersScreenwrapper({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +21,7 @@ class Shop4allordersScreenwrapper extends StatelessWidget {
       create: (context) => OrderBloc()
         ..add(
           FetchPlaceorderEvent(
-            searchQuery: null,
-            status: '0',
-          ),
+              searchQuery: null, status: '0', shopid: shopid_global),
         ),
       child: Shop4allordersScreen(),
     );
@@ -81,9 +82,9 @@ class Shop4allordersScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Order_ID:"),
+                          Text("Username:"),
                           Text(
-                            order.orderid.toString(),
+                            order.Ownername.toString(),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Container(
@@ -169,8 +170,7 @@ class Shop4allordersScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => OrderQRPage(
-                                   ),
+                                builder: (context) => OrderQRPage(),
                               ),
                             );
                           },
