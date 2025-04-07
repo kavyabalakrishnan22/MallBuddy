@@ -11,6 +11,8 @@ import 'Buddyauthmodel/Buddyauthmodel.dart';
 import 'buddy_auth_event.dart';
 import 'buddy_auth_state.dart';
 
+final buddyid_global = FirebaseAuth.instance.currentUser!.uid;
+
 class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -112,15 +114,6 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
       (event, emit) async {
         try {
           if (user != null) {
-            // Get the Player ID from OneSignalService
-
-            // Update Firestore with the correct user ID and OneSignal ID
-            await FirebaseFirestore.instance
-                .collection("MallBuddyRiders")
-                .doc(user.uid) // Use current user's UID
-                .update({"Onesignal_id": "null"}); // Update with OneSignal ID
-
-            // Sign out the user
             await _auth.signOut();
             emit(BuddyUnAuthenticated());
           } else {
@@ -242,12 +235,6 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
 
               // Check if the 'Ban' field is 1
               if (userData['ban'] == "1") {
-                // Update OneSignal ID
-                await FirebaseFirestore.instance
-                    .collection("MallBuddyRiders")
-                    .doc(user.uid)
-                    .update({"Onesignal_id": "playerId"});
-
                 emit(BuddyAuthenticated(user));
                 print("Auth successfully");
               } else {

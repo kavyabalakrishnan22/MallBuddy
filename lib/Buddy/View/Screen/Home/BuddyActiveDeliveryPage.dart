@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
 import '../../../../Widgets/Constants/Loading.dart';
+
 class BuddyActiveDeliverywrapper extends StatelessWidget {
   const BuddyActiveDeliverywrapper({super.key});
 
@@ -12,9 +14,7 @@ class BuddyActiveDeliverywrapper extends StatelessWidget {
       create: (context) => OrderBloc()
         ..add(
           FetchPlaceorderEvent(
-            searchQuery: null,
-            status: '0',
-          ),
+              searchQuery: null, status: '1', Riderid: buddyid_global),
         ),
       child: BuddyActiveDeliveryPage(),
     );

@@ -72,6 +72,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         query = query.where("status", isEqualTo: event.status);
         query = query.where("shopid", isEqualTo: event.shopid);
         query = query.where("Deliverd", isEqualTo: event.Deliverd);
+        query = query.where("riderid", isEqualTo: event.Riderid);
 
         QuerySnapshot snapshot = await query.get();
 

@@ -13,8 +13,9 @@ class FetchPlaceorderEvent extends OrderEvent {
   final String? status;
   final String? shopid;
   final String? Deliverd;
+  final String? Riderid;
   FetchPlaceorderEvent(
-      {required this.searchQuery, this.status, this.shopid, this.Deliverd});
+      {required this.searchQuery, this.status, this.shopid, this.Deliverd,this.Riderid});
 }
 
 class OrderDelete extends OrderEvent {
