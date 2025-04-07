@@ -23,11 +23,13 @@ class RegisterdBuddywrapper extends StatelessWidget {
 class RegisteredBuddy extends StatefulWidget {
   const RegisteredBuddy({super.key});
 
+
   @override
   State<RegisteredBuddy> createState() => _RegisteredBuddyState();
 }
 
 class _RegisteredBuddyState extends State<RegisteredBuddy> {
+  TextEditingController amountController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,9 +78,7 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
-                  _buildColumn('Rider ID '),
                   _buildColumn('Rider Details'),
-                  _buildColumn('Gender'),
                   // _buildColumn('Phone Number'),
                   // _buildColumn('Email'),
                   _buildColumn('Accept'),
@@ -94,49 +94,149 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                           (index + 1).toString(),
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         )),
-                        DataCell(Text(Buddy.uid.toString())),
                         DataCell(Column(
                           children: [
-                            Text(
-                              Buddy.name.toString(),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
+                            Row(
+                              children: [
+                                Text("Rider_ID:"),
+                                Text(
+                                  Buddy.uid.toString(),
+                                  style:
+                                      const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),Row(
+                              children: [
+                                Text("Name:"),
+                                Text(
+                                  Buddy.name.toString(),
+                                  style:
+                                      const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
-                            Text(Buddy.phone.toString()),
-                            Text(Buddy.email.toString())
+                            Row(
+                              children: [
+                                Text("Gender:"),
+                                Text(Buddy.Gender.toString(),style:
+                                const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text("Ph:"),
+                                Text(Buddy.phone.toString()),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text("Email:"),
+                                Text(Buddy.email.toString()),
+                              ],
+                            )
                           ],
                         )),
-                        DataCell(Text(Buddy.Gender.toString())),
                         // DataCell(Text(shop.Phone_Number)),
                         // DataCell(Text(shop.Email_ID)),
-                        DataCell(Row(
-                          children: [
-                            IconButton(
+                        DataCell(
+                          Row(
+                            children: [
+                              IconButton(
                                 onPressed: () {
-                                  context.read<BuddyAuthBloc>().add(
-                                      AcceptRejectbuddyevent(
-                                          status: "1", id: Buddy.uid));
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      String? selectedFloor;
+
+
+                                      return AlertDialog(
+                                        title: Text('Accept Request'),
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            // Floor dropdown
+                                            DropdownButtonFormField<String>(
+                                              decoration: InputDecoration(labelText: 'Select Floor'),
+                                              items: ['1st', '2nd', '3rd', '4th']
+                                                  .map((floor) => DropdownMenuItem<String>(
+                                                value: floor,
+                                                child: Text(floor),
+                                              ))
+                                                  .toList(),
+                                              onChanged: (value) {
+                                                selectedFloor = value;
+                                              },
+                                            ),
+                                            SizedBox(height: 10),
+                                            // Amount input
+                                            TextField(
+                                              controller: amountController,
+                                              keyboardType: TextInputType.number,
+                                              decoration: InputDecoration(labelText: 'Enter Amount'),
+                                            ),
+                                          ],
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop(); // Close
+                                            },
+                                            child: Text('Cancel'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              if (selectedFloor != null &&
+                                                  amountController.text.isNotEmpty) {
+                                                context.read<BuddyAuthBloc>().add(
+                                                  AcceptRejectbuddyevent(
+                                                    status: "1",
+                                                    id: Buddy.uid,
+                                                    amount:Buddy.amount,
+                                                    floor:selectedFloor!,
+                                                  ),
+                                                );
+                                                Navigator.of(context).pop(); // Close
+                                              } else {
+                                                // You can show an error or toast
+                                              }
+                                            },
+                                            child: Text('Accept'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ).then(
+                                        (value) {
+                                      context.read<BuddyAuthBloc>()
+                                        ..add(FetchBuddyDetailsEvent(
+                                            status: "0", searchQuery: null));
+                                    },
+                                  );
                                 },
                                 icon: Icon(
-                                  Icons.done,
+                                  Icons.check,
                                   color: Colors.green,
-                                )),
-                          ],
-                        )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         DataCell(Row(
                           children: [
                             IconButton(
                                 onPressed: () {
                                   context.read<BuddyAuthBloc>().add(
                                       AcceptRejectbuddyevent(
-                                          status: "2", id: Buddy.uid));
+                                          status: "2", id: Buddy.uid, floor: '', amount: ''));
                                 },
                                 icon: Icon(
                                   Icons.close,
                                   color: Colors.red,
                                 )),
                           ],
-                        ))
+                        )),
+
                       ],
                     );
                   },

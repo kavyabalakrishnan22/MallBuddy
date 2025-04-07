@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Admin/Model/ordermonitoring_model/All_order_model.dart';
-import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
-import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
-import '../../../../Widgets/Constants/Loading.dart';
-import '../../../Model/User_Management/shop_model.dart';
+import '../../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
+import '../../../../../Widgets/Constants/Loading.dart';
+import '../../../../Model/User_Management/shop_model.dart';
 
 class Adminallorderswrapper extends StatelessWidget {
   const Adminallorderswrapper({super.key});
@@ -52,104 +52,14 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text("Hello,", style: TextStyle(fontSize: 22)),
-                    Text("Good Morning Team!",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 5),
-                    Text(
-                      "Unlock insights, track growth, and manage performance effortlessly.",
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      width: 200,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(width: 0.5, color: Colors.grey)),
-                      child: const TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          prefixIcon: Icon(Icons.search, color: Colors.black),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 6),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(width: 0.5, color: Colors.grey)),
-                      child: Row(
-                        children: const [
-                          CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/profile/girl.png'),
-                          ),
-                          SizedBox(width: 10),
-                          Text("Admin",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            // TabBar
-            TabBar(
-              controller: _tabController, // FIXED: Using only one TabController
-              isScrollable: true,
-              indicatorColor: Colors.blue,
-              indicatorWeight: 3,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
-              tabs: const [
-                Tab(text: "All Orders"),
-                // Tab(text: "Complete Order"),
-                // Tab(text: "Rider Performance "),
-                // Tab(text: "Customer Feedback"),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            // TabBarView
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                physics:
-                    const BouncingScrollPhysics(), // FIXED: Ensures smooth scrolling
+         // FIXED: Ensures smooth scrolling
                 children: [
                   _buildShopTable("All Shops"),
-                  // AdminCompleteOrders(),
-                  // AdminRidrPerformnace(),
-                  // AdminRejectedShop(),
+
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+      ));
+
   }
 
   // Function to build shop tables dynamically

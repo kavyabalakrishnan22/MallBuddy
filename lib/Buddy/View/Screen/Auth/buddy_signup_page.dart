@@ -6,7 +6,6 @@ import '../../../../Controller/Bloc/Buddy_Authbloc/Buddyauthmodel/Buddyauthmodel
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
-import '../../../../User/View/Screens/Bottomnav/Bottom.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
 import '../../../../Widgets/Constants/custom_field.dart';

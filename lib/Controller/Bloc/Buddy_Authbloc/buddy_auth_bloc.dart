@@ -57,10 +57,12 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
               "Dateodbirth": event.user.Dob,
               "Gender": event.user.Gender,
               "phone_number": event.user.phone,
+              "floor":event.user.floor,
+              "amount":"200",
               "timestamp": DateTime.now(),
               "Onesignal_id": "playerId",
-              "ban": "1",
-              "status": "1",
+              "ban": "0",
+              "status": "0",
               "imagepath":
                   "https://cdn1.iconfinder.com/data/icons/proffesion/257/Driver-512.png"
             });
@@ -138,7 +140,22 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
           await FirebaseFirestore.instance
               .collection("MallBuddyRiders")
               .doc(event.id)
-              .update({"status": event.status});
+              .update({"status": event.status,"floor":event.floor,"amount":event.amount});
+          emit(Refresh());
+        } catch (e) {
+          print(e);
+        }
+      },
+    );
+    on<editamountfloorevent>(
+      (event, emit) async {
+        try {
+          emit(Acceptloading());
+
+          await FirebaseFirestore.instance
+              .collection("MallBuddyRiders")
+              .doc(event.floor)
+              .update({"status": event.amount});
           emit(Refresh());
         } catch (e) {
           print(e);

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Admin/Model/ordermonitoring_model/All_order_model.dart';
-import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
-import '../../../../Widgets/Constants/Loading.dart';
-import '../../../Model/User_Management/shop_model.dart';
-import '../../../Model/ordermonitoring_model/Complete_order_model.dart';
-import '../Usermanagement/Shop/Accepted_shop_page.dart';
-import 'Adminriderperformnace.dart';
+import '../../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../../Widgets/Constants/Loading.dart';
+import '../../../../Model/User_Management/shop_model.dart';
+import '../../../../Model/ordermonitoring_model/Complete_order_model.dart';
+import '../../Usermanagement/Shop/Accepted_shop_page.dart';
+import '../Adminriderperformnace.dart';
 
 
 class AdminCompleteOrders extends StatefulWidget {
@@ -36,110 +36,25 @@ class _AdminCompleteOrdersState extends State<AdminCompleteOrders>
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text("Hello,", style: TextStyle(fontSize: 22)),
-                    Text("Good Morning Team!",
-                        style:
-                        TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 5),
-                    Text(
-                      "Unlock insights, track growth, and manage performance effortlessly.",
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      width: 200,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(width: 0.5, color: Colors.grey)),
-                      child: const TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          prefixIcon: Icon(Icons.search, color: Colors.black),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 6),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(width: 0.5, color: Colors.grey)),
-                      child: Row(
-                        children: const [
-                          CircleAvatar(
-                            backgroundImage:
-                            AssetImage('assets/profile/girl.png'),
-                          ),
-                          SizedBox(width: 10),
-                          Text("Admin",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            // TabBar
-            TabBar(
-              controller: _tabController, // FIXED: Using only one TabController
-              isScrollable: true,
-              indicatorColor: Colors.blue,
-              indicatorWeight: 3,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
-              tabs: const [
-                Tab(text: "Complete Orders"),
-                // Tab(text: "Complete Order"),
-                // Tab(text: "Rider Performance "),
-                // Tab(text: "Customer Feedback"),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            // TabBarView
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                physics: const BouncingScrollPhysics(), // FIXED: Ensures smooth scrolling
+          // FIXED: Ensures smooth scrolling
                 children: [
                   _buildShopTable("Complete Order"),
-                  // AdminCompleteOrders(),
-                  // AdminRidrPerformnace(),
-                  // AdminRejectedShop(),
+
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
+      ));
+
   }
 
   // Function to build shop tables dynamically
   Widget _buildShopTable(String title) {
     return BlocConsumer<OrderBloc, OrderState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state is OrderRefresh) {
+            context
+                .read<OrderBloc>()
+                .add(FetchPlaceorderEvent(searchQuery: null, status: '0'));
+          }
         },
         builder: (context, state) {
           if (state is OrderLoading) {
@@ -175,6 +90,7 @@ class _AdminCompleteOrdersState extends State<AdminCompleteOrders>
                     _buildColumn('Vehicle Details'),
                     _buildColumn('Total Amount'),
                     _buildColumn('Status'),
+                    _buildColumn('Delete'),
                   ],
                   rows: List.generate(
                     state.Orders.length,
@@ -361,6 +277,61 @@ class _AdminCompleteOrdersState extends State<AdminCompleteOrders>
                           ),
                           DataCell(Text("1000")),
                           DataCell(Text(cmpleteorder.status.toString())),
+                          DataCell(
+                            ElevatedButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("Confirm Delete"),
+                                      content: Text(
+                                          "Are you sure you want to delete this item?"),
+                                      actions: [
+                                        TextButton(
+                                          child: Text("Cancel"),
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Close dialog
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: Text(
+                                            "Delete",
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                          onPressed: () {
+                                            context.read<OrderBloc>().add(
+                                              OrderDelete(
+                                                  orderid:
+                                                  cmpleteorder.orderid ?? ''),
+                                            );
+                                            Navigator.of(context)
+                                                .pop(); // Close dialog
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ).then(
+                                      (value) {
+                                    context.read<OrderBloc>()
+                                      ..add(FetchPlaceorderEvent(
+                                          status: "0", searchQuery: null));
+                                  },
+                                );
+                              },
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.red,
+                                side: BorderSide(color: Colors.red, width: 1.5),
+                                backgroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 12),
+                              ),
+                              child: Text('Delete'),
+                            ),
+                          ),
+
                         ],
                       );
                     },

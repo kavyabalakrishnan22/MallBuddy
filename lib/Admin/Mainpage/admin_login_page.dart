@@ -15,9 +15,10 @@ import '../view/Sreens/Dashboard/dashboard.dart';
 import '../view/Sreens/Usermanagement/Shop.dart';
 import '../view/Sreens/Usermanagement/buddy.dart';
 import '../view/Sreens/Usermanagement/customer.dart';
-import '../view/Sreens/ordermonitoring/AdminAllorders.dart';
-import '../view/Sreens/ordermonitoring/AdminCompleteOrder.dart';
+import '../view/Sreens/ordermonitoring/Orders/AdminAllorders.dart';
+import '../view/Sreens/ordermonitoring/Orders/AdminCompleteOrder.dart';
 import '../view/Sreens/ordermonitoring/Adminriderperformnace.dart';
+import '../view/Sreens/ordermonitoring/Orders/Adminorders.dart';
 import '../view/Sreens/servicecustomization/admin_Delivery_fees.dart';
 
 void main() async {
@@ -171,8 +172,8 @@ class _AdminPageState extends State<AdminPage> {
                   title: 'Order Monitoring',
                   icon: Icons.monitor_heart_outlined,
                   children: [
-                    SubListTile("All Order", Adminallorderswrapper()),
-                    SubListTile("Completed order", AdminCompleteOrders()),
+                    SubListTile("All Order", AdminOrders()),
+                    // SubListTile("Completed order", AdminCompleteOrders()),
                     SubListTile("Rider Performance", AdminRidrPerformnace()),
                     // SubListTile("Customer Feedback", AdminAllOrders()),
                   ],

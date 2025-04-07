@@ -132,13 +132,13 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                 minWidth: MediaQuery.of(context).size.width,
               ),
               child: DataTable(
-                dataRowMaxHeight: 100,
+                dataRowMaxHeight: 120,
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
                   _buildColumn('Date and Time'),
                   _buildColumn('Rider Details'),
-                  _buildColumn('Gender'),
+                  _buildColumn('Personal Details'),
                   // _buildColumn('Phone Number'),
                   // _buildColumn('Email'),
                   _buildColumn('Accepted'),
@@ -170,11 +170,42 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                                       const TextStyle(fontWeight: FontWeight.bold),
                                       overflow: TextOverflow.ellipsis,),
                                   ],
+                                ),Row(
+                                  children: [
+                                    Text("Floor:"),
+                                    Text(Buddy.floor.toString(),
+                                      style:
+                                      const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                ),Row(
+                                  children: [
+                                    Text("Delivery_Fees:"),
+                                    Text(Buddy.amount.toString(),
+                                      style:
+                                      const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
                                 ),
+                              ],
+                            )),
+                        DataCell(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Row(
                                   children: [
                                     Text("Name:"),
                                     Text(Buddy.name.toString(),style:
+                                    const TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Gender:"),
+                                    Text(Buddy.Gender.toString(),style:
                                     const TextStyle(fontWeight: FontWeight.bold),
                                       overflow: TextOverflow.ellipsis,),
                                   ],
@@ -194,10 +225,10 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                                     const TextStyle(fontWeight: FontWeight.bold),
                                       overflow: TextOverflow.ellipsis,),
                                   ],
-                                )
+                                ) ,
+
                               ],
                             )),
-                        DataCell(Text(Buddy.Gender.toString())),
                         DataCell(
                           Container(
                             height: 40,
