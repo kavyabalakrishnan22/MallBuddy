@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mall_bud/Controller/Bloc/Order_Authbloc/Orderauthmodel/order_auth_model.dart';
+import 'package:mall_bud/Controller/Bloc/Order_Authbloc/Orderauthmodel/order_model.dart';
 import 'package:meta/meta.dart';
 
 part 'order_event.dart';

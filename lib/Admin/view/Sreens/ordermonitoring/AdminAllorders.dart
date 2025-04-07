@@ -14,7 +14,12 @@ class Adminallorderswrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<OrderBloc>(
       create: (context) => OrderBloc()
-        ..add(FetchPlaceorderEvent(searchQuery: null, status: '0',),),
+        ..add(
+          FetchPlaceorderEvent(
+            searchQuery: null,
+            status: '0',
+          ),
+        ),
       child: AdminAllOrders(),
     );
   }
@@ -36,7 +41,7 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this); // FIXED: length = 4
+    _tabController = TabController(length: 1, vsync: this); // FIXED: length = 4
   }
 
   @override
@@ -154,9 +159,8 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
         if (state is OrderRefresh) {
           context
               .read<OrderBloc>()
-              .add(FetchPlaceorderEvent(searchQuery: null, status: ''));
+              .add(FetchPlaceorderEvent(searchQuery: null, status: '0'));
         }
-
       },
       builder: (context, state) {
         if (state is OrderLoading) {
@@ -413,12 +417,14 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text("Confirm Delete"),
-                                    content: Text("Are you sure you want to delete this item?"),
+                                    content: Text(
+                                        "Are you sure you want to delete this item?"),
                                     actions: [
                                       TextButton(
                                         child: Text("Cancel"),
                                         onPressed: () {
-                                          Navigator.of(context).pop(); // Close dialog
+                                          Navigator.of(context)
+                                              .pop(); // Close dialog
                                         },
                                       ),
                                       TextButton(
@@ -428,13 +434,22 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                                         ),
                                         onPressed: () {
                                           context.read<OrderBloc>().add(
-                                            OrderDelete(orderid: allorder.orderid ?? ''),
-                                          );
-                                          Navigator.of(context).pop(); // Close dialog
+                                                OrderDelete(
+                                                    orderid:
+                                                        allorder.orderid ?? ''),
+                                              );
+                                          Navigator.of(context)
+                                              .pop(); // Close dialog
                                         },
                                       ),
                                     ],
                                   );
+                                },
+                              ).then(
+                                (value) {
+                                  context.read<OrderBloc>()
+                                    ..add(FetchPlaceorderEvent(
+                                        status: "0", searchQuery: null));
                                 },
                               );
                             },
@@ -442,7 +457,8 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                               foregroundColor: Colors.red,
                               side: BorderSide(color: Colors.red, width: 1.5),
                               backgroundColor: Colors.white,
-                              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 12),
                             ),
                             child: Text('Delete'),
                           ),

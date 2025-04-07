@@ -18,7 +18,7 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this); // FIXED: length = 4
+    _tabController = TabController(length: 1, vsync: this); // FIXED: length = 4
   }
 
   @override

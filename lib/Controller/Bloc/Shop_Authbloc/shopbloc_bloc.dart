@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
@@ -8,7 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
-
 import 'Shopauthmodel/Shopauthmodel.dart';
 
 class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {

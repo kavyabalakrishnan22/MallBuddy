@@ -8,7 +8,7 @@ class Loading_Widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LoadingAnimationWidget.staggeredDotsWave(
-      color: CupertinoColors.systemGrey,
+      color: CupertinoColors.opaqueSeparator,
       size: 50,
     );
   }
