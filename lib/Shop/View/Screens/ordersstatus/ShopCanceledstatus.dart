@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 
 import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
 import '../../../../Shop/View/Screens/ordersstatus/shoporderhistory.dart';
@@ -20,6 +21,7 @@ class ShopcancelledordersscreenWrapper extends StatelessWidget {
           FetchPlaceorderEvent(
             searchQuery: null,
             status: '2',
+            shopid: shopid_global
           ),
         ),
       child: Shopcancelledordersscreen(),

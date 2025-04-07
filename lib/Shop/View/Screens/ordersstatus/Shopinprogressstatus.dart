@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import 'package:mall_bud/Shop/View/Screens/shop_complete_delivery.dart';
 
 import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
@@ -17,9 +18,7 @@ class ShopInProgressScreenwrapper extends StatelessWidget {
       create: (context) => OrderBloc()
         ..add(
           FetchPlaceorderEvent(
-            searchQuery: null,
-            status: '1',
-          ),
+              searchQuery: null, status: '1', shopid: shopid_global,Deliverd: "0"),
         ),
       child: ShopInProgressScreen(),
     );

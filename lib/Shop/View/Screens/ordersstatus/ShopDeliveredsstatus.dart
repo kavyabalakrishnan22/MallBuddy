@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 
 import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
-import '../../../../Shop/View/Screens/ordersstatus/shoporderhistory.dart';
+
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
 import '../paymentsuccessful.dart';
-import '../shop_complete_delivery.dart';
 
 class Shopdeliverdordersscreenwrapper extends StatelessWidget {
   const Shopdeliverdordersscreenwrapper({super.key});
@@ -18,11 +18,10 @@ class Shopdeliverdordersscreenwrapper extends StatelessWidget {
       create: (context) => OrderBloc()
         ..add(
           FetchPlaceorderEvent(
-            searchQuery: null,
-            status: '0',
-            Deliverd: "1"
-
-          ),
+              searchQuery: null,
+              Deliverd: "1",
+              shopid: shopid_global,
+              status: "1"),
         ),
       child: Shopdeliverdordersscreen(),
     );
@@ -171,8 +170,7 @@ class Shopdeliverdordersscreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => OrderQRPage(
-                                    ),
+                                builder: (context) => OrderQRPage(),
                               ),
                             );
                           },
