@@ -19,10 +19,7 @@ class ShopcancelledordersscreenWrapper extends StatelessWidget {
       create: (context) => OrderBloc()
         ..add(
           FetchPlaceorderEvent(
-            searchQuery: null,
-            status: '2',
-            shopid: shopid_global
-          ),
+              searchQuery: null, status: '2', shopid: shopid_global),
         ),
       child: Shopcancelledordersscreen(),
     );
@@ -96,7 +93,7 @@ class Shopcancelledordersscreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              "Status : ${order.status.toString()}",
+                              order.status == "2" ? "Pending" : "",
                               style: TextStyle(color: Colors.red, fontSize: 12),
                             ),
                           ),

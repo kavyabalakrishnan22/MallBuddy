@@ -18,7 +18,10 @@ class ShopInProgressScreenwrapper extends StatelessWidget {
       create: (context) => OrderBloc()
         ..add(
           FetchPlaceorderEvent(
-              searchQuery: null, status: '1', shopid: shopid_global,Deliverd: "0"),
+              searchQuery: null,
+              status: '1',
+              shopid: shopid_global,
+              Deliverd: "0"),
         ),
       child: ShopInProgressScreen(),
     );
