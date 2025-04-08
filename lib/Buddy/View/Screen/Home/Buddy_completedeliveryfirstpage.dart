@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
@@ -16,7 +17,9 @@ class BuddyCompleteDeliveryFirstScreenwrapper extends StatelessWidget {
         ..add(
           FetchPlaceorderEvent(
             searchQuery: null,
-            status: '0',
+            status: '1',
+              Riderid: buddyid_global,
+              Deliverd: "1"
           ),
         ),
       child: Builder(
