@@ -14,7 +14,7 @@ class BuddyActiveDeliverywrapper extends StatelessWidget {
       create: (context) => OrderBloc()
         ..add(
           FetchPlaceorderEvent(
-              searchQuery: null, status: '1', Riderid: buddyid_global),
+              searchQuery: null, status: '1',Riderid: buddyid_global,Deliverd: "0"),
         ),
       child: BuddyActiveDeliveryPage(),
     );
