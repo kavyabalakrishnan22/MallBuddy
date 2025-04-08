@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Shop/View/Screens/ordersstatus/shoporderhistory.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
@@ -18,7 +19,9 @@ class deliverdordersscreenwrapper extends StatelessWidget {
         ..add(
           FetchPlaceorderEvent(
             searchQuery: null,
-            status: '0',
+              Deliverd: "1",
+              shopid: shopid_global,
+              status: "1"
           ),
         ),
       child: deliverdordersscreen(),

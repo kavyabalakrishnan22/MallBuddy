@@ -63,8 +63,8 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
               "amount": "200",
               "timestamp": DateTime.now(),
               "Onesignal_id": "playerId",
-              "ban": "0",
-              "status": "0",
+              "ban": "1",
+              "status": "1",
               "imagepath":
                   "https://cdn1.iconfinder.com/data/icons/proffesion/257/Driver-512.png"
             });

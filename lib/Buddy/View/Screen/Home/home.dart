@@ -24,9 +24,9 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
   final PageController _pageController = PageController();
   List<String> bannerImages = [
     'assets/userblog1.png',
-    'assets/userblog1.png',
-    'assets/userblog1.png',
-    'assets/userblog1.png',
+    'assets/Buddy/saleoffer.jpg',
+    'assets/Buddy/maxresdefault.jpg',
+    'assets/Buddy/allensolly.jpeg',
   ];
 
   @override
@@ -64,7 +64,7 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
         break;
       case "Completed\nDelivery":
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BuddyCompleteDeliveryFirstScreen()));
+            context, MaterialPageRoute(builder: (context) => BuddyCompleteDeliveryFirstScreenwrapper()));
         break;
     }
   }

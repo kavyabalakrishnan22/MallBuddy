@@ -33,16 +33,22 @@ class _UserListSelectparkingState extends State<UserListSelectparking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title:
+        const Text("User", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        // iconTheme: const IconThemeData(color: Colors.blue),
+      )   ,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Users",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
+            // const Text(
+            //   "Users",
+            //   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            // ),
             const SizedBox(height: 10),
             _buildSearchBar(),
             const SizedBox(height: 10),

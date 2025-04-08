@@ -68,7 +68,7 @@ class _InvoiceFormPageState extends State<InvoiceFormPage> {
             const Text("Invoice Details", style: TextStyle(color: Colors.blue)),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.blue),
+        // iconTheme: const IconThemeData(color: Colors.blue),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -78,9 +78,16 @@ class _InvoiceFormPageState extends State<InvoiceFormPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildRow(
-                  "Invoice ID",
-                  buildTextField("Enter invoice id", invoiceIdController,
-                      required: true)),
+                "Invoice ID",
+                buildTextField(
+                  "Enter invoice id",
+                  invoiceIdController,
+                  required: true,
+                  pattern: r'^[A-Za-z0-9]{3,10}$',
+                  patternError: "Invoice ID must be 3-10 alphanumeric characters",
+                ),
+              ),
+
               const Divider(),
               buildRow("Select The Parking Floor", buildFloorSelection()),
               const SizedBox(height: 16),
@@ -104,26 +111,55 @@ class _InvoiceFormPageState extends State<InvoiceFormPage> {
                 ),
               ),
               buildRow(
-                  "Customer Name",
-                  buildTextField("Enter Customer name", nameController,
-                      required: true)),
+                "Customer Name",
+                buildTextField(
+                  "Enter Customer name",
+                  nameController,
+                  required: true,
+                  pattern: r'^[A-Za-z ]{2,}$',
+                  patternError: "Enter a valid name (only letters & spaces, min 2 characters)",
+                ),
+              ),
+
               buildRow(
-                  "Mobile Number",
-                  buildTextField("Enter phone number", contactController,
-                      required: true)),
+                "Mobile Number",
+                buildTextField(
+                  "Enter phone number",
+                  contactController,
+                  required: true,
+                  keyboardType: TextInputType.phone,
+                  pattern: r'^[0-9]{10}$',
+                  patternError: "Enter a valid 10-digit phone number",
+                ),
+              ),
+
               buildRow(
-                  "Vehicle Name",
-                  buildTextField("Enter vehicle name", vehicleNameController,
-                      required: true)),
+                "Vehicle Name",
+                buildTextField(
+                  "Enter vehicle name",
+                  vehicleNameController,
+                  required: true,
+                  pattern: r'^[A-Za-z ]{2,}$',
+                  patternError: "Enter a valid vehicle name (only letters & spaces, min 2 characters)",
+                ),
+              ),
+
               buildRow(
                   "Vehicle Color",
                   buildTextField("Enter vehicle color", vehicleColorController,
                       required: true)),
               buildRow(
-                  "Vehicle Number",
-                  buildTextField(
-                      "Enter vehicle number", vehicleNumberController,
-                      required: true)),
+                "Vehicle Number",
+                buildTextField(
+                  "Enter vehicle number",
+                  vehicleNumberController,
+                  required: true,
+                  pattern: r'^[A-Z]{2}\d{2}-[A-Z]{2}-\d{4}$',
+                  patternError: "Enter a valid vehicle number (e.g., KA01-AB-1234)",
+                ),
+              ),
+
+
               buildRow(
                 "Delivery Time",
                 GestureDetector(
@@ -224,18 +260,30 @@ class _InvoiceFormPageState extends State<InvoiceFormPage> {
     );
   }
 
-  Widget buildTextField(String hint, TextEditingController controller,
-      {TextInputType keyboardType = TextInputType.text,
-      bool required = false}) {
+  Widget buildTextField(
+      String hint,
+      TextEditingController controller, {
+        TextInputType keyboardType = TextInputType.text,
+        bool required = false,
+        String? pattern,
+        String? patternError,
+      }) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
       decoration: inputDecoration.copyWith(hintText: hint),
-      validator: required
-          ? (value) => value!.isEmpty ? "This field is required" : null
-          : null,
+      validator: (value) {
+        if (required && (value == null || value.isEmpty)) {
+          return "This field is required";
+        }
+        if (pattern != null && value != null && !RegExp(pattern).hasMatch(value)) {
+          return patternError ?? "Invalid input";
+        }
+        return null;
+      },
     );
   }
+
 
   final InputDecoration inputDecoration = InputDecoration(
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),

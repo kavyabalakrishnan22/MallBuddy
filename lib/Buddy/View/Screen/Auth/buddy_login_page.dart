@@ -139,36 +139,36 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 10),
-
-                            Row(
-                              children: [
-                                Checkbox(
-                                  value: rememberMe,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      rememberMe = value ?? false;
-                                    });
-                                  },
-                                ),
-                                const Text("Remember Me"),
-                              ],
-                            ),
+                            const SizedBox(height: 40),
+                            //
+                            // Row(
+                            //   children: [
+                            //     Checkbox(
+                            //       value: rememberMe,
+                            //       onChanged: (bool? value) {
+                            //         setState(() {
+                            //           rememberMe = value ?? false;
+                            //         });
+                            //       },
+                            //     ),
+                            //     const Text("Remember Me"),
+                            //   ],
+                            // ),
                             const SizedBox(height: 10),
 
                             // Login Button
-                            SizedBox(
-                                height: 70,
-                                child: Column(
-                                  children: [
-                                    state is BuddyAuthloading
-                                        ? Text("Login...")
-                                        : Text(""),
-                                    state is BuddyAuthloading
-                                        ? Loading_Widget()
-                                        : Text(""),
-                                  ],
-                                )),
+                            // SizedBox(
+                            //     height: 70,
+                            //     child: Column(
+                            //       children: [
+                            //         state is BuddyAuthloading
+                            //             ? Text("Login...")
+                            //             : Text(""),
+                            //         state is BuddyAuthloading
+                            //             ? Loading_Widget()
+                            //             : Text(""),
+                            //       ],
+                            //     )),
                             MaterialButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -189,7 +189,9 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                                   ));
                                 }
                               },
-                              child: const Text(
+                              child: state is BuddyAuthloading
+                                  ? Loading_Widget()
+                                  : Text(
                                 "Login",
                                 style: TextStyle(
                                   color: Colors.white,
@@ -213,7 +215,7 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                               ),
                             ),
 
-                            const SizedBox(height: 50),
+                            const SizedBox(height: 160),
 
                             // Sign Up Section
                             Row(

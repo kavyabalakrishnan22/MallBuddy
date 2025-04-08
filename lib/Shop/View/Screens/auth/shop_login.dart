@@ -143,21 +143,21 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 40),
 
-                            Row(
-                              children: [
-                                Checkbox(
-                                  value: rememberMe,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      rememberMe = value ?? false;
-                                    });
-                                  },
-                                ),
-                                const Text("Remember Me"),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Checkbox(
+                            //       value: rememberMe,
+                            //       onChanged: (bool? value) {
+                            //         setState(() {
+                            //           rememberMe = value ?? false;
+                            //         });
+                            //       },
+                            //     ),
+                            //     const Text("Remember Me"),
+                            //   ],
+                            // ),
                             const SizedBox(height: 10),
 
                             // Login Button
@@ -219,7 +219,7 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
                               ),
                             ),
 
-                            const SizedBox(height: 40),
+                            const SizedBox(height: 110),
 
                             // Sign Up Section
                             Row(

@@ -39,7 +39,7 @@ class FetchBuddyDetailsEvent extends BuddyAuthEvent {
   final String? amount;
   final String? ban;
   FetchBuddyDetailsEvent(
-      {required this.searchQuery, required this.status, this.floor,this.ban,this.amount});
+      {required this.searchQuery,this.status, this.floor,this.ban,this.amount});
 }
 
 

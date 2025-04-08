@@ -12,6 +12,9 @@ import 'Userauthmodel/Usermodel.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
+final buddyid_global = FirebaseAuth.instance.currentUser!.uid;
+
+
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -147,6 +150,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
     User? user = _auth.currentUser;
+
     on<SigOutEvent>(
       (event, emit) async {
         try {

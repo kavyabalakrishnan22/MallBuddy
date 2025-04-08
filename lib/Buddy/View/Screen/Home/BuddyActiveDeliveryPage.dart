@@ -95,18 +95,42 @@ class BuddyActiveDeliveryPage extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 4),
+                                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
                                         color: Colors.red.shade100,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
-                                      child: Text(
-                                        "Status : ${Order.status.toString()}",
-                                        style: TextStyle(
-                                            color: Colors.red, fontSize: 12),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Status : ${Order.status.toString()}",
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4), // Space between text and button
+                                          TextButton(
+                                            onPressed: () {
+                                              // Your button action here
+                                              print("Button pressed");
+                                            },
+                                            child: Text(
+                                              "Update Status",
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                            style: TextButton.styleFrom(
+                                              padding: EdgeInsets.zero,
+                                              minimumSize: Size(50, 20),
+                                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
+
                                   ],
                                 ),
                                 SizedBox(height: 10),
