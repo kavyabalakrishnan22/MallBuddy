@@ -7,8 +7,6 @@ import 'package:meta/meta.dart';
 part 'order_event.dart';
 part 'order_state.dart';
 
-
-
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
   OrderBloc() : super(OrderInitial()) {
     on<OrderEvent>((event, emit) {});
@@ -95,6 +93,19 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         emit(Ordersloaded(Orders));
       } catch (e) {
         emit(Orderfailerror(e.toString()));
+      }
+    });
+
+    on<Deliverd_scann_event>((event, emit) async {
+      emit(scanndeliverdLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Orders")
+            .doc(event.orderid)
+            .update({"Deliverd": "1"});
+        emit(Scannersuccess());
+      } catch (e) {
+        emit(Deliverderror(error: e.toString()));
       }
     });
   }

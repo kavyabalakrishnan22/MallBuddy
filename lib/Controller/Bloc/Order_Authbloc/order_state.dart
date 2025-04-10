@@ -21,6 +21,15 @@ class Ordersloaded extends OrderState {
   final List<OrderModel> Orders;
 
   Ordersloaded(
-      this.Orders,
-      );
+    this.Orders,
+  );
+}
+
+class scanndeliverdLoading extends OrderState {}
+
+class Scannersuccess extends OrderState {}
+
+class Deliverderror extends OrderState {
+  final String error;
+  Deliverderror({required this.error});
 }

@@ -17,10 +17,21 @@ class FetchPlaceorderEvent extends OrderEvent {
   final String? userid;
   final String? floor;
   FetchPlaceorderEvent(
-      {required this.searchQuery, this.status, this.shopid, this.Deliverd,this.Riderid,this.userid,this.floor});
+      {required this.searchQuery,
+      this.status,
+      this.shopid,
+      this.Deliverd,
+      this.Riderid,
+      this.userid,
+      this.floor});
 }
 
 class OrderDelete extends OrderEvent {
   final String? orderid;
   OrderDelete({required this.orderid});
+}
+
+class Deliverd_scann_event extends OrderEvent {
+  final String? orderid;
+  Deliverd_scann_event({required this.orderid});
 }
