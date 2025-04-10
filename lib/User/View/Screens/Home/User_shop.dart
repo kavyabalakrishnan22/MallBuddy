@@ -57,27 +57,13 @@ class _ShopState extends State<Shop> {
                 ),
               ),
             ),
-            SizedBox(width: 8), // Space between widgets
-            // Filter Button
-            IconButton(
-              icon: Icon(Icons.filter_list, color: Colors.black),
-              onPressed: () {
-                // Implement filter functionality
-              },
-            ),
-            // Sort Button
-            IconButton(
-              icon: Icon(Icons.sort, color: Colors.black),
-              onPressed: () {
-                // Implement sort functionality
-              },
-            ),
+
           ],
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        elevation: 2,
-        iconTheme: IconThemeData(color: Colors.black),
+        elevation: 0,
+        // iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Column(
         children: [

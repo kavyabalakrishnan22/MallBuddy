@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import 'package:mall_bud/Shop/View/Screens/shop_complete_delivery.dart';
 
-import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
 import '../paymentsuccessful.dart';
@@ -91,12 +91,11 @@ class ShopInProgressScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.red.shade100,
+                              color: Colors.blue.shade100,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text(
-                              "Status : ${order.status.toString()}",
-                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            child: Text(order.status=="0"?"Pending":"Progress",
+                              style: TextStyle(color: order.status=="0"? Colors.red:Colors.blue, fontSize: 12),
                             ),
                           ),
                         ],

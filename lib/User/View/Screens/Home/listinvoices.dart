@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+
+
 class ZaraShopPage extends StatelessWidget {
   const ZaraShopPage({super.key});
 
@@ -153,23 +155,23 @@ class InvoiceCard extends StatelessWidget {
               invoice["items"],
               style: const TextStyle(fontSize: 14, color: Colors.black87),
             ),
-            const SizedBox(height: 10),
-
-            // Status Button
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Text(
-                  "Completed",
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+            // const SizedBox(height: 10),
+            //
+            // // Status Button
+            // Align(
+            //   alignment: Alignment.centerRight,
+            //   child: Container(
+            //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            //     decoration: BoxDecoration(
+            //       color: Colors.blue,
+            //       borderRadius: BorderRadius.circular(12),
+            //     ),
+            //     child: const Text(
+            //       "Completed",
+            //       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

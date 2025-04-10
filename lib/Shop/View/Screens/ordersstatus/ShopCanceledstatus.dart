@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 
-import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../../../Shop/View/Screens/ordersstatus/shoporderhistory.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
@@ -93,8 +93,8 @@ class Shopcancelledordersscreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              order.status == "2" ? "Pending" : "",
-                              style: TextStyle(color: Colors.red, fontSize: 12),
+                              order.status == "1" ? "progress" : "Cancelled",
+                              style: TextStyle(color: order.status=="1"?Colors.blue:Colors.red, fontSize: 12),
                             ),
                           ),
                         ],

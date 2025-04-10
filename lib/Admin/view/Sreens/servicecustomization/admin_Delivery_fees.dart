@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../../../Widgets/Constants/colors.dart';
+import 'floorwiseFees/Firstfloor.dart';
+import 'floorwiseFees/SecondFloor.dart';
+import 'floorwiseFees/Thirdfloor.dart';
+import 'floorwiseFees/fifthfloor.dart';
+import 'floorwiseFees/fourthfloor.dart';
+import 'floorwiseFees/groundfloor.dart';
+
 class AdminDeliveryFees extends StatefulWidget {
   const AdminDeliveryFees({super.key});
 
@@ -9,11 +17,17 @@ class AdminDeliveryFees extends StatefulWidget {
 
 class _AdminDeliveryFeesState extends State<AdminDeliveryFees> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  Map<int, bool> selectedEdit = {};
+  Map<int, bool> selectedDelete = {};
+
+
+
+
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
   }
 
   @override
@@ -93,10 +107,7 @@ class _AdminDeliveryFeesState extends State<AdminDeliveryFees> with SingleTicker
 
             // Main Content: Delivery Fees Card
             Expanded(
-              child: Card(color:Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -109,100 +120,108 @@ class _AdminDeliveryFeesState extends State<AdminDeliveryFees> with SingleTicker
                       // TabBar
                       TabBar(
                         controller: _tabController,
-                        indicatorColor: Colors.blue,
-                        labelColor: Colors.white,
+                        isScrollable: true,
+                        indicatorColor: defaultBlue,
+                        indicatorWeight: 3,
+                        labelColor: defaultBlue,
                         unselectedLabelColor: Colors.black,
-                        indicator: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
                         tabs: const [
                           Tab(text: "Ground Floor"),
                           Tab(text: "First Floor"),
                           Tab(text: "Second Floor"),
                           Tab(text: "Third Floor"),
+                          Tab(text: "Fourth Floor"),
+                          // Tab(text: "Fifth Floor"),
                         ],
                       ),
                       const SizedBox(height: 10),
 
                       // Assign Fees Button
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: const Text("Assign Fees"),
-                        ),
-                      ),
+                      // Align(
+                      //   alignment: Alignment.centerRight,
+                      //   child: ElevatedButton(
+                      //     onPressed: () {},
+                      //     style: ElevatedButton.styleFrom(
+                      //       backgroundColor: Colors.black,
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(8),
+                      //       ),
+                      //     ),
+                      //     child: const Text("Assign Fees"),
+                      //   ),
+                      // ),
 
                       // Tab Views with DataTable
                       Expanded(
                         child: TabBarView(
                           controller: _tabController,
-                          children: List.generate(4, (index) => _buildDataTable()),
-                        ),
+                          physics:
+                          const BouncingScrollPhysics(), // FIXED: Ensures smooth scrolling
+                          children: [
+                            Buddyfeesgroundfloorwrapper(),
+                            Buddyfeesfirstfloorwrapper(),
+                            BuddyfeesSecondfloorwrapper(),
+                            BuddyfeesThirdfloorwrapper(),
+                            BuddyfeesFourthfloorwrapper(),
+                            // Buddyfeesfifthfloorwrapper(),
+                          ],                       ),
                       ),
-                    ],
+            ])) ],
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
+
+
+
     );
+
+
   }
 
   // Function to build DataTable
   // Function to build DataTable
-  Widget _buildDataTable() {
-    return Expanded( // Ensures the DataTable fills available space
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical, // Allow vertical scrolling
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal, // Allow horizontal scrolling if needed
-          child: DataTable(
-            columnSpacing: 140,
-            columns: const [
-              DataColumn(label: Text("Sl No", style: TextStyle(fontWeight: FontWeight.bold))),
-              DataColumn(label: Text("Rider Name", style: TextStyle(fontWeight: FontWeight.bold))),
-              DataColumn(label: Text("Rider ID", style: TextStyle(fontWeight: FontWeight.bold))),
-              DataColumn(label: Text("Total Delivery", style: TextStyle(fontWeight: FontWeight.bold))),
-              DataColumn(label: Text("Delivery Fees", style: TextStyle(fontWeight: FontWeight.bold))),
-              DataColumn(label: Text("Action", style: TextStyle(fontWeight: FontWeight.bold))),
-            ],
-            rows: List.generate(
-              5,
-                  (index) => DataRow(
-                cells: [
-                  DataCell(Text((index + 1).toString())),
-                  DataCell(Text(index == 0 ? "Adhi" : "Kiran")),
-                  DataCell(Text("#123")),
-                  DataCell(Text("5")),
-                  DataCell(Text("200")),
-                  DataCell(
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: Colors.green),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
-                      child: const Text("Edit", style: TextStyle(color: Colors.green)),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildDataTable() {
+  //   return Expanded( // Ensures the DataTable fills available space
+  //     child: SingleChildScrollView(
+  //       scrollDirection: Axis.vertical, // Allow vertical scrolling
+  //       child: SingleChildScrollView(
+  //         scrollDirection: Axis.horizontal, // Allow horizontal scrolling if needed
+  //         child: DataTable(
+  //           columnSpacing: 140,
+  //           columns: const [
+  //             DataColumn(label: Text("Sl No", style: TextStyle(fontWeight: FontWeight.bold))),
+  //             DataColumn(label: Text("Rider Name", style: TextStyle(fontWeight: FontWeight.bold))),
+  //             DataColumn(label: Text("Rider ID", style: TextStyle(fontWeight: FontWeight.bold))),
+  //             DataColumn(label: Text("Total Delivery", style: TextStyle(fontWeight: FontWeight.bold))),
+  //             DataColumn(label: Text("Delivery Fees", style: TextStyle(fontWeight: FontWeight.bold))),
+  //             DataColumn(label: Text("Action", style: TextStyle(fontWeight: FontWeight.bold))),
+  //           ],
+  //           rows: List.generate(
+  //             5,
+  //                 (index) => DataRow(
+  //               cells: [
+  //                 DataCell(Text((index + 1).toString())),
+  //                 DataCell(Text(index == 0 ? "Adhi" : "Kiran")),
+  //                 DataCell(Text("#123")),
+  //                 DataCell(Text("5")),
+  //                 DataCell(Text("200")),
+  //                 DataCell(
+  //                   ElevatedButton(
+  //                     onPressed: () {},
+  //                     style: ElevatedButton.styleFrom(
+  //                       backgroundColor: Colors.white,
+  //                       side: const BorderSide(color: Colors.green),
+  //                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  //                     ),
+  //                     child: const Text("Edit", style: TextStyle(color: Colors.green)),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
 }

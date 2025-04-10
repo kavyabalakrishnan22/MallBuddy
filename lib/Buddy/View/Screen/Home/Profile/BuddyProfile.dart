@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -98,33 +99,31 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                                     children: [
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(
-                                            60), // Ensures a rectangular shape
-                                        child: Image.network(
-                                          user.Image.toString(),
-                                          width: 100, // Adjusted width
-                                          height: 100, // Adjusted height
+                                            50), // Half of width/height to form a circle
+                                        child: CachedNetworkImage(
+                                          imageUrl: user.Image.toString(),
+                                          width: 100,
+                                          height: 100,
                                           fit: BoxFit.cover,
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                            return state
-                                                    is BuddyProfileImageLoading
-                                                ? Loading_Widget()
-                                                : Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey[
-                                                          300], // Placeholder background
-                                                      borderRadius: BorderRadius
-                                                          .zero, // Ensures rectangle shape
-                                                    ),
-                                                    child: Icon(
-                                                      Icons.image_not_supported,
-                                                      size: 50,
-                                                      color: Colors.grey[600],
-                                                    ),
-                                                  );
-                                          },
+                                          placeholder: (context, url) =>
+                                              Container(
+                                                width: 100,
+                                                height: 100,
+                                                color: Colors.white,
+                                                child:
+                                                Center(child: Loading_Widget()),
+                                              ),
+                                          errorWidget: (context, url, error) =>
+                                              Container(
+                                                width: 100,
+                                                height: 100,
+                                                color: Colors.grey[300],
+                                                child: Icon(
+                                                  Icons.image_not_supported,
+                                                  size: 50,
+                                                  color: Colors.grey[600],
+                                                ),
+                                              ),
                                         ),
                                       ),
                                     ],

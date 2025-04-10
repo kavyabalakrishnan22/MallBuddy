@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
+import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../../../../Shop/View/Screens/ordersstatus/shoporderhistory.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
@@ -20,7 +21,7 @@ class deliverdordersscreenwrapper extends StatelessWidget {
           FetchPlaceorderEvent(
             searchQuery: null,
               Deliverd: "1",
-              shopid: shopid_global,
+              userid: userid_global,
               status: "1"
           ),
         ),
@@ -92,12 +93,11 @@ class deliverdordersscreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.red.shade100,
+                              color: Colors.green.shade100,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text(
-                              "Status : ${order.status.toString()}",
-                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            child: Text(order.deliverd=="0"?"Progress":"Delivered",
+                              style: TextStyle(color: order.deliverd=="0"? Colors.red:Colors.green, fontSize: 12),
                             ),
                           ),
                         ],

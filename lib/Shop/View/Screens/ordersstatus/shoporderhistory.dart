@@ -5,7 +5,7 @@ import 'package:mall_bud/User/View/Screens/status/Allordersscreen.dart';
 import 'package:mall_bud/User/View/Screens/status/canceledorders.dart';
 import 'package:mall_bud/User/View/Screens/status/deliveredorders.dart';
 import 'package:mall_bud/User/View/Screens/status/inprogress.dart';
-import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';

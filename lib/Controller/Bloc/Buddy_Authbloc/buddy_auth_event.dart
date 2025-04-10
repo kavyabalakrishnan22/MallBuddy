@@ -37,9 +37,10 @@ class FetchBuddyDetailsEvent extends BuddyAuthEvent {
   final String? status;
   final String? floor;
   final String? amount;
+  final String? Riderid;
   final String? ban;
   FetchBuddyDetailsEvent(
-      {required this.searchQuery,this.status, this.floor,this.ban,this.amount});
+      {required this.searchQuery,this.status, this.floor,this.ban,this.amount,this.Riderid});
 }
 
 
@@ -52,9 +53,10 @@ class AcceptRejectbuddyevent extends BuddyAuthEvent{
 
 }
 class editamountfloorevent extends BuddyAuthEvent{
+  final String? id;
   final String? floor;
   final String? amount;
-  editamountfloorevent({required this.floor, required this.amount});
+  editamountfloorevent({required this.floor, required this.amount, required this.id});
 
 }
 

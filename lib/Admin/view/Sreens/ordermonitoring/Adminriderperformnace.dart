@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
+import '../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
+import '../../../../Widgets/Constants/Loading.dart';
 import '../../../Model/ordermonitoring_model/Rider_performance_model.dart';
 
 
@@ -130,58 +136,155 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
 
   // Function to build shop tables dynamically
   Widget _buildShopTable(String title) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
-        child: DataTable(
-          dataRowMaxHeight: 100,
-          decoration: const BoxDecoration(color: Colors.white),
-          columns: [
-            _buildColumn('SL NO'),
-            _buildColumn('ID'),
-            _buildColumn('Rider Details'),
-            _buildColumn('Order ID'),
-            _buildColumn('Invoice ID'),
-            _buildColumn('Total Delivery'),
-            _buildColumn('Total Amount'),
-            _buildColumn('Rating'),
+    return BlocConsumer<OrderBloc, OrderState>(
+      listener: (context, state) {
+        if (state is BuddyBanRefresh) {
+          context
+              .read<OrderBloc>()
+              .add(FetchPlaceorderEvent(searchQuery: null, status: ''));
+        }       },
+  builder: (context, state) {
+    if (state is OrderLoading) {
+      return Column(
+        children: [
+          SizedBox(height: 200,),
+          Center(child: Loading_Widget()),
+        ],
+      );
+    } else if (state is Orderfailerror) {
+      return Text(state.error.toString());
+    } else if (state is Ordersloaded) {
+      if (state.Orders.isEmpty) {
+        // Return "No data found" if txhe list is empty
+        return Center(
+          child: Text(
+            "No data found",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        );
+      }
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minWidth: MediaQuery
+              .of(context)
+              .size
+              .width),
+          child: DataTable(
+            dataRowMaxHeight: 100,
+            decoration: const BoxDecoration(color: Colors.white),
+            columns: [
+              _buildColumn('SL NO'),
+              _buildColumn('Date and Time'),
+              _buildColumn('Order Details'),
+              _buildColumn('Rider Details'),
+              _buildColumn('Total Delivery'),
+              _buildColumn('Total Amount'),
+              _buildColumn('Rating'),
 
-          ],
-          rows: List.generate(
-            riders.length,
-                (index) {
-              final rider = riders[index];
-              return DataRow(
-                cells: [
-                  DataCell(Text((index + 1).toString(),
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-                  DataCell(Text(rider.Id)),
-                  DataCell(
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          rider.Rider_ID,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        ),Text(rider.Rider_Name,)
-                      ],
-                    ),
-                  ),
-                  DataCell(Text(rider.Order_ID)),
-                  DataCell(Text(rider.Invoice_ID)),
-                  DataCell(Text(rider.Total_Delivery)),
-                  DataCell(Text(rider.Total_Amount)),
-                  DataCell(Text(rider.Rating)),
-                ],
-              );
-            },
+            ],
+            rows: List.generate(
+              state.Orders.length,
+                  (index) {
+                    final Order = state.Orders[index];
+                return DataRow(
+                  cells: [
+                    DataCell(Text((index + 1).toString(),
+                        style: const TextStyle(fontWeight: FontWeight.bold))),
+                    DataCell(Text("")),
+                    DataCell(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text("Order_ID:"),
+                                Text(Order.orderid.toString(),
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,),
+                              ],
+                            ),Row(
+                              children: [
+                                Text("Invoice_ID:"),
+                                Text(Order.invoiceid.toString(),
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,),
+                              ],
+                            ),Row(
+                              children: [
+                                Text("Floor:"),
+                                Text(Order.Selectfloor.toString(),
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,),
+                              ],
+                            ),Row(
+                              children: [
+                                Text("Delivery_Fees:"),
+                                Text(Order.payment.toString(),
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,),
+                              ],
+                            ),
+                          ],
+                        )),DataCell(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text("ID:"),
+                                Text(Order.riderid.toString(),
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,),
+                              ],
+                            ),Row(
+                              children: [
+                                Text("Name:"),
+                                Text(Order.Selectfloor.toString(),
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,),
+                              ],
+                            ),Row(
+                              children: [
+                                Text("Ph:"),
+                                Text(Order.conatctrider.toString(),
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,),
+                              ],
+                            ),Row(
+                              children: [
+                                Text("Email:"),
+                                Text(Order.rideremail.toString(),
+                                  style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,),
+                              ],
+                            ),
+                          ],
+                        )),
+                    DataCell(Text("")),
+
+
+                  ],
+                );
+              },
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
+    return SizedBox();
+  },
+);
   }
 
   DataColumn _buildColumn(String title) {

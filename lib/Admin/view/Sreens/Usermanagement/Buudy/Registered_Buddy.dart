@@ -167,6 +167,7 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                                               decoration: InputDecoration(
                                                   labelText: 'Select Floor'),
                                               items: [
+                                                'GND',
                                                 '1st',
                                                 '2nd',
                                                 '3rd',

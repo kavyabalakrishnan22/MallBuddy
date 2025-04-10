@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mall_bud/Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 
-import '../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
+import '../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../../Widgets/Constants/Loading.dart';
 import '../../../Widgets/Constants/colors.dart';
+import 'ShopCompleteviewdetails.dart';
 
 class CompleteDeliverywrapper extends StatelessWidget {
   const CompleteDeliverywrapper({super.key});
@@ -15,11 +18,16 @@ class CompleteDeliverywrapper extends StatelessWidget {
         ..add(
           FetchPlaceorderEvent(
             searchQuery: null,
-            status: '0',
+            status: "1",
+              shopid: shopid_global,
+              Deliverd: "1"
           ),
         ),
-      child: CompleteDeliveryPage(),
-    );
+      child: Builder(
+        builder: (context) {
+          return CompleteDeliveryPage(); // now has the right context
+        },
+      ),    );
   }
 }
 
@@ -99,7 +107,9 @@ class CompleteDeliveryPage extends StatelessWidget {
               TextStyle(fontWeight: FontWeight.bold),
             ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ShopCompleteDeliverydetails(),));
+                        },
                         child: Text(
                           "see details >",
                           style: TextStyle(color: defaultBlue, fontSize: 14),

@@ -1,10 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mall_bud/Controller/Bloc/Order_Authbloc/Orderauthmodel/order_model.dart';
 import 'package:meta/meta.dart';
 
 part 'order_event.dart';
 part 'order_state.dart';
+
+
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
   OrderBloc() : super(OrderInitial()) {
@@ -73,6 +76,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         query = query.where("shopid", isEqualTo: event.shopid);
         query = query.where("Deliverd", isEqualTo: event.Deliverd);
         query = query.where("riderid", isEqualTo: event.Riderid);
+        query = query.where("uid", isEqualTo: event.userid);
 
         QuerySnapshot snapshot = await query.get();
 

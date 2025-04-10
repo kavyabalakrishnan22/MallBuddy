@@ -148,11 +148,11 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
       (event, emit) async {
         try {
           emit(Acceptloading());
-
+print(event.id);
           await FirebaseFirestore.instance
               .collection("MallBuddyRiders")
-              .doc(event.floor)
-              .update({"status": event.amount});
+              .doc(event.id)
+              .update({"amount": event.amount});
           emit(Refresh());
         } catch (e) {
           print(e);
@@ -323,8 +323,9 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
         Query query = BuddyCollection;
         query = query.where("status", isEqualTo: event.status);
 
-        Query banquery = BuddyCollection;
-        banquery = banquery.where("ban", isEqualTo: event.ban);
+
+        query = query.where("ban", isEqualTo: event.ban);
+        query = query.where("floor", isEqualTo: event.floor);
 
         QuerySnapshot snapshot = await query.get();
 

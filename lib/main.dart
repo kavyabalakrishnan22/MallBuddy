@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'Admin/view/Auth/Admin_Login.dart';
+import 'Admin/view/Sreens/Report/admin_report.dart';
 import 'Admin/view/Sreens/Usermanagement/Shop/Edit_accepted_shop.dart';
 import 'Buddy/View/Screen/Home/BuddyActiveDeliveryPage.dart';
 import 'Buddy/View/Screen/Home/Buddy_Assigntime.dart';
@@ -63,7 +64,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: RiderTermsScreen(),
+      home: Admin_report(),
     );
   }
 }

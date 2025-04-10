@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
-import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 
 class BuddyActiveDeliverywrapper extends StatelessWidget {
@@ -115,26 +115,9 @@ class BuddyActiveDeliveryPage extends StatelessWidget {
                                               fontSize: 12,
                                             ),
                                           ),
-                                          SizedBox(height: 4), // Space between text and button
-                                          TextButton(
-                                            onPressed: () {
-                                              // Your button action here
-                                              print("Button pressed");
-                                            },
-                                            child: Text(
-                                              "Update Status",
-                                              style: TextStyle(fontSize: 12),
-                                            ),
-                                            style: TextButton.styleFrom(
-                                              padding: EdgeInsets.zero,
-                                              minimumSize: Size(50, 20),
-                                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                            ),
-                                          ),
                                         ],
                                       ),
                                     ),
-
                                   ],
                                 ),
                                 SizedBox(height: 10),

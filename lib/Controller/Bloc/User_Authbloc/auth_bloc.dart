@@ -12,7 +12,7 @@ import 'Userauthmodel/Usermodel.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-final buddyid_global = FirebaseAuth.instance.currentUser!.uid;
+final userid_global = FirebaseAuth.instance.currentUser!.uid;
 
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {

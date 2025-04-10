@@ -5,6 +5,7 @@ import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
 import '../../../../Widgets/Constants/custom_field.dart';
+import 'forgotpassword.dart';
 
 class User_Loginwrapper extends StatelessWidget {
   const User_Loginwrapper({super.key});
@@ -98,6 +99,12 @@ class _User_LoginPageState extends State<User_LoginPage> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
+                            ),const SizedBox(height: 10),
+                            Text(
+                              "User Login",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w500),
                             ),
                             const SizedBox(height: 40),
 
@@ -132,36 +139,36 @@ class _User_LoginPageState extends State<User_LoginPage> {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 10),
-
-                            Row(
-                              children: [
-                                Checkbox(
-                                  value: rememberMe,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      rememberMe = value ?? false;
-                                    });
-                                  },
-                                ),
-                                const Text("Remember Me"),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 60),
+                            //
+                            // Row(
+                            //   children: [
+                            //     Checkbox(
+                            //       value: rememberMe,
+                            //       onChanged: (bool? value) {
+                            //         setState(() {
+                            //           rememberMe = value ?? false;
+                            //         });
+                            //       },
+                            //     ),
+                            //     const Text("Remember Me"),
+                            //   ],
+                            // ),
+                            // const SizedBox(height: 10),
 
                             // Login Button
-                            SizedBox(
-                                height: 100,
-                                child: Column(
-                                  children: [
-                                    state is Authloading
-                                        ? Text("Login...")
-                                        : Text(""),
-                                    state is Authloading
-                                        ? Loading_Widget()
-                                        : Text(""),
-                                  ],
-                                )),
+                            // SizedBox(
+                            //     height: 100,
+                            //     child: Column(
+                            //       children: [
+                            //         state is Authloading
+                            //             ? Text("Login...")
+                            //             : Text(""),
+                            //         state is Authloading
+                            //             ? Loading_Widget()
+                            //             : Text(""),
+                            //       ],
+                            //     )),
                             MaterialButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -182,7 +189,9 @@ class _User_LoginPageState extends State<User_LoginPage> {
                                   ));
                                 }
                               },
-                              child: const Text(
+                              child: state is Authloading
+                                  ? Loading_Widget()
+                                  : Text(
                                 "Login",
                                 style: TextStyle(
                                   color: Colors.white,
@@ -194,19 +203,28 @@ class _User_LoginPageState extends State<User_LoginPage> {
 
                             const SizedBox(height: 10),
 
-                            Padding(
-                              padding: const EdgeInsets.only(left: 220),
-                              child: Text(
-                                "Forgot Password?",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 220),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
+                              );
+                            },
+                            child: Text(
+                              "Forgot Password?",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
                             ),
+                          ),
+                        ),
 
-                            const SizedBox(height: 50),
+
+                        const SizedBox(height: 100),
 
                             // Sign Up Section
                             Row(
@@ -242,7 +260,7 @@ class _User_LoginPageState extends State<User_LoginPage> {
                                 ),
                               ],
                             ),
-                          ],
+                             ],
                         ),
                       ),
                     ),

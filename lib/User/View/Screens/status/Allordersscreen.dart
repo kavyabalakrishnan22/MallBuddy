@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
+import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../../../../Shop/View/Screens/ordersstatus/shoporderhistory.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
@@ -19,7 +20,7 @@ class allordersScreenwrapper extends StatelessWidget {
         ..add(
           FetchPlaceorderEvent(
             searchQuery: null,
-            status: '0',shopid: shopid_global
+            status: '0',userid: userid_global
           ),
         ),
       child: allordersScreen(),
@@ -90,12 +91,11 @@ class allordersScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.red.shade100,
+                              color: Colors.yellow.shade50,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text(
-                              "Status : ${order.status.toString()}",
-                              style: TextStyle(color: Colors.red, fontSize: 12),
+                            child: Text(order.status=="0"?"Pending":"",
+                              style: TextStyle(color: Colors.yellow, fontSize: 12),
                             ),
                           ),
                         ],

@@ -6,12 +6,13 @@ import 'package:mall_bud/Widgets/Constants/colors.dart';
 
 import '../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
-import '../../Controller/Bloc/Order_Authbloc/Orderauthmodel/order_bloc.dart';
+import '../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../../firebase_options.dart';
 import '../view/Sreens/Dashboard/dashboard.dart';
+import '../view/Sreens/Report/admin_report.dart';
 import '../view/Sreens/Usermanagement/Shop.dart';
 import '../view/Sreens/Usermanagement/buddy.dart';
 import '../view/Sreens/Usermanagement/customer.dart';
@@ -171,10 +172,10 @@ class _AdminPageState extends State<AdminPage> {
                   children: [
                     SubListTile("Delivery Fees", AdminDeliveryFees()),
                     SubListTile("Rider Incentives", AdminAllOrders()),
-                    SubListTile("Delivery Time", AdminAllOrders()),
+                    // SubListTile("Delivery Time", AdminAllOrders()),
                   ],
                 ),
-                _buildMainListTile('Reports', const Dashboard(),
+                _buildMainListTile('Reports', const Admin_report(),
                     icon: Icons.event_note_outlined),
                 _buildMainListTile(
                   'Logout',
