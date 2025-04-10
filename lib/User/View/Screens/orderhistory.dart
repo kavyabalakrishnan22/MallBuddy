@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
-
-
+import 'package:mall_bud/Admin/Model/ordermonitoring_model/Rider_performance_model.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class Orderhistory extends StatelessWidget {
-  const Orderhistory({super.key, required String orderId});
-
+  const Orderhistory({super.key, required this.orderId});
+  final orderId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +12,6 @@ class Orderhistory extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-
         title: const Text(
           "Order History",
           style: TextStyle(
@@ -24,7 +22,7 @@ class Orderhistory extends StatelessWidget {
             icon: const Icon(Icons.notifications_none, color: Colors.black),
             onPressed: () {},
           ),
-           CircleAvatar(
+          CircleAvatar(
             backgroundImage: AssetImage(
                 'assets/profile/girl.png'), // Replace with actual image
           ),
@@ -38,6 +36,17 @@ class Orderhistory extends StatelessWidget {
             // QR Code
 
             const SizedBox(height: 20),
+            Container(
+              width: 200,
+              height: 200,
+              color: Colors.white,
+              child: QrImageView(
+                data: orderId,
+                embeddedImageStyle: const QrEmbeddedImageStyle(
+                  size: Size(100, 100),
+                ),
+              ),
+            ),
             // Order Details
             const Text(
               "ORDER #kavya01234",

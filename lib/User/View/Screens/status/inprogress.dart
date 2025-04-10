@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
-import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
-import '../../../../Shop/View/Screens/ordersstatus/shoporderhistory.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../../Widgets/Constants/colors.dart';
 import '../orderhistory.dart';
@@ -19,11 +16,10 @@ class InProgressScreenwrapper extends StatelessWidget {
       create: (context) => OrderBloc()
         ..add(
           FetchPlaceorderEvent(
-            searchQuery: null,
+              searchQuery: null,
               status: '1',
               userid: userid_global,
-              Deliverd: "0"
-          ),
+              Deliverd: "0"),
         ),
       child: InProgressScreen(),
     );
@@ -96,19 +92,28 @@ class InProgressScreen extends StatelessWidget {
                               color: Colors.blue.shade100,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text(order.status=="0"?"Pending":"Progress",
-                              style: TextStyle(color: order.status=="0"? Colors.red:Colors.blue, fontSize: 12),
+                            child: Text(
+                              order.status == "0" ? "Pending" : "Progress",
+                              style: TextStyle(
+                                  color: order.status == "0"
+                                      ? Colors.red
+                                      : Colors.blue,
+                                  fontSize: 12),
                             ),
                           ),
                         ],
-                      ),SizedBox(height: 20,),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Column(
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Rider_ID"),
-                              Text(order.riderid.toString(),
+                              Text(
+                                order.riderid.toString(),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -175,7 +180,7 @@ class InProgressScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Text("Order QR",
+                          child: Text("Open QR",
                               style: TextStyle(color: Colors.white)),
                         ),
                       ),

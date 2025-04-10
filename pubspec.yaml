@@ -49,6 +49,7 @@ dependencies:
   fl_chart: ^0.70.2
   file_picker: ^10.0.0
   cached_network_image: ^3.4.1
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
