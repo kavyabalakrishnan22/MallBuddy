@@ -9,6 +9,8 @@ import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../myorders.dart';
+import 'Feedback/User_Monitoring_page.dart';
+import 'Feedback/View_reply.dart';
 import 'User_shop.dart';
 
 class UserHomePagewrapper extends StatelessWidget {
@@ -36,9 +38,9 @@ class _UserHomePageState extends State<UserHomePage> {
 
   List<String> bannerImages = [
     'assets/userblog1.png',
-    'assets/userblog1.png',
-    'assets/userblog1.png',
-    'assets/userblog1.png',
+    'assets/Buddy/maxresdefault.jpg',
+    'assets/Buddy/saleoffer.jpg',
+    'assets/Buddy/allensolly.jpeg',
   ];
 
   List<Map<String, dynamic>> serviceList = [
@@ -77,11 +79,11 @@ class _UserHomePageState extends State<UserHomePage> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Shopwrapper()));
         break;
-      case "Scan":
+      case "Feedback":
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => QRScanPage()));
+            context, MaterialPageRoute(builder: (context) => UserViewReplyPage()));
         break;
-      case "Status":
+      case "My Order":
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => OrderHistoryScreen()));
         break;
@@ -196,9 +198,9 @@ class _UserHomePageState extends State<UserHomePage> {
                 children: [
                   _buildActionButton("Shop", Icons.shopping_cart, context),
                   SizedBox(width: 20),
-                  _buildActionButton("Scan", Icons.qr_code_scanner, context),
+                  _buildActionButton("Feedback", Icons.note_alt_outlined, context),
                   SizedBox(width: 20),
-                  _buildActionButton("Status", Icons.info, context),
+                  _buildActionButton("My Order", Icons.info, context),
                 ],
               ),
 

@@ -257,57 +257,102 @@ class _Page2State extends State<Page2> {
                     height: 300,
                     child: MobileScanner(onDetect: _onBarcodeDetected),
                   )
-                : Column(
-                    children: [
-                      Text(
-                        "Order Update",
+        :Container(
+          margin: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 8,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Image.asset(
+                  'assets/Buddy/Orderdeliverd.png', // Replace with your image path
+                  height: 400,
+                  width: 250,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              // SizedBox(height: 6),
+              Center(
+                child: Text(
+                  "Order Update",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "Order ID : $_barcodeData",
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16,
+                ),
+              ),
+
+              // Delivery Button
+              SizedBox(height: 20),
+              BlocConsumer<OrderBloc, OrderState>(
+                listener: (context, state) {
+                  if (state is Scannersuccess) {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => DeliverySuccessPage(),
+                    ));
+                  }
+                },
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: () {
+                      context.read<OrderBloc>().add(
+                        Deliverd_scann_event(orderid: _barcodeData),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.green.withOpacity(0.4),
+                            spreadRadius: 1,
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      alignment: Alignment.center,
+                      child: state is scanndeliverdLoading
+                          ? Loading_Widget()
+                          : Text(
+                        "Click to Delivered",
                         style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      Text(
-                        "Order ID : $_barcodeData",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      BlocConsumer<OrderBloc, OrderState>(
-                        listener: (context, state) {
-                          if (state is Scannersuccess) {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return DeliverySuccessPage();
-                              },
-                            ));
-                          }
-                        },
-                        builder: (context, state) {
-                          return GestureDetector(
-                            onTap: () {
-                              context.read<OrderBloc>()
-                                ..add(Deliverd_scann_event(
-                                    orderid: _barcodeData));
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: state is scanndeliverdLoading
-                                  ? Loading_Widget()
-                                  : Text(
-                                      "click to Delivered",
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  )
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        )
             : const Text(
                 'Camera permission is required to scan QR codes.',
                 style: TextStyle(color: Colors.white),

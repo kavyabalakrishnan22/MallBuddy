@@ -35,7 +35,7 @@ class _ShopBottomNavBarExampleState extends State<ShopBottomNavBarExample> {
 
   final List<Widget> _screens = [
     ShopHomeScreen(),
-    UserListselectparkingwrapper(),
+    ShopOrderHistoryScreen(),
 
     // ActiveDeliveryPage(),
     // CompleteDeliveryPage(),
@@ -82,8 +82,8 @@ class _ShopBottomNavBarExampleState extends State<ShopBottomNavBarExample> {
           ),
           BottomNavigationBarItem(
             icon: _buildSvgIcon(
-                'assets/ShopBottomnav/book.svg', _selectedIndex == 1),
-            label: 'Book',
+                'assets/ShopBottomnav/orderstatus.svg', _selectedIndex == 1),
+            label: 'Order Status',
           ),
           // BottomNavigationBarItem(
           //   icon: _buildSvgIcon(

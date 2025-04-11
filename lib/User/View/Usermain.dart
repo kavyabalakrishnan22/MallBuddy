@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../firebase_options.dart';
+import '../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(),
+        ),
+        BlocProvider<OrderBloc>(
+          create: (context) => OrderBloc(),
         ),
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc()

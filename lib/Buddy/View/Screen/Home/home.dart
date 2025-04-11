@@ -9,7 +9,8 @@ import 'package:mall_bud/Widgets/Constants/colors.dart';
 import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
 import '../../../../Shop/View/Screens/Home/Shop_Notification.dart';
 import '../../../../Shop/View/Screens/Home/Shop_ProfilePage.dart';
-import 'BuddyActiveDeliveryPage.dart';
+import 'activedelivery/Activedelivery.dart';
+import 'activedelivery/BuddyActiveDeliveryPage.dart';
 import 'Buddy_Assigntime.dart';
 import 'Buddy_completedeliveryfirstpage.dart';
 
@@ -60,7 +61,7 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
         break;
       case "Active\nDelivery":
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BuddyActiveDeliverywrapper()));
+            context, MaterialPageRoute(builder: (context) => BUddy_Active_delivery()));
         break;
       case "Completed\nDelivery":
         Navigator.push(

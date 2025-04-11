@@ -46,6 +46,7 @@ class ShopAcceptRejectbuddyevent extends ShopAuthEvent{
 
 }
 
+
 //editshop//
 
 class EditShop extends ShopAuthEvent {

@@ -5,11 +5,10 @@ import 'package:mall_bud/Widgets/Constants/colors.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../Widgets/Constants/Loading.dart';
+import '../monitoring/Admin_monitor.dart';
 import 'Order/Shop_Userselectparking.dart';
 import '../shop_active_delivery.dart';
 import '../shop_complete_delivery.dart';
-import 'Order/shop_select_parking.dart';
-import '../ordersstatus/shoporderhistory.dart';
 import 'Shop_Notification.dart';
 import 'Shop_ProfilePage.dart';
 
@@ -21,7 +20,7 @@ class ShopHomeScreen extends StatelessWidget {
       "label": "Active\nDelivery"
     },
     {"icon": Icons.done_all, "label": "Complete\nDelivery"},
-    {"icon": Icons.list_alt, "label": "Order\nStatus"},
+    {"icon": Icons.list_alt, "label": "Rider\nMonitoring"},
   ];
   @override
   Widget build(BuildContext context) {
@@ -412,8 +411,8 @@ class ShopHomeScreen extends StatelessWidget {
         return ActiveDeliverywrapper();
       case "Complete\nDelivery":
         return CompleteDeliverywrapper();
-      case "Order\nStatus":
-        return ShopOrderHistoryScreen();
+      case "Rider\nMonitoring":
+        return ShopViewComplaintsPage();
       default:
         return ShopHomeScreen(); // Default to home if no match found
     }

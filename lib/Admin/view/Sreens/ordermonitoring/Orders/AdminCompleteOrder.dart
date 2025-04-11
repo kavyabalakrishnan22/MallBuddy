@@ -4,10 +4,27 @@ import 'package:mall_bud/Admin/Model/ordermonitoring_model/All_order_model.dart'
 import '../../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../../../../Widgets/Constants/Loading.dart';
 import '../../../../Model/User_Management/shop_model.dart';
-import '../../../../Model/ordermonitoring_model/Complete_order_model.dart';
-import '../../Usermanagement/Shop/Accepted_shop_page.dart';
-import '../Adminriderperformnace.dart';
 
+
+class AdminCompleteOrderswrapper extends StatelessWidget {
+  const AdminCompleteOrderswrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<OrderBloc>(
+      create: (context) => OrderBloc()
+        ..add(
+          FetchPlaceorderEvent(
+            searchQuery: null,
+            status: '1',
+              Deliverd:'1'
+
+          ),
+        ),
+      child: AdminCompleteOrders(),
+    );
+  }
+}
 
 class AdminCompleteOrders extends StatefulWidget {
   const AdminCompleteOrders({super.key});

@@ -11,6 +11,19 @@ final class OrderSuccess extends OrderState {}
 
 final class OrderRefresh extends OrderState {}
 
+final class BuddyOrderAcceptloading extends OrderState {}
+
+final class BuddyOrderRefresh extends OrderState {}
+
+final class UserSendComplaintSuccess extends OrderState {
+
+}
+
+
+final class UserSendComplaintloading extends OrderState {}
+
+final class UserSendComplaintRefresh extends OrderState {}
+
 final class Orderfailerror extends OrderState {
   final String error;
 

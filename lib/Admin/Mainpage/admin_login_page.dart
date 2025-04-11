@@ -19,6 +19,7 @@ import '../view/Sreens/Usermanagement/customer.dart';
 import '../view/Sreens/ordermonitoring/Orders/AdminAllorders.dart';
 import '../view/Sreens/ordermonitoring/Adminriderperformnace.dart';
 import '../view/Sreens/ordermonitoring/Orders/Adminorders.dart';
+import '../view/Sreens/ordermonitoring/View_Complaint.dart';
 import '../view/Sreens/servicecustomization/admin_Delivery_fees.dart';
 
 void main() async {
@@ -163,6 +164,7 @@ class _AdminPageState extends State<AdminPage> {
                     SubListTile("All Order", AdminOrders()),
                     // SubListTile("Completed order", AdminCompleteOrders()),
                     SubListTile("Rider Performance", AdminRidrPerformnace()),
+                    SubListTile("View Complaints", AdminViewComplaints()),
                     // SubListTile("Customer Feedback", AdminAllOrders()),
                   ],
                 ),

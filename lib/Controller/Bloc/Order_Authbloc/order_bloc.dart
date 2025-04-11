@@ -36,6 +36,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             "vehicle_number": event.order.vehicle_number,
             "ridername": event.order.Ridername,
             "contact_rider": event.order.conatctrider,
+            "complaint": event.order.complaint,
+            "complaintstatus": "0",
             "status": "0",
             "payment": "0",
             "Deliverd": "0",
@@ -45,6 +47,40 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         } catch (e) {
           emit(Orderfailerror(e.toString().split("]").last));
           print("Authenticated Error : ${e.toString().split(']').last}");
+        }
+      },
+    );
+    on<BuddyActiveDeliveryAcceptevent>(
+      (event, emit) async {
+        try {
+          emit(BuddyOrderAcceptloading());
+
+          await FirebaseFirestore.instance
+              .collection("Orders")
+              .doc(event.id)
+              .update({"status": event.status});
+          emit(BuddyOrderRefresh());
+        } catch (e) {
+          print(e);
+        }
+      },
+    );
+    on<UserSendComplaintevent>(
+      (event, emit) async {
+        try {
+          emit(UserSendComplaintloading());
+
+          await FirebaseFirestore.instance
+              .collection("Orders")
+              .doc(event.id)
+              .update({
+            "complaintstatus": event.complaintstatus,
+            "complaint": event.complaint,
+            "complainttype": event.complainttype,
+          });
+          emit(UserSendComplaintRefresh());
+        } catch (e) {
+          print(e);
         }
       },
     );

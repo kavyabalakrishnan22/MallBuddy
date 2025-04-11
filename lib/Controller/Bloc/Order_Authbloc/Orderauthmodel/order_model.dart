@@ -19,6 +19,10 @@ class OrderModel {
   String? rideremail;
   String? payment;
   String? deliverd;
+  String? complaint;
+  String? complaintstatus;
+  String? complainttype;
+
 
   OrderModel(
       {this.useremail,
@@ -40,6 +44,9 @@ class OrderModel {
       this.conatctrider,
       this.payment,
       this.rideremail,
+      this.complaint,
+      this.complaintstatus,
+        this.complainttype,
       this.orderid});
 
   factory OrderModel.fromMap(Map<String, dynamic> data) {
@@ -64,6 +71,9 @@ class OrderModel {
       payment: data['payment'],
       // Dateandtime: data['Timestamp'],
       time: data['time'],
+      complaintstatus: data['complaintstatus'],
+      complainttype: data['complainttype'],
+      complaint: data['complaint'],
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../Widgets/Constants/colors.dart';
 import 'AdminAllorders.dart';
 import 'AdminCompleteOrder.dart';
+import 'Admininprogress.dart';
 
 
 
@@ -22,7 +23,7 @@ class _AdminOrdersState extends State<AdminOrders>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -42,7 +43,8 @@ class _AdminOrdersState extends State<AdminOrders>
                 controller: _tabController,
                 children: [
                   Adminallorderswrapper(),
-                  AdminCompleteOrders(),
+                  AdminInprogressOrderswrapper(),
+                  AdminCompleteOrderswrapper(),
                 ],
               ),
             ),
@@ -81,7 +83,8 @@ class _AdminOrdersState extends State<AdminOrders>
       indicatorColor: defaultBlue,
       isScrollable: true,
       tabs: const [
-        Tab(text: "All Orders"),
+        Tab(text: "Pending Orders"),
+        Tab(text: "Inprogress Orders"),
         Tab(text: "Complete Orders"),
       ],
     );

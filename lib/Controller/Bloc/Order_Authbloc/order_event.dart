@@ -35,3 +35,23 @@ class Deliverd_scann_event extends OrderEvent {
   final String? orderid;
   Deliverd_scann_event({required this.orderid});
 }
+
+//BuddyActiveDeliveryAccept//
+class BuddyActiveDeliveryAcceptevent extends OrderEvent {
+  final String? id;
+  final String? status;
+  BuddyActiveDeliveryAcceptevent({required this.id, required this.status});
+}
+
+//UserSendComplaint//
+class UserSendComplaintevent extends OrderEvent {
+  final String? id;
+  final String? complaintstatus;
+  final String? complaint;
+  final String? complainttype;
+  UserSendComplaintevent(
+      {required this.id,
+      this.complaintstatus,
+      this.complaint,
+      this.complainttype});
+}
