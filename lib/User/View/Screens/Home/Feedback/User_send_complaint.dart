@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 
 import '../../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
+import '../../../../../Shop/Bottomnav/Shop_Bottom.dart';
+import '../../../../../Widgets/Constants/Loading.dart';
+import '../../Bottomnav/Bottom.dart';
 
 class UserSendComplaintPage extends StatefulWidget {
   const UserSendComplaintPage({super.key, required this.id});
@@ -119,25 +122,26 @@ class _UserSendComplaintPageState extends State<UserSendComplaintPage> {
             ),
           ),
 
-          const Spacer(),
-
+          // const Spacer(),
+SizedBox(height: 50,),
           // Submit Button
           SizedBox(
               width: double.infinity,
               height: 50,
               child: BlocConsumer<OrderBloc, OrderState>(
                 listener: (context, state) {
-                  if (state is UserSendComplaintRefresh) {
-                    context.read<OrderBloc>().add(UserSendComplaintevent(id: ''));
-
+                  if (state is UserSendComplaintSuccess) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserBottomnavwrapper(),
+                        ));
                   }
                 },
                 builder: (context, state) {
                   return ElevatedButton(
                     onPressed: () {
-                      context.read<OrderBloc>().add(
-                          UserSendComplaintevent(
-                              complaintstatus: "1", id:widget.id, complaint: complaintController.text, complainttype: selectedIssue,));
+
                       // You can add logic here to send the complaint
                       if (selectedIssue == null ||
                           complaintController.text.isEmpty) {
@@ -146,6 +150,9 @@ class _UserSendComplaintPageState extends State<UserSendComplaintPage> {
                               content: Text("Please fill in all fields")),
                         );
                       } else {
+                        context.read<OrderBloc>().add(
+                            UserSendComplaintevent(
+                              complaintstatus: "1", id:widget.id, complaint: complaintController.text, complainttype: selectedIssue,));
                         // Send complaint logic
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Complaint submitted")),
@@ -158,10 +165,11 @@ class _UserSendComplaintPageState extends State<UserSendComplaintPage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(fontSize: 16),
-                    ),
+                      child: state is UserSendComplaintloading
+                          ? Loading_Widget()
+                          : const Text("Submit",
+                          style:
+                          TextStyle(fontSize: 18, color: Colors.white))
                   );
                 },
               ))

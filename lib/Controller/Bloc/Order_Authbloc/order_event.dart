@@ -55,3 +55,15 @@ class UserSendComplaintevent extends OrderEvent {
       this.complaint,
       this.complainttype});
 }
+
+
+// UserSendreviewandratingevent
+class UserSendreviewandratingevent extends OrderEvent {
+  final String? id;
+  final String? Review;
+  final String? Ratingstatus;
+  UserSendreviewandratingevent(
+      {required this.id,
+      this.Review,
+      this.Ratingstatus,});
+}

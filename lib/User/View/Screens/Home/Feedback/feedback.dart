@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
+import '../../../../../Widgets/Constants/Loading.dart';
+import '../../Bottomnav/Bottom.dart';
 
 class FeedbackPage extends StatefulWidget {
+  const FeedbackPage({super.key, required this.id});
+  final id;
   @override
   _FeedbackPageState createState() => _FeedbackPageState();
 }
 
 class _FeedbackPageState extends State<FeedbackPage> {
-  int selectedEmoji = -1;
-  double rating = 4.0;
+  String rating = "0";
   TextEditingController feedbackController = TextEditingController();
 
   @override
@@ -92,11 +98,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 return IconButton(
                   onPressed: () {
                     setState(() {
-                      rating = index + 1.0;
+                      rating = (index + 1.0).toString(); // ✅ Save rating as a string
                     });
                   },
                   icon: Icon(
-                    index < rating ? Icons.star : Icons.star_border,
+                    (double.tryParse(rating ?? "") ?? 0) > index  // ✅ Ensure it's a valid double and bool condition
+                        ? Icons.star
+                        : Icons.star_border,
                     color: Colors.amber,
                   ),
                 );
@@ -126,9 +134,40 @@ class _FeedbackPageState extends State<FeedbackPage> {
               ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+
+    SizedBox(
+    width: double.infinity,
+    height: 50,
+    child: BlocConsumer<OrderBloc, OrderState>(
+    listener: (context, state) {
+    if (state is UserSendreviewandratingSuccess) {
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+    builder: (context) => UserBottomnavwrapper(),
+    ));
+    }
+    },
+    builder: (context, state) {
+    return ElevatedButton(
               onPressed: () {
-                // Handle submit
+
+
+                if (rating == null ||
+                    feedbackController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text("Please fill in all fields")),
+                  );
+                } else {
+                  context.read<OrderBloc>().add(
+                      UserSendreviewandratingevent(
+                        id:widget.id, Review: feedbackController.text, Ratingstatus: rating,));
+                  // Send complaint logic
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Complaint submitted")),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
@@ -137,11 +176,14 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: Text(
-                "Submit",
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
+        child: state is UserSendreviewandratingloading
+            ? Loading_Widget()
+            : const Text("Submit",
+            style:
+            TextStyle(fontSize: 18, color: Colors.white))
+            );
+    },
+    )),
             SizedBox(height: 30),
           ],
         ),

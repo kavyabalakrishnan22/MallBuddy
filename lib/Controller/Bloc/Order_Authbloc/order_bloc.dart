@@ -36,6 +36,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             "vehicle_number": event.order.vehicle_number,
             "ridername": event.order.Ridername,
             "contact_rider": event.order.conatctrider,
+            "Review": event.order.Review,
+            "Ratingstatus": event.order.Ratingstatus,
             "complaint": event.order.complaint,
             "complaintstatus": "0",
             "status": "0",
@@ -65,6 +67,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         }
       },
     );
+
+    //UserSendComplaintevent
+
     on<UserSendComplaintevent>(
       (event, emit) async {
         try {
@@ -78,9 +83,31 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             "complaint": event.complaint,
             "complainttype": event.complainttype,
           });
-          emit(UserSendComplaintRefresh());
+          emit(UserSendComplaintSuccess());
         } catch (e) {
-          print(e);
+          emit(UserSendComplaintsfailerror(e.toString().split("]").last));
+          print("Authenticated Error : ${e.toString().split(']').last}");
+        }
+      },
+    );
+
+    // UserSendreviewandratingevent
+    on<UserSendreviewandratingevent>(
+      (event, emit) async {
+        try {
+          emit(UserSendreviewandratingloading());
+
+          await FirebaseFirestore.instance
+              .collection("Orders")
+              .doc(event.id)
+              .update({
+            "Review": event.Review,
+            "Ratingstatus": event.Ratingstatus,
+          });
+          emit(UserSendreviewandratingSuccess());
+        } catch (e) {
+          emit(UserSendreviewandratingfailerror(e.toString().split("]").last));
+          print("Authenticated Error : ${e.toString().split(']').last}");
         }
       },
     );

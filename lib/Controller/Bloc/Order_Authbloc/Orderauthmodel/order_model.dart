@@ -22,6 +22,8 @@ class OrderModel {
   String? complaint;
   String? complaintstatus;
   String? complainttype;
+  String? Review;
+  String? Ratingstatus;
 
 
   OrderModel(
@@ -47,6 +49,8 @@ class OrderModel {
       this.complaint,
       this.complaintstatus,
         this.complainttype,
+        this.Review,
+        this.Ratingstatus,
       this.orderid});
 
   factory OrderModel.fromMap(Map<String, dynamic> data) {
@@ -74,6 +78,8 @@ class OrderModel {
       complaintstatus: data['complaintstatus'],
       complainttype: data['complainttype'],
       complaint: data['complaint'],
+      Review: data['Review'],
+      Ratingstatus: data['Ratingstatus'],
     );
   }
 }

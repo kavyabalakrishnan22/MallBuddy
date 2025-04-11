@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'User_send_complaint.dart';
 import 'feedback.dart';
+
 class UserMonitoring_Page extends StatefulWidget {
   const UserMonitoring_Page({super.key, required this.id});
 
@@ -28,7 +29,12 @@ class _UserMonitoring_PageState extends State<UserMonitoring_Page> {
             // First complaint: Late Delivery
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => UserSendComplaintPage(id: widget.id),));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          UserSendComplaintPage(id: widget.id),
+                    ));
                 // Handle Late Delivery tap
               },
               child: Container(
@@ -48,7 +54,6 @@ class _UserMonitoring_PageState extends State<UserMonitoring_Page> {
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
-
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -70,7 +75,12 @@ class _UserMonitoring_PageState extends State<UserMonitoring_Page> {
             ),
             SizedBox(height: 10), // Space between the two options
             GestureDetector(
-              onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => FeedbackPage(),));
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FeedbackPage(id: widget.id,),
+                    ));
                 // Handle Late Delivery tap
               },
               child: Container(

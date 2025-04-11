@@ -1,6 +1,7 @@
 part of 'order_bloc.dart';
 
 @immutable
+//order
 sealed class OrderState {}
 
 final class OrderInitial extends OrderState {}
@@ -15,15 +16,6 @@ final class BuddyOrderAcceptloading extends OrderState {}
 
 final class BuddyOrderRefresh extends OrderState {}
 
-final class UserSendComplaintSuccess extends OrderState {
-
-}
-
-
-final class UserSendComplaintloading extends OrderState {}
-
-final class UserSendComplaintRefresh extends OrderState {}
-
 final class Orderfailerror extends OrderState {
   final String error;
 
@@ -34,9 +26,43 @@ class Ordersloaded extends OrderState {
   final List<OrderModel> Orders;
 
   Ordersloaded(
-    this.Orders,
-  );
+      this.Orders,
+      );
 }
+
+//UserSendComplaintSuccess
+
+final class UserSendComplaintSuccess extends OrderState {}
+
+final class UserSendComplaintsfailerror extends OrderState {
+  final String error;
+
+  UserSendComplaintsfailerror(this.error);
+}
+
+
+final class UserSendComplaintloading extends OrderState {}
+
+final class UserSendComplaintRefresh extends OrderState {}
+
+
+//UserSendreviewandratingSuccess
+
+final class UserSendreviewandratingSuccess extends OrderState {}
+
+final class UserSendreviewandratingfailerror extends OrderState {
+  final String error;
+
+  UserSendreviewandratingfailerror(this.error);
+}
+
+
+final class UserSendreviewandratingloading extends OrderState {}
+
+final class UserSendreviewandratingRefresh extends OrderState {}
+
+
+//Scanner
 
 class scanndeliverdLoading extends OrderState {}
 
