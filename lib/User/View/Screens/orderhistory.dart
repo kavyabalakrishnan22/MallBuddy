@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mall_bud/Admin/Model/ordermonitoring_model/Rider_performance_model.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class Orderhistory extends StatelessWidget {

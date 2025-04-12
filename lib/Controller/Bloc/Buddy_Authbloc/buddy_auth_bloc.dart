@@ -63,8 +63,8 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
               "amount": "200",
               "timestamp": DateTime.now(),
               "Onesignal_id": "playerId",
-              "ban": "1",
-              "status": "1",
+              "ban": "0",
+              "status": "0",
               "imagepath":
                   "https://cdn1.iconfinder.com/data/icons/proffesion/257/Driver-512.png"
             });
@@ -148,7 +148,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
       (event, emit) async {
         try {
           emit(Acceptloading());
-print(event.id);
+          print(event.id);
           await FirebaseFirestore.instance
               .collection("MallBuddyRiders")
               .doc(event.id)
@@ -204,7 +204,7 @@ print(event.id);
           await FirebaseFirestore.instance
               .collection("MallBuddyRiders")
               .doc(event.id)
-              .update({"Ban": event.Ban});
+              .update({"ban": event.Ban});
         } catch (e) {
           print(e);
         }
@@ -234,11 +234,22 @@ print(event.id);
               final userData = userDoc.data() as Map<String, dynamic>;
 
               // Check if the 'Ban' field is 1
-              if (userData['ban'] == "1") {
-                emit(BuddyAuthenticated(user));
-                print("Auth successfully");
+              if (userData['ban'] == "0") {
+                if (userData["status"] == "1") {
+                  emit(BuddyAuthenticated(user));
+                  print("Auth successfully");
+                } else if (userData["status"] == "2") {
+                  emit(BuddyUnAuthenticated());
+                  await _auth.signOut();
+                  emit(BuddyAuthenticatedError(message: "Your are Rejected.."));
+                } else {
+                  await _auth.signOut();
+                  emit(BuddyAuthenticatedError(
+                      message: "Please waite ... you are in progress"));
+                }
               } else {
                 await _auth.signOut();
+                emit(BuddyUnAuthenticated());
                 emit(BuddyAuthenticatedError(
                     message: "Your account has been deleted."));
               }
@@ -322,7 +333,6 @@ print(event.id);
 
         Query query = BuddyCollection;
         query = query.where("status", isEqualTo: event.status);
-
 
         query = query.where("ban", isEqualTo: event.ban);
         query = query.where("floor", isEqualTo: event.floor);
