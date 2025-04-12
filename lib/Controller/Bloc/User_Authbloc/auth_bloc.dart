@@ -14,7 +14,6 @@ part 'auth_state.dart';
 
 final userid_global = FirebaseAuth.instance.currentUser!.uid;
 
-
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -79,8 +78,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               "phone_number": event.user.phone,
               "timestamp": DateTime.now(),
               "Onesignal_id": "playerId",
-              "ban": "1",
-              "status": "1",
+              "ban": "0",
+              "status": "0",
               "imagepath":
                   "https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?s=612x612&w=0&k=20&c=yDJ4ITX1cHMh25Lt1vI1zBn2cAKKAlByHBvPJ8gEiIg="
             });
@@ -198,7 +197,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               final userData = userDoc.data() as Map<String, dynamic>;
 
               // Check if the 'Ban' field is 1
-              if (userData['ban'] == "1") {
+              if (userData['ban'] == "0") {
                 // Update OneSignal ID
                 await FirebaseFirestore.instance
                     .collection("MallBuddyUsers")
