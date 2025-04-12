@@ -38,7 +38,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<BuddyAuthBloc>(
           create: (context) => BuddyAuthBloc()
             ..add(FetchBuddyDetailsEvent(searchQuery: null, status: "1")),
-        ),BlocProvider<OrderBloc>(
+        ),
+        BlocProvider<OrderBloc>(
           create: (context) => OrderBloc()
             ..add(FetchPlaceorderEvent(searchQuery: null, status: "1")),
         ),

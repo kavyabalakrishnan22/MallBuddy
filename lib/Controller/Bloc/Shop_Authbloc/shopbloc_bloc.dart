@@ -111,7 +111,8 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
           await FirebaseFirestore.instance
               .collection("MallBuddyShops")
               .doc(event.id)
-              .update({"Ban": event.Ban});
+              .update({"ban": event.Ban});
+          emit(ShopRefresh());
         } catch (e) {
           print(e);
         }
@@ -278,6 +279,9 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
 
                   emit(ShopAuthenticated(user));
                   print("Auth successfully");
+                } else if (userData['status'] == "2") {
+                  await _auth.signOut();
+                  emit(ShopAuthenticatedError(message: "Your are Rejected.."));
                 } else {
                   await _auth.signOut();
                   emit(ShopAuthenticatedError(
