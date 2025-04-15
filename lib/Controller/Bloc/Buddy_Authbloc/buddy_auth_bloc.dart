@@ -69,8 +69,11 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
               "imagepath":
                   "https://cdn1.iconfinder.com/data/icons/proffesion/257/Driver-512.png"
             });
+            await _auth.signOut();
             emit(BuddyUnAuthenticated());
+
           } else {
+            await _auth.signOut();
             emit(BuddyUnAuthenticated());
           }
         } catch (e) {

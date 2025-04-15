@@ -36,7 +36,8 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   String? selectedFloor; // Store selected floor
   File? _imageFile;
@@ -54,7 +55,8 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
 
   // Function to pick an image
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _imageFile = File(pickedFile.path);
@@ -82,9 +84,10 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<ShopAuthBloc, ShopAuthState>(
       listener: (context, state) {
-        if (state is ShopAuthenticated) {
+        if (state is ShopUnAuthenticated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/login', (route) => false);
           });
         }
         if (state is ShopAuthenticatedError) {
@@ -108,7 +111,9 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                   Container(
                     width: double.infinity,
                     decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          topRight: Radius.circular(50)),
                       color: Colors.white,
                     ),
                     child: Padding(
@@ -121,7 +126,10 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                             const Text(
                               "Create your Mall Buddy Account",
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
                             ),
                             const SizedBox(height: 15),
 
@@ -156,27 +164,37 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                                   child: CustomTextForm(
                                     controller: _shopNameController,
                                     hintText: "Shop name",
-                                    validator: (value) => value!.isEmpty ? "Shop name is required" : null,
+                                    validator: (value) => value!.isEmpty
+                                        ? "Shop name is required"
+                                        : null,
                                   ),
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   flex: 1,
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
                                     decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(10),
                                       border: Border.all(color: Colors.grey),
                                     ),
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<String>(
                                         value: selectedFloor,
-                                        hint: const Text("Select floor", style: TextStyle(color: Colors.black54)),
+                                        hint: const Text("Select floor",
+                                            style: TextStyle(
+                                                color: Colors.black54)),
                                         isExpanded: true,
-                                        items: ["Ground Floor", "First Floor", "Second Floor", "Third Floor", "Fourth Floor"]
-                                            .map((String value) {
-                                          return DropdownMenuItem<String>(value: value, child: Text(value));
+                                        items: [
+                                          "Ground Floor",
+                                          "First Floor",
+                                          "Second Floor",
+                                          "Third Floor",
+                                          "Fourth Floor"
+                                        ].map((String value) {
+                                          return DropdownMenuItem<String>(
+                                              value: value, child: Text(value));
                                         }).toList(),
                                         onChanged: (newValue) {
                                           setState(() {
@@ -194,44 +212,61 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                             CustomTextForm(
                               controller: _ownerNameController,
                               hintText: "Owner name",
-                              validator: (value) => value!.isEmpty ? "Owner name is required" : null,
+                              validator: (value) => value!.isEmpty
+                                  ? "Owner name is required"
+                                  : null,
                             ),
                             const SizedBox(height: 15),
                             CustomTextForm(
                               controller: _emailController,
                               hintText: "Email address",
-                              validator: (value) => value!.isEmpty || !value.contains("@") ? "Enter a valid email" : null,
+                              validator: (value) =>
+                                  value!.isEmpty || !value.contains("@")
+                                      ? "Enter a valid email"
+                                      : null,
                             ),
                             const SizedBox(height: 15),
                             CustomTextForm(
                               controller: _phoneController,
                               hintText: "Phone number",
-                              validator: (value) => value!.length != 10 ? "Enter a valid 10-digit phone number" : null,
+                              validator: (value) => value!.length != 10
+                                  ? "Enter a valid 10-digit phone number"
+                                  : null,
                             ),
                             const SizedBox(height: 15),
                             CustomTextForm(
                               controller: _passwordController,
                               hintText: "Password",
                               obscureText: true,
-                              validator: (value) => value!.length < 6 ? "Password must be at least 6 characters" : null,
+                              validator: (value) => value!.length < 6
+                                  ? "Password must be at least 6 characters"
+                                  : null,
                             ),
                             const SizedBox(height: 15),
                             CustomTextForm(
                               controller: _confirmPasswordController,
                               hintText: "Confirm Password",
                               obscureText: true,
-                              validator: (value) => value != _passwordController.text ? "Passwords do not match" : null,
+                              validator: (value) =>
+                                  value != _passwordController.text
+                                      ? "Passwords do not match"
+                                      : null,
                             ),
                             const SizedBox(height: 25),
 
                             // **Register Button**
                             MaterialButton(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
                               minWidth: MediaQuery.of(context).size.width,
                               height: 50,
                               color: defaultBlue,
                               onPressed: _registerUser,
-                              child: const Text("Register", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+                              child: const Text("Register",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
                             ),
 
                             const SizedBox(height: 100),
@@ -261,7 +296,6 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                                 )
                               ],
                             ),
-
                           ],
                         ),
                       ),
@@ -276,5 +310,3 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
     );
   }
 }
-
-

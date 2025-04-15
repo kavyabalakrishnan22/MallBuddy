@@ -23,9 +23,11 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
           await Future.delayed(Duration(seconds: 3));
           user = _auth.currentUser;
           if (user != null) {
-            emit(ShopAuthenticated(user));
+            emit(ShopUnAuthenticated());
+            await _auth.signOut();
           } else {
             emit(ShopUnAuthenticated());
+            await _auth.signOut();
           }
         } catch (e) {
           emit(ShopAuthenticatedError(
@@ -65,7 +67,8 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
               "imagepath":
                   "https://firebasestorage.googleapis.com/v0/b/mallbuddy-51690.firebasestorage.app/o/Userprofile%2F1743759394608.jpg?alt=media&token=853902c2-4c05-4ada-be1b-aeaf78095437"
             });
-            emit(ShopAuthenticated(user));
+            emit(ShopUnAuthenticated());
+            await _auth.signOut();
           } else {
             emit(ShopUnAuthenticated());
           }

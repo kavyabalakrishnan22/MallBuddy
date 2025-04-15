@@ -36,7 +36,8 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController dobController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
 
@@ -86,7 +87,6 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
         email: _emailController.text,
         password: _passwordController.text,
         phone: _phoneController.text,
-
       );
 
       context.read<BuddyAuthBloc>().add(BuddySignupEvent(user: user));
@@ -97,9 +97,10 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<BuddyAuthBloc, BuddyAuthState>(
       listener: (context, state) {
-        if (state is BuddyAuthenticated) {
+        if (state is BuddyUnAuthenticated) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/login', (route) => false);
           });
         }
         if (state is BuddyAuthenticatedError) {
@@ -156,7 +157,9 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                             CustomTextForm(
                               hintText: "User name",
                               controller: _usernameController,
-                              validator: (value) => value!.isEmpty ? "Username is required" : null,
+                              validator: (value) => value!.isEmpty
+                                  ? "Username is required"
+                                  : null,
                             ),
                             const SizedBox(height: 15),
 
@@ -167,7 +170,9 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                                 child: CustomTextForm(
                                   hintText: "Date of Birth",
                                   controller: dobController,
-                                  validator: (value) => value!.isEmpty ? "Date of birth is required" : null,
+                                  validator: (value) => value!.isEmpty
+                                      ? "Date of birth is required"
+                                      : null,
                                 ),
                               ),
                             ),
@@ -175,7 +180,8 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
 
                             // Gender Dropdown
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey),
@@ -183,10 +189,13 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
                                   value: selectedGender,
-                                  hint: const Text("Select Gender", style: TextStyle(color: Colors.black54)),
+                                  hint: const Text("Select Gender",
+                                      style: TextStyle(color: Colors.black54)),
                                   isExpanded: true,
-                                  items: ["Male", "Female", "Other"].map((String value) {
-                                    return DropdownMenuItem<String>(value: value, child: Text(value));
+                                  items: ["Male", "Female", "Other"]
+                                      .map((String value) {
+                                    return DropdownMenuItem<String>(
+                                        value: value, child: Text(value));
                                   }).toList(),
                                   onChanged: (newValue) {
                                     setState(() {
@@ -203,15 +212,18 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                               hintText: "Email address",
                               controller: _emailController,
                               validator: (value) =>
-                              value!.isEmpty || !value.contains("@") ? "Enter a valid email" : null,
+                                  value!.isEmpty || !value.contains("@")
+                                      ? "Enter a valid email"
+                                      : null,
                             ),
                             const SizedBox(height: 15),
 
                             CustomTextForm(
                               hintText: "Phone number",
                               controller: _phoneController,
-                              validator: (value) =>
-                              value!.length != 10 ? "Enter a valid 10-digit phone number" : null,
+                              validator: (value) => value!.length != 10
+                                  ? "Enter a valid 10-digit phone number"
+                                  : null,
                             ),
                             const SizedBox(height: 15),
 
@@ -219,8 +231,9 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                               hintText: "Password",
                               controller: _passwordController,
                               obscureText: true,
-                              validator: (value) =>
-                              value!.length < 6 ? "Password must be at least 6 characters" : null,
+                              validator: (value) => value!.length < 6
+                                  ? "Password must be at least 6 characters"
+                                  : null,
                             ),
                             const SizedBox(height: 15),
 
@@ -229,7 +242,9 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                               controller: _confirmPasswordController,
                               obscureText: true,
                               validator: (value) =>
-                              value != _passwordController.text ? "Passwords do not match" : null,
+                                  value != _passwordController.text
+                                      ? "Passwords do not match"
+                                      : null,
                             ),
                             const SizedBox(height: 10),
                             // SizedBox(
@@ -257,13 +272,13 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                               child: state is BuddyAuthloading
                                   ? Loading_Widget()
                                   : Text(
-                                "Register",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
+                                      "Register",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
                             ),
 
                             const SizedBox(height: 20),
