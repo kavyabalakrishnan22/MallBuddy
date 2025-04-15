@@ -100,13 +100,13 @@ class ActiveDeliveryPage extends StatelessWidget {
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 8, vertical: 4),
                                           decoration: BoxDecoration(
-                                            color: Colors.red.shade100,
+                                            color:Order.status=="0"? Colors.red.shade100:Colors.blue,
                                             borderRadius: BorderRadius.circular(10),
                                           ),
-                                          child: Text(
-                                            "Status : ${Order.status.toString()}",
+                                          child: Text(Order.status=="0"?"Pending":"Progress"
+                                            ,
                                             style: TextStyle(
-                                                color: Colors.red, fontSize: 12),
+                                                color:Order.status=="0"? Colors.red:Colors.blue, fontSize: 12),
                                           ),
                                         ),
                                       ],

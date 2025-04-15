@@ -7,6 +7,21 @@ import '../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../../../Model/ordermonitoring_model/Rider_performance_model.dart';
 
+class AdminRidrPerformnacewrapper extends StatelessWidget {
+  const AdminRidrPerformnacewrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<OrderBloc>(
+      create: (context) =>OrderBloc()
+        ..add(
+          FetchPlaceorderEvent(searchQuery: null, status: "1"),
+        ),
+      child: AdminRidrPerformnace(),
+    );
+  }
+}
+
 
 class AdminRidrPerformnace extends StatefulWidget {
   const AdminRidrPerformnace({super.key});
@@ -180,6 +195,7 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
               _buildColumn('Rider Details'),
               _buildColumn('Total Delivery'),
               _buildColumn('Total Amount'),
+              _buildColumn('Review'),
               _buildColumn('Rating'),
 
             ],
@@ -247,7 +263,7 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
                             ),Row(
                               children: [
                                 Text("Name:"),
-                                Text(Order.Selectfloor.toString(),
+                                Text(Order.Ridername.toString(),
                                   style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                                   overflow: TextOverflow.ellipsis,),
@@ -272,6 +288,9 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
                           ],
                         )),
                     DataCell(Text("")),
+                    DataCell(Text("")),
+                    DataCell(Text(Order.Review.toString())),
+                    DataCell(Text(Order.Ratingstatus.toString())),
 
 
                   ],

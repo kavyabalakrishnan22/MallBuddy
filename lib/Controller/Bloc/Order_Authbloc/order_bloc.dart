@@ -35,11 +35,18 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             "vehicle_color": event.order.vehicle_color,
             "vehicle_number": event.order.vehicle_number,
             "ridername": event.order.Ridername,
+            "rideremail": event.order.rideremail,
             "contact_rider": event.order.conatctrider,
             "Review": event.order.Review,
             "Ratingstatus": event.order.Ratingstatus,
             "complaint": event.order.complaint,
             "complaintstatus": "0",
+            "complainttype": event.order.complainttype,
+            "sendReply": event.order.sendReply,
+            "sendReplystatus": "0",
+            "time": event.order.time,
+            "shopname": event.order.shopname,
+            "username":event.order.username,
             "status": "0",
             "payment": "0",
             "Deliverd": "0",
@@ -82,6 +89,26 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             "complaintstatus": event.complaintstatus,
             "complaint": event.complaint,
             "complainttype": event.complainttype,
+          });
+          emit(UserSendComplaintSuccess());
+        } catch (e) {
+          emit(UserSendComplaintsfailerror(e.toString().split("]").last));
+          print("Authenticated Error : ${e.toString().split(']').last}");
+        }
+      },
+    );
+    // Sendreply
+    on<UserSendreplyevent>(
+      (event, emit) async {
+        try {
+          emit(UserSendreplyloading());
+
+          await FirebaseFirestore.instance
+              .collection("Orders")
+              .doc(event.id)
+              .update({
+            "sendReplystatus": event.sendReplystatus,
+            "sendReply": event.sendReply,
           });
           emit(UserSendComplaintSuccess());
         } catch (e) {
@@ -134,6 +161,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
         Query query = OrderCollection;
         query = query.where("status", isEqualTo: event.status);
+        query = query.where("sendReplystatus", isEqualTo: event.sendReplystatus);
         query = query.where("shopid", isEqualTo: event.shopid);
         query = query.where("Deliverd", isEqualTo: event.Deliverd);
         query = query.where("riderid", isEqualTo: event.Riderid);

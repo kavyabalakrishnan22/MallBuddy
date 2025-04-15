@@ -79,7 +79,7 @@ class _RegisteredBuddyState extends State<RegisteredShop> {
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
-                  _buildColumn('Date and Time'),
+                  // _buildColumn('Date and Time'),
                   _buildColumn('Shop Details'),
                   _buildColumn('Owner Details'),
                   _buildColumn('Floor'),
@@ -96,7 +96,7 @@ class _RegisteredBuddyState extends State<RegisteredShop> {
                           (index + 1).toString(),
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         )),
-                        DataCell(Text("")),
+                        // DataCell(Text("")),
                         DataCell(Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,

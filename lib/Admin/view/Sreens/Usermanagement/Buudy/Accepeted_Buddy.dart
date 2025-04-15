@@ -6,7 +6,6 @@ import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
 import '../../../../../Widgets/Constants/Loading.dart';
 import 'Edit_accepted_buddy.dart';
 
-
 class AdminAcceptedwrapper extends StatelessWidget {
   const AdminAcceptedwrapper({super.key});
 
@@ -47,7 +46,7 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
       //   // title: const Text("Registered Shops"),
       //   // backgroundColor: Colors.blue,
       // ),
-      body: Column(
+      body: ListView(
         children: [
           // _buildFloorSelection(),
           _buildDropdown(), // Dropdown widget
@@ -109,12 +108,15 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
           context
               .read<BuddyAuthBloc>()
               .add(FetchBuddyDetailsEvent(searchQuery: null, status: ''));
-        }       },
+        }
+      },
       builder: (context, state) {
         if (state is BuddygetLoading) {
           return Column(
             children: [
-              SizedBox(height: 200,),
+              SizedBox(
+                height: 200,
+              ),
               Center(child: Loading_Widget()),
             ],
           );
@@ -162,85 +164,105 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                         )),
                         // DataCell(Text(Buddy.uid.toString())),
                         DataCell(Text("")),
-                        DataCell(
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        DataCell(Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Text("Rider_ID:"),
-                                    Text(Buddy.uid.toString(),
-                                      style:
-                                      const TextStyle(fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,),
-                                  ],
-                                ),Row(
-                                  children: [
-                                    Text("Floor:"),
-                                    Text(Buddy.floor.toString(),
-                                      style:
-                                      const TextStyle(fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,),
-                                  ],
-                                ),Row(
-                                  children: [
-                                    Text("Delivery_Fees:"),
-                                    Text(Buddy.amount.toString(),
-                                      style:
-                                      const TextStyle(fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,),
-                                  ],
+                                Text("Rider_ID:"),
+                                Text(
+                                  Buddy.uid.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ],
-                            )),
-                        DataCell(
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            ),
+                            Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Text("Name:"),
-                                    Text(Buddy.name.toString(),style:
-                                    const TextStyle(fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,),
-                                  ],
+                                Text("Floor:"),
+                                Text(
+                                  Buddy.floor.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                Row(
-                                  children: [
-                                    Text("Gender:"),
-                                    Text(Buddy.Gender.toString(),style:
-                                    const TextStyle(fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text("Email:"),
-                                    Text(Buddy.email.toString(),style:
-                                    const TextStyle(fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text("Ph:"),
-                                    Text(Buddy.phone.toString(),style:
-                                    const TextStyle(fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,),
-                                  ],
-                                ) ,
-
                               ],
-                            )),
+                            ),
+                            Row(
+                              children: [
+                                Text("Delivery_Fees:"),
+                                Text(
+                                  Buddy.amount.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ],
+                        )),
+                        DataCell(Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text("Name:"),
+                                Text(
+                                  Buddy.name.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text("Gender:"),
+                                Text(
+                                  Buddy.Gender.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text("Email:"),
+                                Text(
+                                  Buddy.email.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text("Ph:"),
+                                Text(
+                                  Buddy.phone.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ],
+                        )),
                         DataCell(
                           Container(
                             height: 40,
                             width: 120,
                             decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: Colors.green, width: 1.5),
+                              border: Border.all(
+                                  color: Buddy.Ban == "1"
+                                      ? Colors.red
+                                      : Colors.green,
+                                  width: 1.5),
                               borderRadius:
                                   BorderRadius.circular(12), // Rounded corners
                               color: Colors.white, // Background color
@@ -248,63 +270,70 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  'assets/admin/Accepted.png', // Replace with your actual asset path
-                                  height: 25,
-                                  width: 25,
+                                Icon(
+                                  Buddy.Ban == "1"
+                                      ? Icons.close
+                                      : Icons.done_all,
+                                  color: Buddy.Ban == "1"
+                                      ? Colors.red
+                                      : Colors.green,
                                 ),
                                 SizedBox(width: 5), // Spacing
                                 Text(
-                                  "Accepted",
+                                  Buddy.Ban == "1" ? "Baned" : "Accepted",
                                   style: TextStyle(
-                                      color: Colors.green,
+                                      color: Buddy.Ban == "1"
+                                          ? Colors.red
+                                          : Colors.green,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        DataCell(
-                          ElevatedButton(
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.black,
-                              side: BorderSide(
-                                  color: Colors.black, width: 1.5),
-                              backgroundColor: Colors.white,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BuddyEditPage(
-                                    BId: Buddy.uid.toString(),
-                                    Buddyname: Buddy.name.toString(),
-                                    phone: Buddy.phone.toString(),
-                                    Gender: Buddy.Gender.toString(),
+                              DataCell(
+                                ElevatedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: Colors.black,
+                                    side: BorderSide(color: Colors.black, width: 1.5),
+                                    backgroundColor: Colors.white,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 12),
                                   ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => BuddyEditPage(
+                                          BId: Buddy.uid.toString(),
+                                          Buddyname: Buddy.name.toString(),
+                                          phone: Buddy.phone.toString(),
+                                          Gender: Buddy.Gender.toString(),
+                                        ),
+                                      ),
+                                    ).then(
+                                      (value) {
+                                        context.read<BuddyAuthBloc>()
+                                          ..add(FetchBuddyDetailsEvent(
+                                              searchQuery: null, status: "1"));
+                                      },
+                                    );
+                                  },
+                                  child: Text("Edit"),
                                 ),
-                              ).then(
-                                    (value) {
-                                  context.read<BuddyAuthBloc>()
-                                    ..add(FetchBuddyDetailsEvent(
-                                        searchQuery: null, status: "1"));
-                                },
-                              );
-                            },
-                            child: Text("Edit"),
-                          ),
-                        ),
+                              ),
 
                         DataCell(
                           ElevatedButton(
                             onPressed: () {
-                              context.read<BuddyAuthBloc>().add(
-                                  BanBuddyrevent(
-                                      Ban: "1", id: Buddy.uid));
+                              context
+                                  .read<BuddyAuthBloc>()
+                                  .add(BanBuddyrevent(Ban: "1", id: Buddy.uid));
                             },
-                            child: Text("Ban",style: TextStyle(color: Colors.red),),
+                            child: Text(
+                              "Ban",
+                              style: TextStyle(color: Colors.red),
+                            ),
                           ),
                         ),
 

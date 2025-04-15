@@ -94,3 +94,18 @@ final class EditBuddyfailerror extends BuddyAuthState {
   EditBuddyfailerror(this.error);
 }
 
+//Buddyavailabletoggle
+
+final class BuddyavailabletoggleSuccess extends BuddyAuthState {}
+
+final class Buddyavailabletogglefailerror extends BuddyAuthState {
+  final String error;
+
+  Buddyavailabletogglefailerror(this.error);
+}
+
+
+final class Buddyavailabletoggleloading extends BuddyAuthState {}
+
+final class BuddyavailabletoggleRefresh extends BuddyAuthState {}
+

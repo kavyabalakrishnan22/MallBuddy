@@ -45,6 +45,21 @@ final class UserSendComplaintloading extends OrderState {}
 
 final class UserSendComplaintRefresh extends OrderState {}
 
+//UserSendreplySuccess
+
+final class UserSendreplySuccess extends OrderState {}
+
+final class UserSendreplyfailerror extends OrderState {
+  final String error;
+
+  UserSendreplyfailerror(this.error);
+}
+
+
+final class UserSendreplyloading extends OrderState {}
+
+final class UserSendreplyRefresh extends OrderState {}
+
 
 //UserSendreviewandratingSuccess
 

@@ -43,7 +43,7 @@ class _BottomNavExampleState extends State<BottomNavExample> {
           BottomNavigationBarItem(
             icon:Icon(Icons.home_filled), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.storefront), label: "Shop"),
-          BottomNavigationBarItem(icon: Icon(Icons.qr_code_scanner), label: "Cart"),
+          // BottomNavigationBarItem(icon: Icon(Icons.qr_code_scanner), label: "Cart"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),

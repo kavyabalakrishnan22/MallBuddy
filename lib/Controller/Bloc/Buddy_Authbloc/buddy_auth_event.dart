@@ -67,6 +67,15 @@ class BanBuddyrevent extends BuddyAuthEvent{
       {required this.id, required this.Ban});
 
 }
+
+// availabletoggle
+class Buddyavailabletoggleevent extends BuddyAuthEvent{
+  final String? id;
+  final String? Availablestatus;
+  Buddyavailabletoggleevent(
+      {required this.id, required this.Availablestatus});
+
+}
 class EditBuddy extends BuddyAuthEvent {
   final BuddyModel Buddy;
   EditBuddy({required this.Buddy});

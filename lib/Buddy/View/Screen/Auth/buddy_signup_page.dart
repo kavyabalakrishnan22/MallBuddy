@@ -232,18 +232,18 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                               value != _passwordController.text ? "Passwords do not match" : null,
                             ),
                             const SizedBox(height: 10),
-                            SizedBox(
-                                height:50,
-                                child: Column(
-                                  children: [
-                                    state is BuddyAuthloading
-                                        ? Text("Registering...")
-                                        : Text(""),
-                                    state is BuddyAuthloading
-                                        ? Loading_Widget()
-                                        : Text(""),
-                                  ],
-                                )),
+                            // SizedBox(
+                            //     height:50,
+                            //     child: Column(
+                            //       children: [
+                            //         state is BuddyAuthloading
+                            //             ? Text("Registering...")
+                            //             : Text(""),
+                            //         state is BuddyAuthloading
+                            //             ? Loading_Widget()
+                            //             : Text(""),
+                            //       ],
+                            //     )),
 
                             // Register Button
                             MaterialButton(
@@ -254,9 +254,15 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                               height: 50,
                               color: defaultBlue,
                               onPressed: _registerUser,
-                              child: const Text(
+                              child: state is BuddyAuthloading
+                                  ? Loading_Widget()
+                                  : Text(
                                 "Register",
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
 

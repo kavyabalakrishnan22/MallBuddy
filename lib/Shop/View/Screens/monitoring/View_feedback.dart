@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
-import '../../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
-import '../../../../../Widgets/Constants/Loading.dart';
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
+import '../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
+import '../../../../Widgets/Constants/Loading.dart';
 
-
-class UserViewFeedbackwrapper extends StatelessWidget {
-  const UserViewFeedbackwrapper({super.key});
+class ShopViewFeedbackwrapper extends StatelessWidget {
+  const ShopViewFeedbackwrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +14,19 @@ class UserViewFeedbackwrapper extends StatelessWidget {
         ..add(
           FetchPlaceorderEvent(searchQuery: null, status: "1"),
         ),
-      child: UserViewFeedback(),
+      child: ShopViewFeedback(),
     );
   }
 }
 
-class UserViewFeedback extends StatefulWidget {
-  const UserViewFeedback({super.key});
+class ShopViewFeedback extends StatefulWidget {
+  const ShopViewFeedback({super.key});
 
   @override
-  State<UserViewFeedback> createState() => _UserViewFeedbackState();
+  State<ShopViewFeedback> createState() => _ShopViewFeedbackState();
 }
 
-class _UserViewFeedbackState extends State<UserViewFeedback>
+class _ShopViewFeedbackState extends State<ShopViewFeedback>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -113,13 +112,11 @@ class _UserViewFeedbackState extends State<UserViewFeedback>
                       title: Text("Rider_Name: ${order.Ridername}"),
                     ),
                     ListTile(
-                      title: Text("Your_Complaint: ${order.complaint}"),
+                      title: Text("Review: ${order.Review}"),
                     ),
 
                     ListTile(
-                      title: Text("Reply: ${order.sendReply}"),
-                    ), ListTile(
-                      title: Text("Status: ${order.sendReplystatus}"),
+                      title: Text("Rating: ${order.Ratingstatus}"),
                     ),
                     // ListTile(
                     //   title: Text(

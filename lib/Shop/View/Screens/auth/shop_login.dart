@@ -205,21 +205,21 @@ class _ShoLoginPageState extends State<ShoLoginPage> {
                                     ),
                             ),
 
-                            const SizedBox(height: 10),
+                            // const SizedBox(height: 10),
+                            //
+                            // Padding(
+                            //   padding: const EdgeInsets.only(left: 220),
+                            //   child: Text(
+                            //     "Forgot Password?",
+                            //     style: TextStyle(
+                            //       color: Colors.blue,
+                            //       fontWeight: FontWeight.bold,
+                            //       fontSize: 16,
+                            //     ),
+                            //   ),
+                            // ),
 
-                            Padding(
-                              padding: const EdgeInsets.only(left: 220),
-                              child: Text(
-                                "Forgot Password?",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(height: 110),
+                            const SizedBox(height: 140),
 
                             // Sign Up Section
                             Row(

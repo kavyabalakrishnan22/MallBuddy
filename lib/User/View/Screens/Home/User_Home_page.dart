@@ -81,7 +81,7 @@ class _UserHomePageState extends State<UserHomePage> {
         break;
       case "Feedback":
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => UserViewReplyPage()));
+            context, MaterialPageRoute(builder: (context) => UserViewFeedbackwrapper()));
         break;
       case "My Order":
         Navigator.push(context,
@@ -137,11 +137,11 @@ class _UserHomePageState extends State<UserHomePage> {
                       })
                     ],
                   ),
-                  Spacer(),
-                  Icon(Icons.notifications, size: 30, color: Colors.black45),
-                  SizedBox(width: 10),
-                  Icon(Icons.settings, size: 30, color: Colors.black45),
-                  SizedBox(width: 10),
+                  // Spacer(),
+                  // Icon(Icons.notifications, size: 30, color: Colors.black45),
+                  // SizedBox(width: 10),
+                  // Icon(Icons.settings, size: 30, color: Colors.black45),
+                  // SizedBox(width: 10),
                 ],
               ),
 

@@ -63,35 +63,35 @@ class ShopHomeScreen extends StatelessWidget {
               })
             ],
           ),
-          Spacer(),
-          SizedBox(width: 10),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ShopNotificationScreen()), // Navigate to ProfilePage
-              );
-            },
-          child: Icon(Icons.notifications_on_sharp, size: 30, color: Colors.black45),),
-          SizedBox(width: 10),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        Shopprofileavwrapper()), // Navigate to ProfilePage
-              );
-            },
-            child: CircleAvatar(
-              radius: 20, // Adjust size as needed
-              backgroundImage: AssetImage("assets/profile/girl.png"),
-              backgroundColor: Colors
-                  .transparent, // Optional: Make the background transparent
-            ),
-          ),
+          // Spacer(),
+          // SizedBox(width: 10),
+          // GestureDetector(
+          //   onTap: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //           builder: (context) =>
+          //               ShopNotificationScreen()), // Navigate to ProfilePage
+          //     );
+          //   },
+          // child: Icon(Icons.notifications_on_sharp, size: 30, color: Colors.black45),),
+          // SizedBox(width: 10),
+          // GestureDetector(
+          //   onTap: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //           builder: (context) =>
+          //               Shopprofileavwrapper()), // Navigate to ProfilePage
+          //     );
+          //   },
+          //   child: CircleAvatar(
+          //     radius: 20, // Adjust size as needed
+          //     backgroundImage: AssetImage("assets/profile/girl.png"),
+          //     backgroundColor: Colors
+          //         .transparent, // Optional: Make the background transparent
+          //   ),
+          // ),
           SizedBox(width: 10),
         ],
       ),

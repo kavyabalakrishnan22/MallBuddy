@@ -63,6 +63,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
               "amount": "200",
               "timestamp": DateTime.now(),
               "Onesignal_id": "playerId",
+              "Availablestatus": "0",
               "ban": "0",
               "status": "0",
               "imagepath":
@@ -153,6 +154,21 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
               .collection("MallBuddyRiders")
               .doc(event.id)
               .update({"amount": event.amount});
+          emit(Refresh());
+        } catch (e) {
+          print(e);
+        }
+      },
+    );
+    on<Buddyavailabletoggleevent>(
+      (event, emit) async {
+        try {
+          emit(Acceptloading());
+          print(event.id);
+          await FirebaseFirestore.instance
+              .collection("MallBuddyRiders")
+              .doc(event.id)
+              .update({"Availablestatus": event.Availablestatus});
           emit(Refresh());
         } catch (e) {
           print(e);

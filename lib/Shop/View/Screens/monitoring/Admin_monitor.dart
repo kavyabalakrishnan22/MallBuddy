@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'View_complaints.dart';
+import 'View_feedback.dart';
 
 class ShopViewComplaintsPage extends StatelessWidget {
   @override
@@ -8,7 +9,7 @@ class ShopViewComplaintsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("View Complaints"),
+        title: Text("Order Monitoring"),
         backgroundColor: Colors.white70,
         elevation: 0,
         leading: BackButton(color: Colors.black),
@@ -20,6 +21,7 @@ class ShopViewComplaintsPage extends StatelessWidget {
             // First complaint: Late Delivery
             GestureDetector(
               onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ShopViewComplaintswrapper(),));
                 // Handle Late Delivery tap
               },
               child: Container(
@@ -64,6 +66,7 @@ class ShopViewComplaintsPage extends StatelessWidget {
             // Second complaint: Wrong Product
             GestureDetector(
               onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ShopViewFeedbackwrapper(),));
                 // Handle Wrong Product tap
               },
               child: Container(

@@ -318,7 +318,8 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                           ),
                         ),
                         DataCell(Text("1000")),
-                        DataCell(Text(allorder.status.toString())),
+                        DataCell(Text(allorder.status=="0"?"pending":"",
+                          style: TextStyle(color: Colors.yellow, fontSize: 12),)),
                         DataCell(
                           ElevatedButton(
                             onPressed: () {

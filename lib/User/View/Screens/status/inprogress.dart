@@ -97,7 +97,7 @@ class InProgressScreen extends StatelessWidget {
                               style: TextStyle(
                                   color: order.status == "0"
                                       ? Colors.red
-                                      : Colors.blue,
+                                        : Colors.blue,
                                   fontSize: 12),
                             ),
                           ),

@@ -11,6 +11,7 @@ class PlaceorderEvent extends OrderEvent {
 class FetchPlaceorderEvent extends OrderEvent {
   final String? searchQuery;
   final String? status;
+  final String? sendReplystatus;
   final String? shopid;
   final String? Deliverd;
   final String? Riderid;
@@ -19,6 +20,7 @@ class FetchPlaceorderEvent extends OrderEvent {
   FetchPlaceorderEvent(
       {required this.searchQuery,
       this.status,
+        this.sendReplystatus,
       this.shopid,
       this.Deliverd,
       this.Riderid,
@@ -54,6 +56,17 @@ class UserSendComplaintevent extends OrderEvent {
       this.complaintstatus,
       this.complaint,
       this.complainttype});
+}
+// Sendreply
+class UserSendreplyevent extends OrderEvent {
+  final String? id;
+  final String? sendReplystatus;
+  final String? sendReply;
+  UserSendreplyevent(
+      {required this.id,
+      this.sendReplystatus,
+      this.sendReply,
+      });
 }
 
 

@@ -100,11 +100,11 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 50),
                   Center(
                     child: Image.asset('assets/logo.png', width: 150),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 50),
                   Container(
                     width: double.infinity,
                     decoration: const BoxDecoration(
@@ -126,26 +126,26 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                             const SizedBox(height: 15),
 
                             // **Image Upload Section**
-                            GestureDetector(
-                              onTap: _pickImage,
-                              child: Container(
-                                width: double.infinity,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Colors.black54),
-                                ),
-                                child: _imageFile == null
-                                    ? const Center(
-                                  child: Text("Tap to upload image", style: TextStyle(color: Colors.black54)),
-                                )
-                                    : ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.file(_imageFile!, width: double.infinity, height: 150, fit: BoxFit.cover),
-                                ),
-                              ),
-                            ),
+                            // GestureDetector(
+                            //   onTap: _pickImage,
+                            //   child: Container(
+                            //     width: double.infinity,
+                            //     height: 50,
+                            //     decoration: BoxDecoration(
+                            //       color: Colors.white,
+                            //       borderRadius: BorderRadius.circular(10),
+                            //       border: Border.all(color: Colors.black54),
+                            //     ),
+                            //     child: _imageFile == null
+                            //         ? const Center(
+                            //       child: Text("Tap to upload image", style: TextStyle(color: Colors.black54)),
+                            //     )
+                            //         : ClipRRect(
+                            //       borderRadius: BorderRadius.circular(10),
+                            //       child: Image.file(_imageFile!, width: double.infinity, height: 150, fit: BoxFit.cover),
+                            //     ),
+                            //   ),
+                            // ),
                             const SizedBox(height: 20),
 
                             // **Row with Shop Name and Floor Selection**
@@ -165,7 +165,8 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 10),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius:
+                                      BorderRadius.circular(10),
                                       border: Border.all(color: Colors.grey),
                                     ),
                                     child: DropdownButtonHideUnderline(
@@ -233,7 +234,34 @@ class _ShopSignupPageState extends State<ShopSignupPage> {
                               child: const Text("Register", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
                             ),
 
-                            const SizedBox(height: 30),
+                            const SizedBox(height: 100),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Already have an account?",
+                                  style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 10),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    "Sign in",
+                                    style: TextStyle(
+                                      color: defaultBlue,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+
                           ],
                         ),
                       ),

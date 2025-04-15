@@ -32,7 +32,7 @@ class _BottomNavBarExampleState extends State<BottomNavBarExample> {
   final List<Widget> _screens = [
     UserHomePage(),
     Shopwrapper(),
-    QRScanPage(),
+    // QRScanPage(),
     userprofileavwrapper(),
   ];
 
@@ -79,14 +79,14 @@ class _BottomNavBarExampleState extends State<BottomNavBarExample> {
                 'assets/Bottomnav/solar_shop-linear.svg', _selectedIndex == 1),
             label: 'Shop',
           ),
-          BottomNavigationBarItem(
-            icon: _buildSvgIcon(
-                'assets/Bottomnav/mage_scan.svg', _selectedIndex == 2),
-            label: 'Scan',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: _buildSvgIcon(
+          //       'assets/Bottomnav/mage_scan.svg', _selectedIndex == 2),
+          //   label: 'Scan',
+          // ),
           BottomNavigationBarItem(
             icon: _buildSvgIcon('assets/Bottomnav/iconamoon_profile-light.svg',
-                _selectedIndex == 3),
+                _selectedIndex == 2),
             label: 'Profile',
           ),
         ],

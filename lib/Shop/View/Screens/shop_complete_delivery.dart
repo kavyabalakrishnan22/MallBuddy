@@ -140,13 +140,12 @@ class CompleteDeliveryPage extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: Colors.green.shade50,border: Border.all(color: Colors.green,width: 2),
+                        color:Order.deliverd=="0"? Colors.blue: Colors.green.shade50,border: Border.all(color: Colors.green,width: 2),
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child:   Text(
-                        "Status : ${Order.status}",
+                      child:   Text(Order.deliverd=="0"? "progress":"Delivered",
                         style: TextStyle(
-                            color: Colors.red, fontSize: 12),
+                            color: Order.deliverd=="0"? Colors.blue:Colors.green, fontSize: 12),
                       ),
                     ),
                   ),

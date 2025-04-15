@@ -11,6 +11,7 @@ class BuddyModel {
   String? Gender;
   String? floor;
   String? amount;
+  String? Availablestatus;
 
   BuddyModel(
       {this.email,
@@ -24,6 +25,7 @@ class BuddyModel {
       this.Dob,
         this.floor,
         this.amount,
+        this.Availablestatus,
       this.Gender});
 
   factory BuddyModel.fromMap(Map<String, dynamic> data) {
@@ -40,6 +42,7 @@ class BuddyModel {
       Image: data['imagepath'],
       Dob: data['Dateodbirth'],
       Gender: data['Gender'],
+      Availablestatus: data['Availablestatus'],
     );
   }
 }

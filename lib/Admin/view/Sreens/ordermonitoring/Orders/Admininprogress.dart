@@ -18,6 +18,7 @@ class AdminInprogressOrderswrapper extends StatelessWidget {
           FetchPlaceorderEvent(
             searchQuery: null,
             status: '1',
+            Deliverd: "0",
           ),
         ),
       child: AdminInprogressOrders(),
@@ -318,7 +319,12 @@ class _AdminInprogressOrdersState extends State<AdminInprogressOrders>
                           ),
                         ),
                         DataCell(Text("1000")),
-                        DataCell(Text(allorder.status.toString())),
+                        DataCell(Text(allorder.status=="0"? "Pending":"Progress",
+                          style: TextStyle(
+                              color: allorder.status == "0"
+                                  ? Colors.red
+                                  : Colors.blue,
+                              fontSize: 12),)),
                         DataCell(
                           ElevatedButton(
                             onPressed: () {

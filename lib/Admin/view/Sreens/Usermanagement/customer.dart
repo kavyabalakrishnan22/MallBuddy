@@ -139,10 +139,11 @@ class _AdminCustomerState extends State<AdminCustomer>
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is BanRefresh) {
-          context
-              .read<AuthBloc>()
-              .add(FetchUsers(searchQuery: null,));
-        }      },
+          context.read<AuthBloc>().add(FetchUsers(
+                searchQuery: null,
+              ));
+        }
+      },
       builder: (context, state) {
         if (state is UsersLoading) {
           return Center(child: Loading_Widget());
@@ -171,7 +172,7 @@ class _AdminCustomerState extends State<AdminCustomer>
                   _buildColumn('Date and Time'),
                   _buildColumn('Customer Details'),
                   // _buildColumn('Invoice ID'),
-                  _buildColumn('Status'),
+                  _buildColumn('Action'),
                   _buildColumn('Ban User'),
                 ],
                 rows: List.generate(
@@ -203,15 +204,57 @@ class _AdminCustomerState extends State<AdminCustomer>
                           ),
                         ),
                         // DataCell(Text(User.uid.toString())),
-                        DataCell(Text(User.status.toString())),
+
+                        DataCell(
+                          Container(
+                            height: 40,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: User.Ban == "1"
+                                      ? Colors.red
+                                      : Colors.green,
+                                  width: 1.5),
+                              borderRadius:
+                              BorderRadius.circular(12), // Rounded corners
+                              color: Colors.white, // Background color
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  User.Ban == "1"
+                                      ? Icons.close
+                                  : Icons.check_circle_rounded,
+                                  color: User.Ban == "1"
+                                      ? Colors.red
+                                      : Colors.green,
+                                ),
+                                SizedBox(width: 5), // Spacing
+                                Text(
+                                  User.Ban == "1" ? "Baned" : "Active",
+                                  style: TextStyle(
+                                      color: User.Ban == "1"
+                                          ? Colors.red
+                                          : Colors.green,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
                         DataCell(
                           ElevatedButton(
                             onPressed: () {
-                              context.read<AuthBloc>().add(
-                                  BanUserevent(
-                                      Ban: "1", id: User.uid));
+                              context
+                                  .read<AuthBloc>()
+                                  .add(BanUserevent(Ban: "1", id: User.uid));
                             },
-                            child: Text("Ban",style: TextStyle(color: Colors.red),),
+                            child: Text(
+                              "Ban",
+                              style: TextStyle(color: Colors.red),
+                            ),
                           ),
                         ),
                       ],
@@ -238,7 +281,4 @@ class _AdminCustomerState extends State<AdminCustomer>
       ),
     );
   }
-
-
-
 }

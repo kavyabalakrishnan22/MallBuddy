@@ -15,6 +15,8 @@ class OrderModel {
   String? vehicle_color;
   String? vehicle_number;
   String? Ridername;
+  String? username;
+  String? shopname;
   String? conatctrider;
   String? rideremail;
   String? payment;
@@ -24,6 +26,8 @@ class OrderModel {
   String? complainttype;
   String? Review;
   String? Ratingstatus;
+  String? sendReply;
+  String? sendReplystatus;
 
 
   OrderModel(
@@ -51,7 +55,12 @@ class OrderModel {
         this.complainttype,
         this.Review,
         this.Ratingstatus,
-      this.orderid});
+      this.orderid,
+        this.sendReply,
+        this.sendReplystatus,
+        this.shopname,
+        this.username,
+      });
 
   factory OrderModel.fromMap(Map<String, dynamic> data) {
     return OrderModel(
@@ -80,6 +89,12 @@ class OrderModel {
       complaint: data['complaint'],
       Review: data['Review'],
       Ratingstatus: data['Ratingstatus'],
+      sendReply: data['sendReply'],
+      sendReplystatus: data['sendReplystatus'],
+      shopname: data['shopname'],
+      username: data['username'],
+
+
     );
   }
 }

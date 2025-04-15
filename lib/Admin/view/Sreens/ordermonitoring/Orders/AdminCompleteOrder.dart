@@ -293,7 +293,9 @@ class _AdminCompleteOrdersState extends State<AdminCompleteOrders>
                             ),
                           ),
                           DataCell(Text("1000")),
-                          DataCell(Text(cmpleteorder.status.toString())),
+                          DataCell(Text(cmpleteorder.deliverd=="0"?"Progress":"Delivered",
+                            style: TextStyle(color: cmpleteorder.deliverd=="0"? Colors.red:Colors.green, fontSize: 12),
+                          )),
                           DataCell(
                             ElevatedButton(
                               onPressed: () {

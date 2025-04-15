@@ -7,6 +7,7 @@ import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 import '../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../../../../Widgets/Constants/Loading.dart';
+import 'listinvoices.dart';
 
 class Shopwrapper extends StatelessWidget {
   const Shopwrapper({super.key});
@@ -57,7 +58,6 @@ class _ShopState extends State<Shop> {
                 ),
               ),
             ),
-
           ],
         ),
         centerTitle: true,
@@ -99,10 +99,23 @@ class _ShopState extends State<Shop> {
                     itemCount: state.Shopes.length,
                     itemBuilder: (context, index) {
                       final shop = state.Shopes[index];
-                      return ShopGridViewItem(
-                        image: shop.Image.toString(),
-                        name: shop.Shopname.toString(),
-                        subtitle: shop.Selectfloor.toString(),
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ListViewShopPage(
+                                  ShopID:shop.uid.toString(),
+                                    Shopname: shop.Shopname.toString(),
+                                    Shopfloor: shop.Selectfloor.toString()),
+                              ));
+                          print(shop.uid);
+                        },
+                        child: ShopGridViewItem(
+                          image: shop.Image.toString(),
+                          name: shop.Shopname.toString(),
+                          subtitle: shop.Selectfloor.toString(),
+                        ),
                       );
                     },
                   );

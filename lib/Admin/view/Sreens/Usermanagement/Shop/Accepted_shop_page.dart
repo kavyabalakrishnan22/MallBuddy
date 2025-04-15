@@ -192,9 +192,9 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                                     ),
                                     SizedBox(width: 5),
                                     Text(
-                                      "Accepted",
+                                      shop.Ban=="1"?"Baned": "Accepted",
                                       style: TextStyle(
-                                          color: Colors.green,
+                                          color: shop.Ban=="1"?Colors.red: Colors.green,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ],

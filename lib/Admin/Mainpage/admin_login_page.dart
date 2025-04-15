@@ -163,8 +163,8 @@ class _AdminPageState extends State<AdminPage> {
                   children: [
                     SubListTile("All Order", AdminOrders()),
                     // SubListTile("Completed order", AdminCompleteOrders()),
-                    SubListTile("Rider Performance", AdminRidrPerformnace()),
-                    SubListTile("View Complaints", AdminViewComplaints()),
+                    SubListTile("Rider Performance", AdminRidrPerformnacewrapper()),
+                    SubListTile("View Complaints", AdminViewComplaintswrapper()),
                     // SubListTile("Customer Feedback", AdminAllOrders()),
                   ],
                 ),
