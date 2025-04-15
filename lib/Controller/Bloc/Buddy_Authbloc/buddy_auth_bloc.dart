@@ -69,7 +69,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
               "imagepath":
                   "https://cdn1.iconfinder.com/data/icons/proffesion/257/Driver-512.png"
             });
-            emit(BuddyAuthenticated(user));
+            emit(BuddyUnAuthenticated());
           } else {
             emit(BuddyUnAuthenticated());
           }
