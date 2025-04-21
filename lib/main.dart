@@ -48,6 +48,7 @@ import 'User/View/Screens/notification.dart';
 import 'User/View/Screens/orderhistory.dart';
 import 'User/View/Screens/recheckpayment.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -64,7 +66,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Admin_report(),
+      home: AdminLoginPage(),
     );
   }
 }

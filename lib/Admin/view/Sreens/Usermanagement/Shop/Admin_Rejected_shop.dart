@@ -92,7 +92,7 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
-                  _buildColumn('Date and Time'),
+                  // _buildColumn('Date and Time'),
                   _buildColumn('Shop Details'),
                   _buildColumn('Owner Details'),
                   _buildColumn('Floor'),
@@ -107,7 +107,7 @@ class _AdminRejectedShopState extends State<AdminRejectedShop> {
                       cells: [
                         DataCell(Text((index + 1).toString(),
                             style: const TextStyle(fontWeight: FontWeight.bold))),
-                        const DataCell(Text("")),
+                        // const DataCell(Text("")),
                         DataCell(
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,

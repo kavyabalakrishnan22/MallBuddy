@@ -143,7 +143,7 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
-                  _buildColumn('Date and Time'),
+                  // _buildColumn('Date and Time'),
                   _buildColumn('Rider Details'),
                   _buildColumn('Personal Details'),
                   // _buildColumn('Phone Number'),
@@ -163,7 +163,7 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         )),
                         // DataCell(Text(Buddy.uid.toString())),
-                        DataCell(Text("")),
+                        // DataCell(Text("")),
                         DataCell(Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,

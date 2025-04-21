@@ -169,7 +169,7 @@ class _AdminCustomerState extends State<AdminCustomer>
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
-                  _buildColumn('Date and Time'),
+                  // _buildColumn('Date and Time'),
                   _buildColumn('Customer Details'),
                   // _buildColumn('Invoice ID'),
                   _buildColumn('Action'),
@@ -184,7 +184,7 @@ class _AdminCustomerState extends State<AdminCustomer>
                         DataCell(Text((index + 1).toString(),
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold))),
-                        DataCell(Text("")),
+                        // DataCell(Text("")),
                         DataCell(
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,

@@ -190,11 +190,11 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
             decoration: const BoxDecoration(color: Colors.white),
             columns: [
               _buildColumn('SL NO'),
-              _buildColumn('Date and Time'),
+              // _buildColumn('Date and Time'),
               _buildColumn('Order Details'),
               _buildColumn('Rider Details'),
-              _buildColumn('Total Delivery'),
-              _buildColumn('Total Amount'),
+              // _buildColumn('Total Delivery'),
+              // _buildColumn('Total Amount'),
               _buildColumn('Review'),
               _buildColumn('Rating'),
 
@@ -207,7 +207,7 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
                   cells: [
                     DataCell(Text((index + 1).toString(),
                         style: const TextStyle(fontWeight: FontWeight.bold))),
-                    DataCell(Text("")),
+                    // DataCell(Text("")),
                     DataCell(
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -287,8 +287,8 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
                             ),
                           ],
                         )),
-                    DataCell(Text("")),
-                    DataCell(Text("")),
+                    // DataCell(Text("")),
+                    // DataCell(Text("")),
                     DataCell(Text(Order.Review.toString())),
                     DataCell(Text(Order.Ratingstatus.toString())),
 

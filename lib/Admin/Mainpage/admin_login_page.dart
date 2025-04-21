@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mall_bud/Admin/view/Auth/Admin_Login.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
 import '../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
@@ -22,10 +25,10 @@ import '../view/Sreens/ordermonitoring/Orders/Adminorders.dart';
 import '../view/Sreens/ordermonitoring/View_Complaint.dart';
 import '../view/Sreens/servicecustomization/admin_Delivery_fees.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   runApp(MyApp());
 }
 
@@ -70,7 +73,13 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: defaultBlue),
             useMaterial3: true,
           ),
-          home: AdminPage()),
+          home: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context, snapshot) {
+            if(snapshot.hasData){
+              return AdminPage();
+            }else{
+              return AdminLoginPage();
+            }
+          },)),
     );
   }
 }
@@ -173,19 +182,24 @@ class _AdminPageState extends State<AdminPage> {
                   icon: Icons.phonelink_setup_outlined,
                   children: [
                     SubListTile("Delivery Fees", AdminDeliveryFees()),
-                    SubListTile("Rider Incentives", AdminAllOrders()),
+                    // SubListTile("Rider Incentives", AdminAllOrders()),
                     // SubListTile("Delivery Time", AdminAllOrders()),
                   ],
                 ),
                 _buildMainListTile('Reports', const Admin_report(),
                     icon: Icons.event_note_outlined),
-                _buildMainListTile(
-                  'Logout',
-                  const Dashboard(),
-                  icon: Icons.logout_outlined,
-                  iconColor: Colors.red,
-                  textColor: Colors.red,
-                ),
+                // _buildMainListTile(
+                //   'Logout',
+                //   const Dashboard(),
+                //   icon: Icons.logout_outlined,
+                //   iconColor: Colors.red,
+                //   textColor: Colors.red,
+                // ),
+                ListTile(
+                  onTap: ()=> FirebaseAuth.instance.signOut(),
+                  leading: Icon(Icons.logout_outlined,color: Colors.red,),
+                  title: Text('Logout',style: TextStyle(color: Colors.red),),
+                )
               ],
             ),
           ),

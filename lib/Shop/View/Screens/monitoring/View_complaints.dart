@@ -120,6 +120,8 @@ class _ShopViewComplaintsState extends State<ShopViewComplaints>
                       title: Text("Rider_Name: ${order.Ridername}"),
                     ), ListTile(
                       title: Text("Complaint: ${order.complaint}"),
+                    ),ListTile(
+                      title: Text("Reply: ${order.sendReply}"),
                     ),
                     ListTile(
                       title: Text(

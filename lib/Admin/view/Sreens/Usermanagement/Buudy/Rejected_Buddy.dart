@@ -76,7 +76,7 @@ class _AdminRejectedBuddyState extends State<AdminRejectedBuddy> {
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
-                  _buildColumn('Date and Time'),
+                  // _buildColumn('Date and Time'),
                   _buildColumn('Rider Details'),
                   _buildColumn('Gender'),
                   // _buildColumn('Phone Number'),
@@ -93,7 +93,7 @@ class _AdminRejectedBuddyState extends State<AdminRejectedBuddy> {
                           (index + 1).toString(),
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         )),
-                        DataCell(Text("")),
+                        // DataCell(Text("")),
                         DataCell(
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,

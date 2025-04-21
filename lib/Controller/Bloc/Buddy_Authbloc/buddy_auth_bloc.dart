@@ -13,6 +13,8 @@ import 'buddy_auth_state.dart';
 
 final buddyid_global = FirebaseAuth.instance.currentUser!.uid;
 
+BuddyModel? userData;
+
 class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -97,8 +99,8 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
                 .get();
 
             if (doc.exists) {
-              BuddyModel userData = BuddyModel.fromMap(doc.data()!);
-              emit(BuddyByidLoaded(userData));
+               userData = BuddyModel.fromMap(doc.data()!);
+              emit(BuddyByidLoaded(userData!));
             } else {
               emit(Buddyerror(error: "User profile not found"));
             }

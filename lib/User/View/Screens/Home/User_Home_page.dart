@@ -193,15 +193,16 @@ class _UserHomePageState extends State<UserHomePage> {
               const SizedBox(height: 28),
 
               // **Action Buttons**
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildActionButton("Shop", Icons.shopping_cart, context),
-                  SizedBox(width: 20),
-                  _buildActionButton("Feedback", Icons.note_alt_outlined, context),
-                  SizedBox(width: 20),
-                  _buildActionButton("My Order", Icons.info, context),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildActionButton("Shop", Icons.shopping_cart, context),
+                    _buildActionButton("Feedback", Icons.note_alt_outlined, context),
+                    _buildActionButton("My Order", Icons.info, context),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 20),
@@ -285,7 +286,7 @@ class _UserHomePageState extends State<UserHomePage> {
         height: 100,
         width: 110,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(20),
           color: isSelected ? Colors.blueAccent : Colors.blue[200],
         ),
         child: Column(

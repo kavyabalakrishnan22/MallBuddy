@@ -76,311 +76,314 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
     return Scaffold(
         body: SafeArea(
             child: SingleChildScrollView(
-                child: Column(children: [
-      const SizedBox(height: 30),
-      Row(
-        children: [
-          SizedBox(width: 20),
-          Container(
-            height: 60,
-            width: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.blueAccent,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Image.asset('assets/logo.png'),
-            ),
-          ),
-          SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Hello!", style: TextStyle(fontSize: 18)),
-              BlocBuilder<BuddyAuthBloc, BuddyAuthState>(
-                builder: (context, state) {
-                  if (state is Buddyloading) {
-                    return const Center(child: Loading_Widget());
-                  } else if (state is BuddyByidLoaded) {
-                    final user = state.Userdata;
-                    return Text('${user.name ?? ''}',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold));
-                  }
-                  return SizedBox();
-                },
-              )
-            ],
-          ),
-          Spacer(),
-          SizedBox(width: 10),
-
-          Row(
-            children: [
-              SizedBox(width: 10,),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ShopNotificationScreen()), // Navigate to ProfilePage
-                  );
-                },
-              child: Icon(Icons.notifications_on_sharp, size: 30, color: Colors.black45)),
-            ],
-          ),
-          SizedBox(width: 10),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        Shopprofileavwrapper()), // Navigate to ProfilePage
-              );
-            },
-            child: CircleAvatar(
-              radius: 20, // Adjust size as needed
-              backgroundImage: AssetImage("assets/profile/girl.png"),
-              backgroundColor: Colors
-                  .transparent, // Optional: Make the background transparent
-            ),
-          ),
-        ],
-      ),
-      SizedBox(height: 20),
-
-      // Today Delivery Section
-      Row(
-        children: [
-          Text(
-            "Today Delivery",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      SizedBox(height: 10),
-
-      // Delivery Status Card
-      Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: defaultBlue,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Image.asset("assets/ShopBottomnav/pending.png"),
-            ),
-            deliveryStatusItem("Pending Delivery", "4", Icons.access_time),
-            const SizedBox(
-              width: 10,
-            ),
-            Container(
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Image.asset("assets/ShopBottomnav/done.png"),
-            ),
-            deliveryStatusItem("Done Delivery", "10", Icons.check_circle),
-          ],
-        ),
-      ),
-      const SizedBox(height: 30),
-
-      // **Image Slider**
-      SizedBox(
-        height: 180,
-        child: PageView.builder(
-          controller: _pageController,
-          onPageChanged: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
-          itemCount: bannerImages.length,
-          itemBuilder: (context, index) {
-            return Image.asset(
-              bannerImages[index],
-              fit: BoxFit.cover,
-              width: double.infinity,
-            );
-          },
-        ),
-      ),
-
-      const SizedBox(height: 8),
-
-      // **Indicator (Blue Dots)**
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(bannerImages.length, (index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Container(
-              height: 10,
-              width: currentIndex == index ? 30 : 10,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: currentIndex == index
-                    ? Colors.blueAccent
-                    : Colors.black.withOpacity(0.4),
-              ),
-            ),
-          );
-        }),
-      ),
-
-      SizedBox(height: 16),
-      // Quick Actions Row
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildActionButton("Availability\nStatus", Icons.more_time, context),
-          SizedBox(width: 20),
-          _buildActionButton("Completed\nDelivery", Icons.done_all, context),
-          SizedBox(width: 20),
-          _buildActionButton("Active\nDelivery", Icons.info, context),
-        ],
-      ),
-      Row(
-        children: [
-          Text(
-            "Earnings",
-            style: TextStyle(
-                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-
-      SizedBox(height: 16),
-      // Earnings Section
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            children: [
-              Container(
-                height: 200,
-                width: 160,
-                decoration: BoxDecoration(
-                    color: defaultBlue,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Image.asset(
-                            "assets/ShopBottomnav/todayearning.png")),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Text(
-                      "Total Earnings",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(120),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "45000",
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(children: [
+                        const SizedBox(height: 30),
+                        Row(
+                          children: [
+                            SizedBox(width: 20),
+                            Container(
+                              height: 60,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.blueAccent,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Image.asset('assets/logo.png'),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Hello!", style: TextStyle(fontSize: 18)),
+                                BlocBuilder<BuddyAuthBloc, BuddyAuthState>(
+                  builder: (context, state) {
+                    if (state is Buddyloading) {
+                      return const Center(child: Loading_Widget());
+                    } else if (state is BuddyByidLoaded) {
+                      final user = state.Userdata;
+                      return Text('${user.name ?? ''}',
                           style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
+                              fontSize: 20, fontWeight: FontWeight.bold));
+                    }
+                    return SizedBox();
+                  },
+                                )
+                              ],
+                            ),
+                            Spacer(),
+                            SizedBox(width: 10),
+
+                            Row(
+                              children: [
+                                SizedBox(width: 10,),
+                                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ShopNotificationScreen()), // Navigate to ProfilePage
+                    );
+                  },
+                                child: Icon(Icons.notifications_on_sharp, size: 30, color: Colors.black45)),
+                              ],
+                            ),
+                            SizedBox(width: 10),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (context) =>
+                            //               Shopprofileavwrapper()), // Navigate to ProfilePage
+                            //     );
+                            //   },
+                            //   child: CircleAvatar(
+                            //     radius: 20, // Adjust size as needed
+                            //     backgroundImage: AssetImage("assets/profile/girl.png"),
+                            //     backgroundColor: Colors
+                            //         .transparent, // Optional: Make the background transparent
+                            //   ),
+                            // ),
+                          ],
                         ),
-                      ),
-                    )
-                  ],
-                ),
-                // child: earningsCard("Today Earnings", "₹1000")
-              ),
-            ],
-          ),
-          Container(
-            height: 200,
-            width: 160,
-            decoration: BoxDecoration(
-                color: defaultBlue, borderRadius: BorderRadius.circular(10)),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                    height: 70,
-                    width: 70,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child:
-                        Image.asset("assets/ShopBottomnav/totalearning.png")),
-                const SizedBox(
-                  height: 18,
-                ),
-                Text(
-                  "Total Earnings",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  height: 40,
-                  width: 100,
+                        SizedBox(height: 20),
+
+                        // Today Delivery Section
+                        Row(
+                          children: [
+                            Text(
+                              "Today Delivery",
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+
+                        // Delivery Status Card
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: defaultBlue,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                height: 60,
+                                width: 60,
+                                decoration: BoxDecoration(
+                    color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                child: Image.asset("assets/ShopBottomnav/pending.png"),
+                              ),
+                              deliveryStatusItem("Pending\nDelivery", "4", Icons.access_time),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                height: 60,
+                                width: 60,
+                                decoration: BoxDecoration(
+                    color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                child: Image.asset("assets/ShopBottomnav/done.png"),
+                              ),
+                              deliveryStatusItem("Done\nDelivery", "10", Icons.check_circle),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+
+                        // **Image Slider**
+                        SizedBox(
+                          height: 180,
+                          child: PageView.builder(
+                            controller: _pageController,
+                            onPageChanged: (index) {
+                              setState(() {
+                                currentIndex = index;
+                              });
+                            },
+                            itemCount: bannerImages.length,
+                            itemBuilder: (context, index) {
+                              return Image.asset(
+                                bannerImages[index],
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              );
+                            },
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        // **Indicator (Blue Dots)**
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(bannerImages.length, (index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                              child: Container(
+                                height: 10,
+                                width: currentIndex == index ? 30 : 10,
+                                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: currentIndex == index
+                      ? Colors.blueAccent
+                      : Colors.black.withOpacity(0.4),
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+
+                        SizedBox(height: 16),
+                        // Quick Actions Row
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildActionButton("Availability\nStatus", Icons.more_time, context),
+
+                            _buildActionButton("Completed\nDelivery", Icons.done_all, context),
+
+                            _buildActionButton("Active\nDelivery", Icons.info, context),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Earnings",
+                              style: TextStyle(
+                  color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 16),
+                        // Earnings Section
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                  height: 200,
+                  width: 160,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(120),
+                      color: defaultBlue,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Image.asset(
+                              "assets/ShopBottomnav/todayearning.png")),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Text(
+                        "Total Earnings",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Container(
+                        height: 40,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(120),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "45000",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                  child: Center(
-                    child: Text(
-                      "500000",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
+                  // child: earningsCard("Today Earnings", "₹1000")
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: 200,
+                              width: 160,
+                              decoration: BoxDecoration(
+                  color: defaultBlue, borderRadius: BorderRadius.circular(10)),
+                              child: Column(
+                                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                      height: 70,
+                      width: 70,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child:
+                          Image.asset("assets/ShopBottomnav/totalearning.png")),
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  Text(
+                    "Total Earnings",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(120),
                     ),
-                  ),
-                )
-              ],
-            ),
-            // child: earningsCard("Today Earnings", "₹1000")
-          ),
-        ],
-      ),
-    ]))));
+                    child: Center(
+                      child: Text(
+                        "500000",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                                ],
+                              ),
+                              // child: earningsCard("Today Earnings", "₹1000")
+                            ),
+                          ],
+                        ),
+                      ]),
+                ))));
   }
 
   Widget _buildActionButton(String title, IconData icon, BuildContext context) {
@@ -389,10 +392,10 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
     return GestureDetector(
       onTap: () => _onButtonPressed(title, context),
       child: Container(
-        height: 100,
-        width: 110,
+        height: 88,
+        width: 100,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
+          borderRadius: BorderRadius.circular(20),
           color: isSelected ? Colors.blueAccent : Colors.blue[200],
         ),
         child: Column(
@@ -401,6 +404,7 @@ class _BuddyHomeScreenState extends State<BuddyHomeScreen> {
             Icon(icon, size: 30, color: Colors.black),
             SizedBox(height: 5),
             Text(
+              textAlign: TextAlign.center,
               title,
               style: TextStyle(
                   fontSize: 16,

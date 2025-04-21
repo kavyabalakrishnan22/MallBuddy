@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
+
+import '../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 
 class DeliveryBoyAvailabilityPage extends StatefulWidget {
   const DeliveryBoyAvailabilityPage({super.key});
@@ -11,7 +15,7 @@ class DeliveryBoyAvailabilityPage extends StatefulWidget {
 
 class _DeliveryBoyAvailabilityPageState
     extends State<DeliveryBoyAvailabilityPage> {
-  bool isAvailable = false;
+  bool isAvailable = userData?.Availablestatus.toString()=="1 ";
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +42,10 @@ class _DeliveryBoyAvailabilityPageState
               onChanged: (value) {
                 setState(() {
                   isAvailable = value;
+                  print(value);
+                  FirebaseFirestore.instance.collection('MallBuddyRiders').doc(FirebaseAuth.instance.currentUser!.uid).update({
+                    'Availablestatus': isAvailable == true ? "1" : "0",
+                  });
                 });
               },
               activeColor: Colors.green,

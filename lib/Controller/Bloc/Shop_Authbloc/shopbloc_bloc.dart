@@ -62,6 +62,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
               "selecfloor": event.user.Selectfloor,
               "timestamp": DateTime.now(),
               "Onesignal_id": "playerId",
+              "notifications":[],
               "ban": "0",
               "status": "0",
               "imagepath":
@@ -323,6 +324,8 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
       },
     );
 
+
+
     //   get all shopes
 
     on<FetchShopesDetailsEvent>((event, emit) async {
@@ -354,4 +357,5 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
       }
     });
   }
+
 }

@@ -189,7 +189,7 @@ class _AdminViewComplaintsState extends State<AdminViewComplaints>
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
-                  _buildColumn('Date and Time'),
+                  // _buildColumn('Date and Time'),
                   _buildColumn('Order Details'),
                   _buildColumn('Shop Details'),
                   _buildColumn('Rider Details'),
@@ -208,7 +208,7 @@ class _AdminViewComplaintsState extends State<AdminViewComplaints>
                         DataCell(Text((index + 1).toString(),
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold))),
-                        DataCell(Text("")),
+                        // DataCell(Text("")),
                         // Order Details
                         DataCell(Column(
                           mainAxisAlignment: MainAxisAlignment.center,

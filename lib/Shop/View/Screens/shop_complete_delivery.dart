@@ -82,59 +82,98 @@ class CompleteDeliveryPage extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            /// **Profile Image (Left Side)**
-            const CircleAvatar(
-              radius: 38,
-              backgroundImage: AssetImage("assets/profile/girl.png"),
-            ),
-            const SizedBox(width: 10),
-
-            /// **Order Details (Right Side)**
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// **Order ID & Status**
+              Row(
+                mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
                 children: [
-                  /// **Order ID & "See Details" Button**
+                  Text("Order_ID"),
+                  Text(
+                    Order.orderid.toString(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold),
+                  ),
+
+                ],
+              ),
+              SizedBox(height: 10),
+
+              /// **Customer Name & Image**
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundImage:
+                    AssetImage("assets/profile/girl.png"),
+                  ),
+                  SizedBox(width: 8),
+                  Text(
+                    Order.Ownername.toString(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold),
+                  ),SizedBox(width: 95,),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ShopCompleteDeliverydetails(),));
+                    },
+                    child: Text(
+                      "see details >",
+                      style: TextStyle(color: defaultBlue, fontSize: 14),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+
+              /// **Invoices**
+              Column(
+                children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-              Text(
-              "${Order.orderid.toString()}",
-              style:
-              TextStyle(fontWeight: FontWeight.bold),
-            ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ShopCompleteDeliverydetails(),));
-                        },
-                        child: Text(
-                          "see details >",
-                          style: TextStyle(color: defaultBlue, fontSize: 14),
-                        ),
+                      Text("Invoice_ID"),
+                      Text(Order.invoiceid.toString()),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+
+                  /// **Rider Information**
+                  Row(
+                    children: [
+                      Text("Rider_ID"),
+                      Text(Order.riderid.toString()),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+
+                  /// **Delivery Time & Location**
+                  Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Delivery Time"),
+                      Text(
+                        Order.time.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                  // const SizedBox(height: 5),
-
-                  /// **Rider ID**
-                  Text(
-                    "${Order.riderid.toString()}",
-                    style:
-                    TextStyle(fontWeight: FontWeight.bold),
+                  Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Delivery Location"),
+                      Text(
+                        Order.Selectfloor.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 5),
-
-                  /// **Customer Name**
-                Text(
-                  "${Order.Ownername.toString()}",
-                  style:
-                  TextStyle(fontWeight: FontWeight.bold),
-                ), SizedBox(height: 20),
-
-                  /// **Delivery Status (Right Aligned)**
+                  SizedBox(height: 20,),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Container(
@@ -151,9 +190,81 @@ class CompleteDeliveryPage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
+            ]),
+
+        // child: Row(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   children: [
+        //     /// **Profile Image (Left Side)**
+        //     const CircleAvatar(
+        //       radius: 38,
+        //       backgroundImage: AssetImage("assets/profile/girl.png"),
+        //     ),
+        //     const SizedBox(width: 10),
+        //
+        //     /// **Order Details (Right Side)**
+        //     Expanded(
+        //       child: Column(
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: [
+        //           /// **Order ID & "See Details" Button**
+        //           Row(
+        //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //             children: [
+        //               Text("Order_ID"),
+        //               Text(
+        //                 Order.orderid.toString(),
+        //                 style: TextStyle(
+        //                     fontWeight: FontWeight.bold),
+        //               ),
+        //               TextButton(
+        //                 onPressed: () {
+        //                   Navigator.push(context, MaterialPageRoute(builder: (context) => ShopCompleteDeliverydetails(),));
+        //                 },
+        //                 child: Text(
+        //                   "see details >",
+        //                   style: TextStyle(color: defaultBlue, fontSize: 14),
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //           // const SizedBox(height: 5),
+        //
+        //           /// **Rider ID**
+        //           Text(
+        //             "${Order.riderid.toString()}",
+        //             style:
+        //             TextStyle(fontWeight: FontWeight.bold),
+        //           ),
+        //           const SizedBox(height: 5),
+        //
+        //           /// **Customer Name**
+        //         Text(
+        //           "${Order.Ownername.toString()}",
+        //           style:
+        //           TextStyle(fontWeight: FontWeight.bold),
+        //         ), SizedBox(height: 20),
+        //
+        //           /// **Delivery Status (Right Aligned)**
+        //           Align(
+        //             alignment: Alignment.centerRight,
+        //             child: Container(
+        //               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        //               decoration: BoxDecoration(
+        //                 color:Order.deliverd=="0"? Colors.blue: Colors.green.shade50,border: Border.all(color: Colors.green,width: 2),
+        //                 borderRadius: BorderRadius.circular(5),
+        //               ),
+        //               child:   Text(Order.deliverd=="0"? "progress":"Delivered",
+        //                 style: TextStyle(
+        //                     color: Order.deliverd=="0"? Colors.blue:Colors.green, fontSize: 12),
+        //               ),
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ],
+        // ),
       ),
     );
           },

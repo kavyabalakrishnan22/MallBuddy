@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mall_bud/Admin/Mainpage/admin_login_page.dart';
 
 
 
@@ -8,28 +11,77 @@ class AdminLoginPage extends StatefulWidget {
 }
 
 class _AdminLoginPageState extends State<AdminLoginPage> {
+
+  String? adminEmail = "admin@gmail.com";
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void _login() {
+  void _login() async{
     if (_formKey.currentState!.validate()) {
-      // Perform login logic here
+    try {
+      // Attempt to sign in with email and password
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Login Successful")),
+      );
+
+      // Navigate to AdminPage
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => AdminPage()),
+            (route) => false,
+      );
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      switch (e.code) {
+        case 'user-not-found':
+          errorMessage = 'No user found for that email.';
+          break;
+        case 'wrong-password':
+          errorMessage = 'Wrong password provided.';
+          break;
+        case 'invalid-email':
+          errorMessage = 'Invalid email address.';
+          break;
+        default:
+          errorMessage = 'Login failed. ${e.message}';
+      }
+
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    } catch (e) {
+      // Handle other errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("An error occurred: $e")),
       );
     }
   }
 
+  }
+
   String? _validateEmail(String? value) {
+    final emailRegex =
+    RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
     if (value == null || value.isEmpty) {
       return "Please enter your email";
     }
-    final emailRegex =
-        RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
-    if (!emailRegex.hasMatch(value)) {
+
+  else  if (!emailRegex.hasMatch(value)) {
       return "Enter a valid email address";
     }
+  else  if(value != adminEmail){
+      return "Invalid email address";
+    }
+
     return null;
   }
 
@@ -37,12 +89,18 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
     if (value == null || value.isEmpty) {
       return "Please enter your password";
     }
-    if (value.length < 6) {
+   else if (value.length < 6) {
       return "Password must be at least 6 characters";
     }
+
     return null;
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+  _emailController.text=adminEmail!;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,8 +174,10 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                           ),
                           TextFormField(
                             controller: _emailController,
+                            readOnly: true,
                             decoration: const InputDecoration(
                               labelText: "Email",
+
                               prefixIcon: Icon(Icons.email),
                               border: OutlineInputBorder(),
                             ),
@@ -134,19 +194,19 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                             ),
                             validator: _validatePassword,
                           ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Checkbox(value: false, onChanged: (value) {}),
-                                  const Text("Remember me"),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
+                          // const SizedBox(height: 10),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Row(
+                          //       children: [
+                          //         Checkbox(value: false, onChanged: (value) {}),
+                          //         const Text("Remember me"),
+                          //       ],
+                          //     ),
+                          //   ],
+                          // ),
+                          const SizedBox(height: 40),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
@@ -154,9 +214,10 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blue,
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 14),
+                                    const EdgeInsets.symmetric(vertical: 16),
                               ),
-                              child: const Text("Login",
+                              child:
+                                const Text("Login",
                                   style: TextStyle(
                                       fontSize: 18, color: Colors.white)),
                             ),

@@ -119,7 +119,15 @@ class _UserViewFeedbackState extends State<UserViewFeedback>
                     ListTile(
                       title: Text("Reply: ${order.sendReply}"),
                     ), ListTile(
-                      title: Text("Status: ${order.sendReplystatus}"),
+                      title: Text(
+                        "Status: ${order.sendReplystatus == '1' ? 'Resolved' : 'Pending'}",
+                        style: TextStyle(
+                          color: order.sendReplystatus == '1'
+                              ? Colors.green
+                              : Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     // ListTile(
                     //   title: Text(

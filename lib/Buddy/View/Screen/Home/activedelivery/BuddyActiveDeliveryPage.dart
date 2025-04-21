@@ -85,7 +85,7 @@ class BuddyActiveDeliveryPage extends StatelessWidget {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Order_ID"),
+                                    Text("Order_ID:"),
                                     Text(
                                       Order.orderid.toString(),
                                       style: TextStyle(
@@ -119,7 +119,7 @@ class BuddyActiveDeliveryPage extends StatelessWidget {
                                   children: [
                                     Row(
                                       children: [
-                                        Text("Invoice_ID"),
+                                        Text("Invoice_ID:"),
                                         Text(Order.invoiceid.toString()),
                                       ],
                                     ),
@@ -128,7 +128,7 @@ class BuddyActiveDeliveryPage extends StatelessWidget {
                                     /// **Rider Information**
                                     Row(
                                       children: [
-                                        Text("Rider_ID"),
+                                        Text("Rider_ID:"),
                                         Text(Order.riderid.toString()),
                                       ],
                                     ),
@@ -139,7 +139,7 @@ class BuddyActiveDeliveryPage extends StatelessWidget {
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text("Delivery Time"),
+                                        Text("Delivery Time:"),
                                         Text(
                                           Order.time.toString(),
                                           style: TextStyle(
@@ -151,7 +151,7 @@ class BuddyActiveDeliveryPage extends StatelessWidget {
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text("Delivery Location"),
+                                        Text("Delivery Location:"),
                                         Text(
                                           Order.Selectfloor.toString(),
                                           style: TextStyle(

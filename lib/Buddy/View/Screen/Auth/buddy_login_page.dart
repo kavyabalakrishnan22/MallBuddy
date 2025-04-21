@@ -62,7 +62,7 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
               key: _formKey, // Wrap with Form
               child: Column(
                 children: [
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 50),
                   Center(
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -90,56 +90,60 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: ListView(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            const SizedBox(height: 10),
-                            const Text(
-                              "Welcome to MallBuddy!",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),  const SizedBox(height: 10),
-                            Text(
-                              "Buddy Login",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
-                            ),
-                            const SizedBox(height: 40),
 
-                            // Email Field with Validation
-                            CustomTextForm(
-                              hintText: "Enter your email",
-                              controller: _emailController,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
-                                }
-                                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                                    .hasMatch(value)) {
-                                  return 'Please enter a valid email';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 30),
+                            Column(
+                              children: [
+                                const Text(
+                                  "Welcome to MallBuddy!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),  const SizedBox(height: 10),
+                                Text(
+                                  "Buddy Login",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
+                                ),
+                                const SizedBox(height: 40),
 
-                            // Password Field with Validation
-                            CustomTextForm(
-                              hintText: "Enter your password",
-                              controller: _passwordController,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your password';
-                                }
-                                if (value.length < 6) {
-                                  return 'Password must be at least 6 characters';
-                                }
-                                return null;
-                              },
+                                // Email Field with Validation
+                                CustomTextForm(
+                                  hintText: "Enter your email",
+                                  controller: _emailController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your email';
+                                    }
+                                    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                        .hasMatch(value)) {
+                                      return 'Please enter a valid email';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 20),
+
+                                // Password Field with Validation
+                                CustomTextForm(
+                                  hintText: "Enter your password",
+                                  controller: _passwordController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter your password';
+                                    }
+                                    if (value.length < 6) {
+                                      return 'Password must be at least 6 characters';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 40),
                             //
                             // Row(
                             //   children: [
@@ -154,7 +158,7 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                             //     const Text("Remember Me"),
                             //   ],
                             // ),
-                            const SizedBox(height: 10),
+
 
                             // Login Button
                             // SizedBox(
@@ -169,6 +173,8 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                             //             : Text(""),
                             //       ],
                             //     )),
+
+                            SizedBox(height: 40,),
                             MaterialButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -215,7 +221,7 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                             //   ),
                             // ),
 
-                            const SizedBox(height: 160),
+
 
                             // Sign Up Section
                             Row(
