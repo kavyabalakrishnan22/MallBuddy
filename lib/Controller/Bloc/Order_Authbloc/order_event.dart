@@ -32,6 +32,12 @@ class OrderDelete extends OrderEvent {
   final String? orderid;
   OrderDelete({required this.orderid});
 }
+//Extend delivery time
+class Extenddeliverytimeevent extends OrderEvent {
+  final String? orderid;
+  final String? updatedtime;
+  Extenddeliverytimeevent({required this.orderid,this.updatedtime});
+}
 
 class Deliverd_scann_event extends OrderEvent {
   final String? orderid;

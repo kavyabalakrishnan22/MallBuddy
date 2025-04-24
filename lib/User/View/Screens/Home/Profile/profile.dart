@@ -7,6 +7,7 @@ import 'package:mall_bud/Widgets/Constants/colors.dart';
 
 import '../../../../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
 import '../../../../../Widgets/Constants/Loading.dart';
+import '../../myorders.dart';
 import '../../notification.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -191,6 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => OrderHistoryScreen(),));
                             print("object");
                           },
                           child: Container(

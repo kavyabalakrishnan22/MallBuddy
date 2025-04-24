@@ -152,6 +152,20 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       }
     });
 
+    //extend delivery Time
+    on<Extenddeliverytimeevent>((event, emit) async {
+      emit(OrderLoading());
+      try {
+        FirebaseFirestore.instance
+            .collection("Orders")
+            .doc(event.orderid)
+            .update({''});
+        emit(OrderRefresh());
+      } catch (e) {
+        emit(Orderfailerror(e.toString()));
+      }
+    });
+
     on<FetchPlaceorderEvent>((event, emit) async {
       emit(OrderLoading());
 

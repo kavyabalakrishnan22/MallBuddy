@@ -19,16 +19,20 @@ class allordersScreenwrapper extends StatelessWidget {
       create: (context) => OrderBloc()
         ..add(
           FetchPlaceorderEvent(
-            searchQuery: null,
-            status: '0',userid: userid_global
-          ),
+              searchQuery: null, status: '0', userid: userid_global),
         ),
       child: allordersScreen(),
     );
   }
 }
 
-class allordersScreen extends StatelessWidget {
+class allordersScreen extends StatefulWidget {
+  @override
+  _allordersScreenState createState() => _allordersScreenState();
+}
+
+class _allordersScreenState extends State<allordersScreen> {
+  Map<int, TimeOfDay?> updatedTimes = {};
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<OrderBloc, OrderState>(
@@ -59,7 +63,9 @@ class allordersScreen extends StatelessWidget {
             child: ListView.builder(
               itemCount: state.Orders.length,
               itemBuilder: (context, index) {
-                final order = state.Orders[index]; // Fixed variable name
+                final order = state.Orders[index];
+                final currentTime = updatedTimes[index] ?? TimeOfDay.now();
+// Fixed variable name
                 return Container(
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   padding: const EdgeInsets.all(12),
@@ -94,8 +100,10 @@ class allordersScreen extends StatelessWidget {
                               color: Colors.yellow.shade50,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text(order.status=="0"?"Pending":"",
-                              style: TextStyle(color: Colors.yellow, fontSize: 12),
+                            child: Text(
+                              order.status == "0" ? "Pending" : "",
+                              style:
+                                  TextStyle(color: Colors.yellow, fontSize: 12),
                             ),
                           ),
                         ],
@@ -119,9 +127,63 @@ class allordersScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Delivery Time"),
-                              Text(
-                                order.time.toString(),
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              Row(
+                                children: [
+                                  Text(
+                                    currentTime.format(context),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(width: 8),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      TimeOfDay? picked = await showTimePicker(
+                                        context: context,
+                                        initialTime: currentTime,
+                                      );
+                                      if (picked != null) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title:
+                                                Text("Confirm Delivery Time"),
+                                            content: Text(
+                                                "Set delivery time to ${picked.format(context)}?"),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: Text("Cancel"),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    context.read<OrderBloc>().add(
+                                                        Extenddeliverytimeevent(
+                                                            orderid:
+                                                                order.orderid,
+                                                            updatedtime:
+                                                                picked.format(
+                                                                    context)));
+                                                    updatedTimes[index] =
+                                                        picked;
+                                                  });
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Update"),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: Icon(
+                                      Icons.edit,
+                                      size: 20,
+                                      color: defaultBlue,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

@@ -8,6 +8,8 @@ import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../../../Controller/Bloc/Shop_Authbloc/shopbloc_state.dart';
 
+import '../../../../User/View/Screens/Home/Profile/Termsandconditions.dart';
+import '../../../../User/View/Screens/Home/Profile/privacyandpolicy.dart';
 import '../../../../Widgets/Constants/Loading.dart';
 import '../ordersstatus/shoporderhistory.dart';
 import 'Shopeditprofile.dart';
@@ -164,7 +166,7 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                                     child: Text("Edit Profile"),
                                   ),
                                   const SizedBox(height: 8),
-                                  Text('${user.Ownername ?? ''}',
+                                  Text('${user.Shopname ?? ''}',
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold)),
@@ -175,6 +177,23 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                                           style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold))),
+                                  ListTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Owner Name"), // Left side label
+                                        Text('${user.Ownername ?? ''}',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight
+                                                    .w500)), // Right side email text
+                                      ],
+
+                                    ),
+                                  ),
+                                  Divider(
+                                    color: Colors.black54,
+                                  ),
                                   ListTile(
                                     title: Row(
                                       mainAxisAlignment:
@@ -252,6 +271,7 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyPage(),));
                             print("object");
                           },
                           child: Container(
@@ -282,6 +302,7 @@ class _ShopProfilePageState extends State<ShopProfilePage> {
                         const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditionsPage(),));
                             print("object");
                           },
                           child: Container(

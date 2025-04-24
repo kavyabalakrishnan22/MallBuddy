@@ -97,7 +97,7 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                 decoration: const BoxDecoration(color: Colors.white),
                 columns: [
                   _buildColumn('SL NO'),
-                  _buildColumn('Date and Time'),
+                  // _buildColumn('Date and Time'),
                   _buildColumn('Order Details'),
                   _buildColumn('Rider Details'),
                   _buildColumn('Customer Details'),
@@ -115,7 +115,7 @@ class _AdminAllOrdersState extends State<AdminAllOrders>
                         DataCell(Text((index + 1).toString(),
                             style:
                                 const TextStyle(fontWeight: FontWeight.bold))),
-                        DataCell(Text(allorder.time.toString())),
+                        // DataCell(Text(allorder.time.toString())),
                         // DataCell(Text(allorder.Ownername.toString())),
                         // DataCell(Text(allorder.Ridername.toString())),
                         // DataCell(Text(allorder.invoiceid.toString())),

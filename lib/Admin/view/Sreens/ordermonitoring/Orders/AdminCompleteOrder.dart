@@ -100,7 +100,7 @@ class _AdminCompleteOrdersState extends State<AdminCompleteOrders>
                   decoration: const BoxDecoration(color: Colors.white),
                   columns: [
                     _buildColumn('SL NO'),
-                    _buildColumn('Date and Time'),
+                    // _buildColumn('Date and Time'),
                     _buildColumn('Order Details'),
                     _buildColumn('Rider Details'),
                     _buildColumn('Customer Details'),
@@ -118,7 +118,7 @@ class _AdminCompleteOrdersState extends State<AdminCompleteOrders>
                           DataCell(Text((index + 1).toString(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold))),
-                          DataCell(Text(cmpleteorder.time.toString())),
+                          // DataCell(Text(cmpleteorder.time.toString())),
 
                           // DataCell(Text(cmpleteorder.Id)),
                           // DataCell(Text(cmpleteorder.Customer_Name)),
