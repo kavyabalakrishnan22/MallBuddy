@@ -130,7 +130,7 @@ class _allordersScreenState extends State<allordersScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    currentTime.format(context),
+                                    order.time.toString(),
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),

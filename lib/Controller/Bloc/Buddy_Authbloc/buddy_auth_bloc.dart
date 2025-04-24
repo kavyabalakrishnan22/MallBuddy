@@ -51,6 +51,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
           final user = usercredential.user;
 
           if (user != null) {
+            print("done");
             FirebaseFirestore.instance
                 .collection("MallBuddyRiders")
                 .doc(user.uid)
@@ -71,9 +72,9 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
               "imagepath":
                   "https://cdn1.iconfinder.com/data/icons/proffesion/257/Driver-512.png"
             });
+            print("completed");
             await _auth.signOut();
             emit(BuddyUnAuthenticated());
-
           } else {
             await _auth.signOut();
             emit(BuddyUnAuthenticated());
@@ -99,7 +100,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
                 .get();
 
             if (doc.exists) {
-               userData = BuddyModel.fromMap(doc.data()!);
+              userData = BuddyModel.fromMap(doc.data()!);
               emit(BuddyByidLoaded(userData!));
             } else {
               emit(Buddyerror(error: "User profile not found"));

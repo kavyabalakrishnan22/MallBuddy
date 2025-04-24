@@ -46,7 +46,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             "sendReplystatus": "0",
             "time": event.order.time,
             "shopname": event.order.shopname,
-            "username":event.order.username,
+            "username": event.order.username,
             "status": "0",
             "payment": "0",
             "Deliverd": "0",
@@ -159,7 +159,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         FirebaseFirestore.instance
             .collection("Orders")
             .doc(event.orderid)
-            .update({''});
+            .update({'time': event.updatedtime});
         emit(OrderRefresh());
       } catch (e) {
         emit(Orderfailerror(e.toString()));
@@ -175,7 +175,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
         Query query = OrderCollection;
         query = query.where("status", isEqualTo: event.status);
-        query = query.where("sendReplystatus", isEqualTo: event.sendReplystatus);
+        query =
+            query.where("sendReplystatus", isEqualTo: event.sendReplystatus);
         query = query.where("shopid", isEqualTo: event.shopid);
         query = query.where("Deliverd", isEqualTo: event.Deliverd);
         query = query.where("riderid", isEqualTo: event.Riderid);
