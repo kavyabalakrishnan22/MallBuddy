@@ -132,6 +132,7 @@ class _BuddyLoginPageState extends State<BuddyLoginPage> {
                                 CustomTextForm(
                                   hintText: "Enter your password",
                                   controller: _passwordController,
+                                  obscureText: true,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter your password';

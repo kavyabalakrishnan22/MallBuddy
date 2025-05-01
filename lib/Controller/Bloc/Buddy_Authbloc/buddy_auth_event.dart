@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'Buddyauthmodel/Buddyauthmodel.dart';
@@ -19,7 +20,8 @@ class BuddyLoginEvent extends BuddyAuthEvent {
 // Signup
 class BuddySignupEvent extends BuddyAuthEvent {
   final BuddyModel user;
-  BuddySignupEvent({required this.user});
+  final String? aadhaarFilePath;
+  BuddySignupEvent({required this.user, this.aadhaarFilePath});
 }
 
 //signout
@@ -84,6 +86,19 @@ class EditBuddy extends BuddyAuthEvent {
 class EditBuddyProfile extends BuddyAuthEvent {
   final BuddyModel Buddy;
   EditBuddyProfile({required this.Buddy});
+}
+
+// class UploadFilesEvent extends BuddyAuthEvent {
+//   final BuddyModel Buddy;
+//   UploadFilesEvent({required this.Buddy});
+// }
+
+class UploadFilesEvent extends BuddyAuthEvent {
+  final List<PlatformFile> files;
+
+  UploadFilesEvent(this.files);
+
+  List<Object?> get props => [files];
 }
 
 class BuddyPickAndUploadImageEvent extends BuddyAuthEvent {}

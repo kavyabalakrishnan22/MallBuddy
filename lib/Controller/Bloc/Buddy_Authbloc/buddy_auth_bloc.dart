@@ -31,7 +31,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
           } else {
             emit(BuddyUnAuthenticated());
           }
-        } catch (e) {
+         } catch (e) {
           emit(BuddyAuthenticatedError(
             message:
                 e.toString().split(' ').last, // Extracts only the message part
@@ -63,6 +63,8 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
               "Gender": event.user.Gender,
               "phone_number": event.user.phone,
               "floor": event.user.floor,
+             "aadhaarnumber": event.user.Aadhaarnumber,
+              "aadhaarimage": event.user.aadhaarimage,
               "amount": "200",
               "timestamp": DateTime.now(),
               "Onesignal_id": "playerId",

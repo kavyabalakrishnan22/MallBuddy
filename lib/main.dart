@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'Admin/view/Auth/Admin_Login.dart';
 import 'Admin/view/Sreens/Report/admin_report.dart';
 import 'Admin/view/Sreens/Usermanagement/Shop/Edit_accepted_shop.dart';
+import 'dummyprgms/Avvv.dart';
 import 'Buddy/View/Screen/Home/activedelivery/BuddyActiveDeliveryPage.dart';
 import 'Buddy/View/Screen/Home/Buddy_Assigntime.dart';
 import 'Buddy/View/Screen/Home/Buddy_completedelivery.dart';
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AdminLoginPage(),
+      home: Buddysignupwrapper(),
     );
   }
 }

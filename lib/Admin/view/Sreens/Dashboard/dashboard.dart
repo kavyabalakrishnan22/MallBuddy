@@ -99,24 +99,53 @@ class _DashboardState extends State<Dashboard> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildStatItem("Monthly Revenue", "₹1000", "+200%"),
-          _buildStatItem("Monthly Delivery", "₹4000", "+150%"),
-          _buildStatItem("Total Profit", "₹5000", "+400%"),
+          _buildStatItem("Total Shop ", "35","assets/admin/Shopes.webp"),
+          _buildStatItem("Total User", "4000","assets/admin/User.jpeg"),
+          _buildStatItem("Total Buddy", "50","assets/admin/Buddy.jpg"),
         ],
       ),
     );
   }
 
-  Widget _buildStatItem(String title, String value, String change) {
+  Widget _buildStatItem(String title, String value, String imagePath) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        Text(value, style: TextStyle(color: Colors.white, fontSize: 16)),
-        Text(change, style: TextStyle(color: Colors.greenAccent, fontSize: 14)),
+        Row(
+          children: [
+            Image.asset(
+              imagePath,
+              height: 100,
+              width: 100,
+            ),
+            const SizedBox(width: 20),
+            Column(
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+
       ],
     );
   }
+
+
 
   Widget _buildAnalyticsChart() {
     return Container(

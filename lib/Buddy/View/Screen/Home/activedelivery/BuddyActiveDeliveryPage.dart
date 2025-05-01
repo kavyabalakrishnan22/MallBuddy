@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mall_bud/notification/notification.dart';
 
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
@@ -56,7 +58,7 @@ class BuddyActiveDeliveryPage extends StatelessWidget {
             return Text(state.error.toString());
           } else if (state is Ordersloaded) {
             if (state.Orders.isEmpty) {
-              // Return "No data found" if txhe list is empty
+              // Return "No data found" if the list is empty
               return Center(
                 child: Text(
                   "No data found",
@@ -170,6 +172,12 @@ class BuddyActiveDeliveryPage extends StatelessWidget {
                                         context.read<OrderBloc>().add(
                                             BuddyActiveDeliveryAcceptevent(
                                                 status: "1", id: Order.orderid));
+
+                                        // NotificationService().showNotification(
+                                        //   title: 'Order Accepted',
+                                        //   body: 'Your order has been accepted.',
+                                        //
+                                        // );
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,

@@ -109,3 +109,30 @@ final class Buddyavailabletoggleloading extends BuddyAuthState {}
 
 final class BuddyavailabletoggleRefresh extends BuddyAuthState {}
 
+//Get all ImageFileUpload
+
+class BuddyImageFileUploadLoading extends BuddyAuthState {}
+
+class BuddyImageFileUploadSuccess extends BuddyAuthState {
+  final List<String> downloadUrls;
+
+  BuddyImageFileUploadSuccess(this.downloadUrls);
+
+  List<Object?> get props => [downloadUrls];
+}
+
+class BuddyImageFileUploadfailerror extends BuddyAuthState {
+  final String error;
+
+  BuddyImageFileUploadfailerror(this.error);
+
+  List<Object?> get props => [error];
+}
+
+class BuddyImageFileUploadloaded extends BuddyAuthState {
+  final List<BuddyModel> Buddys;
+
+  BuddyImageFileUploadloaded(
+      this.Buddys,
+      );
+}

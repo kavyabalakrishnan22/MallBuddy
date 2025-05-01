@@ -7,6 +7,8 @@ class BuddyModel {
   String? status;
   String? Ban;
   String? Image;
+  String? aadhaarimage;
+  String? Aadhaarnumber;
   String? Dob;
   String? Gender;
   String? floor;
@@ -26,7 +28,9 @@ class BuddyModel {
         this.floor,
         this.amount,
         this.Availablestatus,
-      this.Gender});
+      this.Gender,
+      this.Aadhaarnumber,
+      this.aadhaarimage});
 
   factory BuddyModel.fromMap(Map<String, dynamic> data) {
     return BuddyModel(
@@ -43,6 +47,8 @@ class BuddyModel {
       Dob: data['Dateodbirth'],
       Gender: data['Gender'],
       Availablestatus: data['Availablestatus'],
+      Aadhaarnumber: data['aadhaarnumber'],
+      aadhaarimage: data['aadhaarimage'],
     );
   }
 }

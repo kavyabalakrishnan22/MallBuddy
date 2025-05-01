@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -35,13 +39,16 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _aadhaarnumberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
 
   String? selectedGender;
+  String? _selectedFileName;
+  String? _selectedFilePath;
+  String? _uploadedFileUrl;
 
   @override
   void dispose() {
@@ -52,10 +59,10 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
     _confirmPasswordController.dispose();
     _genderController.dispose();
     dobController.dispose();
+    _aadhaarnumberController.dispose();
     super.dispose();
   }
 
-  // Function to show Date Picker
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -71,11 +78,69 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
     }
   }
 
+  Future<void> _uploadFile() async {
+    try {
+      if (kIsWeb) {
+        // For web, FilePicker works differently
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['jpg', 'png', 'pdf'],
+        );
+        if (result != null) {
+          PlatformFile file = result.files.first;
+          setState(() {
+            _selectedFileName = file.name;
+            _selectedFilePath = file.path;
+          });
+
+          // Upload to Firebase Storage
+          final fileRef = FirebaseStorage.instance.ref().child('aadhaar_cards/${file.name}');
+          await fileRef.putData(file.bytes!);  // Web uploads use bytes
+          String downloadUrl = await fileRef.getDownloadURL();
+
+          setState(() {
+            _uploadedFileUrl = downloadUrl;
+          });
+        }
+      } else {
+        // For mobile platforms (Android/iOS), using FilePicker with file paths
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.custom,
+          allowedExtensions: ['jpg', 'png', 'pdf'],
+        );
+        if (result != null) {
+          PlatformFile file = result.files.first;
+          setState(() {
+            _selectedFileName = file.name;
+            _selectedFilePath = file.path;
+          });
+
+          // Upload to Firebase Storage
+          final fileRef = FirebaseStorage.instance.ref().child('aadhaar_cards/${file.name}');
+          await fileRef.putFile(File(file.path!)); // Upload mobile file
+          String downloadUrl = await fileRef.getDownloadURL();
+
+          setState(() {
+            _uploadedFileUrl = downloadUrl;
+          });
+        }
+      }
+    } catch (e) {
+      print("Error uploading file: $e");
+    }
+  }
   void _registerUser() {
     if (_formKey.currentState?.validate() ?? false) {
       if (selectedGender == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Please select your gender")),
+        );
+        return;
+      }
+
+      if (_uploadedFileUrl == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please upload your Aadhaar card")),
         );
         return;
       }
@@ -87,9 +152,12 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
         email: _emailController.text,
         password: _passwordController.text,
         phone: _phoneController.text,
+        Aadhaarnumber: _aadhaarnumberController.text,
+        aadhaarimage: _uploadedFileUrl!, // use the URL instead of file path
       );
 
-      context.read<BuddyAuthBloc>().add(BuddySignupEvent(user: user));
+      context.read<BuddyAuthBloc>().add(
+          BuddySignupEvent(user: user, aadhaarFilePath: _uploadedFileUrl));
     }
   }
 
@@ -162,8 +230,6 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                                   : null,
                             ),
                             const SizedBox(height: 15),
-
-                            // Date of Birth Field
                             GestureDetector(
                               onTap: () => _selectDate(context),
                               child: AbsorbPointer(
@@ -177,11 +243,9 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                               ),
                             ),
                             const SizedBox(height: 15),
-
-                            // Gender Dropdown
                             Container(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
+                              const EdgeInsets.symmetric(horizontal: 10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: Colors.grey),
@@ -194,8 +258,7 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                                   isExpanded: true,
                                   items: ["Male", "Female", "Other"]
                                       .map((String value) {
-                                    return DropdownMenuItem<String>(
-                                        value: value, child: Text(value));
+                                    return DropdownMenuItem<String>(value: value, child: Text(value));
                                   }).toList(),
                                   onChanged: (newValue) {
                                     setState(() {
@@ -207,17 +270,52 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                               ),
                             ),
                             const SizedBox(height: 15),
-
+                            CustomTextForm(
+                              hintText: "Aadhaar number",
+                              controller: _aadhaarnumberController,
+                              validator: (value) => value!.length != 12
+                                  ? "Enter a valid 12-digit Aadhaar number"
+                                  : null,
+                            ),
+                            const SizedBox(height: 15),
+                            GestureDetector(
+                              onTap: _uploadFile,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.upload_file,
+                                        color: Colors.grey),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Text(
+                                        _selectedFileName ?? "Upload Aadhaar",
+                                        style: TextStyle(
+                                          color: _selectedFileName == null
+                                              ? Colors.grey
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 15),
                             CustomTextForm(
                               hintText: "Email address",
                               controller: _emailController,
                               validator: (value) =>
-                                  value!.isEmpty || !value.contains("@")
-                                      ? "Enter a valid email"
-                                      : null,
+                              value!.isEmpty || !value.contains("@")
+                                  ? "Enter a valid email"
+                                  : null,
                             ),
                             const SizedBox(height: 15),
-
                             CustomTextForm(
                               hintText: "Phone number",
                               controller: _phoneController,
@@ -226,7 +324,6 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                                   : null,
                             ),
                             const SizedBox(height: 15),
-
                             CustomTextForm(
                               hintText: "Password",
                               controller: _passwordController,
@@ -236,31 +333,16 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                                   : null,
                             ),
                             const SizedBox(height: 15),
-
                             CustomTextForm(
                               hintText: "Confirm Password",
                               controller: _confirmPasswordController,
                               obscureText: true,
                               validator: (value) =>
-                                  value != _passwordController.text
-                                      ? "Passwords do not match"
-                                      : null,
+                              value != _passwordController.text
+                                  ? "Passwords do not match"
+                                  : null,
                             ),
                             const SizedBox(height: 10),
-                            // SizedBox(
-                            //     height:50,
-                            //     child: Column(
-                            //       children: [
-                            //         state is BuddyAuthloading
-                            //             ? Text("Registering...")
-                            //             : Text(""),
-                            //         state is BuddyAuthloading
-                            //             ? Loading_Widget()
-                            //             : Text(""),
-                            //       ],
-                            //     )),
-
-                            // Register Button
                             MaterialButton(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -271,18 +353,16 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                               onPressed: _registerUser,
                               child: state is BuddyAuthloading
                                   ? Loading_Widget()
-                                  : Text(
-                                      "Register",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                    ),
+                                  : const Text(
+                                "Register",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
                             ),
-
                             const SizedBox(height: 20),
-
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

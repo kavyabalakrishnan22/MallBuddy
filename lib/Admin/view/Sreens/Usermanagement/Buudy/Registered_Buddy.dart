@@ -130,7 +130,7 @@ class _RegisteredBuddyState extends State<RegisteredBuddy> {
                                 ),
                               ],
                             ),
-                            Row(
+                           Row(
                               children: [
                                 Text("Ph:"),
                                 Text(Buddy.phone.toString()),
