@@ -276,7 +276,8 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
                                   const TextStyle(fontWeight: FontWeight.bold),
                                   overflow: TextOverflow.ellipsis,),
                               ],
-                            ),Row(
+                            ),
+                            Row(
                               children: [
                                 Text("Email:"),
                                 Text(Order.rideremail.toString(),
@@ -289,8 +290,14 @@ class _AdminRidrPerformnaceState extends State<AdminRidrPerformnace>
                         )),
                     // DataCell(Text("")),
                     // DataCell(Text("")),
-                    DataCell(Text(Order.Review.toString())),
-                    DataCell(Text(Order.Ratingstatus.toString())),
+                    DataCell(
+                      Text(
+                        Order.Review?.isNotEmpty == true ? Order.Review! : "No review",
+                      ),
+                    ),
+                    DataCell(Text(
+                      Order.Ratingstatus?.isNotEmpty == true ? Order.Ratingstatus! : "No Rating",
+                    )),
 
 
                   ],

@@ -64,19 +64,23 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    DateTime? pickedDate = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime.now().subtract(Duration(days: 365 * 18)),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        dobController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-      });
+    if (picked != null) {
+      final today = DateTime.now();
+      int age = today.year - picked.year -
+          ((today.month < picked.month || (today.month == picked.month && today.day < picked.day)) ? 1 : 0);
+
+      final dobFormatted = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+      dobController.text = "$dobFormatted , Age: $age";
     }
   }
+
 
   Future<void> _uploadFile() async {
     try {
@@ -236,12 +240,32 @@ class _BuddySignupPageState extends State<BuddySignupPage> {
                                 child: CustomTextForm(
                                   hintText: "Date of Birth",
                                   controller: dobController,
-                                  validator: (value) => value!.isEmpty
-                                      ? "Date of birth is required"
-                                      : null,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Date of birth is required";
+                                    }
+
+                                    final dobString = value.split(" ").first; // extract just the date part
+                                    final dob = DateTime.tryParse(dobString);
+                                    if (dob == null) {
+                                      return "Invalid date format";
+                                    }
+
+                                    final today = DateTime.now();
+                                    final age = today.year - dob.year -
+                                        ((today.month < dob.month || (today.month == dob.month && today.day < dob.day)) ? 1 : 0);
+
+                                    if (age < 18) {
+                                      return "You must be at least 18 years old to sign up";
+                                    }
+
+                                    return null;
+                                  },
+
                                 ),
                               ),
                             ),
+
                             const SizedBox(height: 15),
                             Container(
                               padding:

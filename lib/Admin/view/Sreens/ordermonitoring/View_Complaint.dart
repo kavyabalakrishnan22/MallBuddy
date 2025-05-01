@@ -194,7 +194,7 @@ class _AdminViewComplaintsState extends State<AdminViewComplaints>
                   _buildColumn('Shop Details'),
                   _buildColumn('Rider Details'),
                   _buildColumn('User Details'),
-                  _buildColumn('Total Amount'),
+                  // _buildColumn('Total Amount'),
                   _buildColumn('Complaint'),
                   _buildColumn('Status'),
                   _buildColumn('Send Reply'),
@@ -413,23 +413,33 @@ class _AdminViewComplaintsState extends State<AdminViewComplaints>
                             ),
                           ],
                         )),
-                        DataCell(Text("")),
-                        DataCell(Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(Order.complainttype.toString()),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(Order.complaint.toString()),
-                              ],
-                            ),
-                          ],
-                        )),
+                        // DataCell(Text("")),
+                        DataCell(
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    Order.complainttype?.isNotEmpty == true
+                                        ? Order.complainttype!
+                                        : "No complaint",
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    Order.complaint?.isNotEmpty == true
+                                        ? Order.complaint!
+                                        : "No complaint",
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                         DataCell(Text(
                           Order.sendReplystatus == "1" ? "Resolved" : "Pending",
                           style: TextStyle(

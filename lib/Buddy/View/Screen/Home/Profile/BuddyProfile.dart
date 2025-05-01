@@ -9,6 +9,7 @@ import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
 import 'BuddyEditpprofile.dart';
+import 'Buddy_Personal_information.dart';
 import 'Privacyandpolicy.dart';
 import 'Ridertermsandconditions.dart';
 
@@ -196,6 +197,33 @@ class _BuddyProfilePageState extends State<BuddyProfilePage> {
                           },
                         ),
                         const SizedBox(height: 4),
+                        GestureDetector(
+                          onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => BuddyPersonalInformationPageWrapper(),));},
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 20),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(width: 1, color: Colors.black)
+                                // border: Border.all(
+                                //     color: isSelected ? Colors.blue : Colors.grey.shade300),
+                                ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.person_pin_sharp, color: Colors.grey),
+                                const SizedBox(width: 10),
+                                Text("Personal Information",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                              ],
+                            ),
+                          ),
+                        ),const SizedBox(height: 4),
                         GestureDetector(
                           onTap: () {},
                           child: Container(
