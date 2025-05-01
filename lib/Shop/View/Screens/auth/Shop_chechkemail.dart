@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mall_bud/Shop/View/Screens/auth/shop_login.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
 
@@ -44,21 +45,21 @@ class ShopCheckMailScreen extends StatelessWidget {
 
               // "Open Email App" Button
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Shop_Loginwrapper(),));},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: defaultBlue,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   padding: EdgeInsets.symmetric(vertical: 14, horizontal: 40),
                 ),
-                child: Text("Open email app", style: TextStyle(fontSize: 16, color: Colors.white)),
+                child: Text("Back to LoginPage", style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
               SizedBox(height: 16),
 
               // "Skip" Option
-              TextButton(
-                onPressed: () {},
-                child: Text("Skip, I'll confirm later", style: TextStyle(fontSize: 14, color: Colors.black54)),
-              ),
+              // TextButton(
+              //   onPressed: () {},
+              //   child: Text("Skip, I'll confirm later", style: TextStyle(fontSize: 14, color: Colors.black54)),
+              // ),
               // SizedBox(height: 400),
 
               // Bottom Help Text

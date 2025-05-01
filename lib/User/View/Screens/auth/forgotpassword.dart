@@ -1,10 +1,34 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mall_bud/User/View/Screens/auth/user_checkmail_page.dart';
 import 'package:mall_bud/User/View/Screens/auth/user_checkmail_page.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
-  const ForgotPasswordScreen({super.key});
+  final TextEditingController _emailController = TextEditingController();
+
+   ForgotPasswordScreen({super.key});
+  Future<void> _sendResetEmail(BuildContext context) async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter an email address.")),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const UserCheckMailScreen()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${e.toString()}")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +71,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 hintText: "Enter email address",
                 border: OutlineInputBorder(
@@ -54,7 +79,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   borderSide: const BorderSide(color: Colors.grey),
                 ),
                 contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
               ),
             ),
             const SizedBox(height: 20),
@@ -62,19 +87,15 @@ class ForgotPasswordScreen extends StatelessWidget {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => UserCheckMailScreen()));
-
-                  // Handle send email action
-                },
+                onPressed: () => _sendResetEmail(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: defaultBlue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                child: const Text("Send",
-                    style: TextStyle(fontSize: 16, color: Colors.white)),
-              ),
+                child: const Text("Send", style: TextStyle(fontSize: 16, color: Colors.white)),
+              )
             ),
           ],
         ),

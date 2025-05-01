@@ -204,25 +204,25 @@ class _User_LoginPageState extends State<User_LoginPage> {
 
                             const SizedBox(height: 10),
 
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 220),
-                        //   child: GestureDetector(
-                        //     onTap: () {
-                        //       Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
-                        //       );
-                        //     },
-                        //     child: Text(
-                        //       "Forgot Password?",
-                        //       style: TextStyle(
-                        //         color: Colors.blue,
-                        //         fontWeight: FontWeight.bold,
-                        //         fontSize: 16,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 220),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
+                              );
+                            },
+                            child: Text(
+                              "Forgot Password?",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
 
 
                         const SizedBox(height: 140),
