@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:universal_html/html.dart' as html;
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
@@ -94,8 +95,8 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
       listener: (context, state) {
         if (state is BuddyBanRefresh) {
           context.read<BuddyAuthBloc>().add(
-            FetchBuddyDetailsEvent(searchQuery: null, status: '1'),
-          );
+                FetchBuddyDetailsEvent(searchQuery: null, status: '1'),
+              );
         }
       },
       builder: (context, state) {
@@ -189,35 +190,52 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                           Row(
                             children: [
                               const Text("Aadhaar_Card:"),
-                              IconButton(
-                                icon: const Icon(Icons.remove_red_eye, color: Colors.blue),
-                                onPressed: () {
-                                  setState(() {
-                                    _aadhaarFileUrl = Buddy.aadhaarimage; // Ensure this is a PDF URL
-                                  });
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text("Preview Aadhaar File"),
-                                      content: _aadhaarFileUrl != null
-                                          ? SizedBox(
-                                        height: 500,
-                                        width: 300,
-                                        child: SfPdfViewer.network(_aadhaarFileUrl!),
-                                      )
-                                          : const Text("No file available."),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(context),
-                                          child: const Text("Close"),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                              const SizedBox(width: 8), // Add space between text and button
+                              GestureDetector(
+                                onTap: () {
+                                  final url = Buddy.aadhaarimage;
+                                  if (url != null && url.startsWith("https://")) {
+                                    final anchor = html.AnchorElement(href: url)
+                                      ..setAttribute("download", "aadhaar_card.pdf")
+                                      ..click();
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text("No valid Aadhaar file to download."),
+                                      ),
+                                    );
+                                  }
                                 },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue.shade600,
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.blue.withOpacity(0.4),
+                                        blurRadius: 6,
+                                        offset: const Offset(1, 1),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    children: const [
+                                      Icon(Icons.cloud_download_rounded, color: Colors.white),
+                                      SizedBox(width: 4),
+                                      Text(
+                                        "Download",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w200,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ],
-                          )   ,
+                          ),
                           Row(children: [
                             Text("Aadhaar_No:"),
                             Text(Buddy.Aadhaarnumber.toString(),
@@ -258,9 +276,7 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Buddy.Ban == "1"
-                                    ? Icons.close
-                                    : Icons.done_all,
+                                Buddy.Ban == "1" ? Icons.close : Icons.done_all,
                                 color: Buddy.Ban == "1"
                                     ? Colors.red
                                     : Colors.green,
@@ -310,11 +326,12 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                       DataCell(
                         ElevatedButton(
                           onPressed: () {
-                            context.read<BuddyAuthBloc>().add(
-                                BanBuddyrevent(Ban: "1", id: Buddy.uid));
+                            context
+                                .read<BuddyAuthBloc>()
+                                .add(BanBuddyrevent(Ban: "1", id: Buddy.uid));
                           },
-                          child: Text("Ban",
-                              style: TextStyle(color: Colors.red)),
+                          child:
+                              Text("Ban", style: TextStyle(color: Colors.red)),
                         ),
                       ),
                     ],

@@ -58,6 +58,7 @@ dependencies:
   uuid: ^4.0.0
   flutter_pdfview: ^1.0.0
   syncfusion_flutter_pdfviewer: ^29.1.40
+  universal_html: ^2.0.9
 
 
 
