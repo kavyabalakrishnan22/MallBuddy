@@ -3,18 +3,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mall_bud/Admin/view/Auth/Admin_Login.dart';
 import 'package:mall_bud/Widgets/Constants/colors.dart';
-
 import '../../Controller/Bloc/Buddy_Authbloc/buddy_auth_bloc.dart';
 import '../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../../Controller/Bloc/Order_Authbloc/order_bloc.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_bloc.dart';
 import '../../Controller/Bloc/Shop_Authbloc/shopbloc_event.dart';
 import '../../Controller/Bloc/User_Authbloc/auth_bloc.dart';
+import '../../Notification/admin_notification_bloc.dart';
 import '../../firebase_options.dart';
 import '../view/Sreens/Dashboard/dashboard.dart';
+import '../view/Sreens/Notification/Admin_Sendnotification.dart';
 import '../view/Sreens/Report/admin_report.dart';
 import '../view/Sreens/Usermanagement/Shop.dart';
 import '../view/Sreens/Usermanagement/buddy.dart';
@@ -24,7 +24,6 @@ import '../view/Sreens/ordermonitoring/Adminriderperformnace.dart';
 import '../view/Sreens/ordermonitoring/Orders/Adminorders.dart';
 import '../view/Sreens/ordermonitoring/View_Complaint.dart';
 import '../view/Sreens/servicecustomization/admin_Delivery_fees.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,6 +63,8 @@ class MyApp extends StatelessWidget {
             ),
           child: AdminAllOrders(),
         ),
+        BlocProvider<AdminNotificationBloc>(
+            create: (context) => AdminNotificationBloc())
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -73,13 +74,16 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: defaultBlue),
             useMaterial3: true,
           ),
-          home: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context, snapshot) {
-            if(snapshot.hasData){
-              return AdminPage();
-            }else{
-              return AdminLoginPage();
-            }
-          },)),
+          home: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return AdminPage();
+              } else {
+                return AdminLoginPage();
+              }
+            },
+          )),
     );
   }
 }
@@ -172,8 +176,10 @@ class _AdminPageState extends State<AdminPage> {
                   children: [
                     SubListTile("All Order", AdminOrders()),
                     // SubListTile("Completed order", AdminCompleteOrders()),
-                    SubListTile("Rider Performance", AdminRidrPerformnacewrapper()),
-                    SubListTile("View Complaints", AdminViewComplaintswrapper()),
+                    SubListTile(
+                        "Rider Performance", AdminRidrPerformnacewrapper()),
+                    SubListTile(
+                        "View Complaints", AdminViewComplaintswrapper()),
                     // SubListTile("Customer Feedback", AdminAllOrders()),
                   ],
                 ),
@@ -186,6 +192,8 @@ class _AdminPageState extends State<AdminPage> {
                     // SubListTile("Delivery Time", AdminAllOrders()),
                   ],
                 ),
+                _buildMainListTile('Notification', Admin_SendNotification(),
+                    icon: Icons.send),
                 _buildMainListTile('Reports', const Admin_report(),
                     icon: Icons.event_note_outlined),
                 // _buildMainListTile(
@@ -196,9 +204,15 @@ class _AdminPageState extends State<AdminPage> {
                 //   textColor: Colors.red,
                 // ),
                 ListTile(
-                  onTap: ()=> FirebaseAuth.instance.signOut(),
-                  leading: Icon(Icons.logout_outlined,color: Colors.red,),
-                  title: Text('Logout',style: TextStyle(color: Colors.red),),
+                  onTap: () => FirebaseAuth.instance.signOut(),
+                  leading: Icon(
+                    Icons.logout_outlined,
+                    color: Colors.red,
+                  ),
+                  title: Text(
+                    'Logout',
+                    style: TextStyle(color: Colors.red),
+                  ),
                 )
               ],
             ),

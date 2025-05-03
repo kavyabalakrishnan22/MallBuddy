@@ -6,7 +6,7 @@ import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_event.dart';
 import '../../../../../Controller/Bloc/Buddy_Authbloc/buddy_auth_state.dart';
 import '../../../../../Widgets/Constants/Loading.dart';
 import 'Edit_accepted_buddy.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+
 
 class AdminAcceptedwrapper extends StatelessWidget {
   const AdminAcceptedwrapper({super.key});
@@ -190,24 +190,30 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                           Row(
                             children: [
                               const Text("Aadhaar_Card:"),
-                              const SizedBox(width: 8), // Add space between text and button
+                              const SizedBox(
+                                  width:
+                                      8), // Add space between text and button
                               GestureDetector(
                                 onTap: () {
                                   final url = Buddy.aadhaarimage;
-                                  if (url != null && url.startsWith("https://")) {
+                                  if (url != null &&
+                                      url.startsWith("https://")) {
                                     final anchor = html.AnchorElement(href: url)
-                                      ..setAttribute("download", "aadhaar_card.pdf")
+                                      ..setAttribute(
+                                          "download", "aadhaar_card.pdf")
                                       ..click();
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("No valid Aadhaar file to download."),
+                                        content: Text(
+                                            "No valid Aadhaar file to download."),
                                       ),
                                     );
                                   }
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 3, vertical: 3),
                                   decoration: BoxDecoration(
                                     color: Colors.blue.shade600,
                                     borderRadius: BorderRadius.circular(8),
@@ -221,7 +227,8 @@ class _AdminAcceptedShopState extends State<AdminAcceptedShop> {
                                   ),
                                   child: Row(
                                     children: const [
-                                      Icon(Icons.cloud_download_rounded, color: Colors.white),
+                                      Icon(Icons.cloud_download_rounded,
+                                          color: Colors.white),
                                       SizedBox(width: 4),
                                       Text(
                                         "Download",

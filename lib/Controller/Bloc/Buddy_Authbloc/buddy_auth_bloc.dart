@@ -52,7 +52,7 @@ class BuddyAuthBloc extends Bloc<BuddyAuthEvent, BuddyAuthState> {
 
           if (user != null) {
             print("done");
-           await FirebaseFirestore.instance
+            await FirebaseFirestore.instance
                 .collection("MallBuddyRiders")
                 .doc(user.uid)
                 .set({
