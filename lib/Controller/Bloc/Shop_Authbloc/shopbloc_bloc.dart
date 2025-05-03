@@ -49,7 +49,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
           final user = usercredential.user;
 
           if (user != null) {
-            FirebaseFirestore.instance
+          await  FirebaseFirestore.instance
                 .collection("MallBuddyShops")
                 .doc(user.uid)
                 .set({
