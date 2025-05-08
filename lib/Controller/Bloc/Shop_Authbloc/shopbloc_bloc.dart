@@ -49,7 +49,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
           final user = usercredential.user;
 
           if (user != null) {
-          await  FirebaseFirestore.instance
+            await FirebaseFirestore.instance
                 .collection("MallBuddyShops")
                 .doc(user.uid)
                 .set({
@@ -62,7 +62,7 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
               "selecfloor": event.user.Selectfloor,
               "timestamp": DateTime.now(),
               "Onesignal_id": "playerId",
-              "notifications":[],
+              "notifications": [],
               "ban": "0",
               "status": "0",
               "imagepath":
@@ -324,8 +324,6 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
       },
     );
 
-
-
     //   get all shopes
 
     on<FetchShopesDetailsEvent>((event, emit) async {
@@ -357,5 +355,4 @@ class ShopAuthBloc extends Bloc<ShopAuthEvent, ShopAuthState> {
       }
     });
   }
-
 }
